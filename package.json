@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "name": "desi-etsy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "server":"cd server && npm start",
+    "dev":"concurrently \"npm run client\" \"npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": ""
+}
