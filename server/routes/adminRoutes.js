@@ -1,5 +1,5 @@
 const express = require("express");
-const { verfiyuser } = require("../middlewares/authMiddleware");
+const { verifyuser } = require("../middlewares/authMiddleware");
 const { requireRole } = require("../middlewares/roleMiddleware");
 const {
   getPendingArtisans,
@@ -14,46 +14,46 @@ const router = express.Router();
 
 router.get(
   "/dashboard-stats",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   dashboardStats
 );
 // All routes protected by 'admin' role
 router.get(
   "/pending-artisans",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   getPendingArtisans
 );
 router.put(
   "/approve-artisan/:id",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   approveArtisan
 );
 
 router.get(
   "/pending-products",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   getPendingProducts
 );
 router.put(
   "/approve-product/:id",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   approveProduct
 );
 
 router.put(
   "/reject-artisan/:id",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   rejectArtisan
 );
 router.put(
   "/reject-product/:id",
-  verfiyuser,
+  verifyuser,
   requireRole("admin"),
   rejectProduct
 );

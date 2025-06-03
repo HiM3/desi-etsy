@@ -6,9 +6,9 @@ const {
   changePassword,
   sendOTP,
   verifyOTP,
-  forgotPassword
+  forgotPassword,
 } = require("../controllers/authController");
-const { verfiyuser } = require("../middlewares/authMiddleware");
+const { verifyuser } = require("../middlewares/authMiddleware");
 const authRouter = express.Router();
 
 // Signup flow
@@ -22,9 +22,9 @@ authRouter.post("/login", login);
 authRouter.post("/send-otp", sendOTP);
 authRouter.post("/verify-otp", verifyOTP);
 authRouter.post("/forgot-password", forgotPassword);
-authRouter.post("/change-password", verfiyuser, changePassword);
+authRouter.post("/change-password", verifyuser, changePassword);
 
 // Logout
-authRouter.post("/logout", verfiyuser, logout);
+authRouter.post("/logout", verifyuser, logout);
 
 module.exports = authRouter;

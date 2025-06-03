@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verfiyuser } = require("../middlewares/authMiddleware");
+const { verifyuser } = require("../middlewares/authMiddleware");
 const { requireRole } = require("../middlewares/roleMiddleware");
 const upload = require("../config/upload");
 const {
@@ -14,7 +14,7 @@ const {
 // Create product - Artisan only
 router.post(
   "/product",
-  verfiyuser,
+  verifyuser,
   requireRole("artisan"),
   upload.array("images", 5),
   create_product
@@ -27,12 +27,12 @@ router.get("/products", view_products);
 router.get("/product/:id", get_product);
 
 // Update product - Artisan only
-router.put("/product/:id", verfiyuser, requireRole("artisan"), update_product);
+router.put("/product/:id", verifyuser, requireRole("artisan"), update_product);
 
 // Delete product - Artisan only
 router.delete(
   "/product/:id",
-  verfiyuser,
+  verifyuser,
   requireRole("artisan"),
   delete_product
 );

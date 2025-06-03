@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-exports.verfiyuser = async (req, res) => {
+exports.verifyuser = async (req, res) => {
   let token = req.headers.authorization;
   if (!token) {
     return res.json({
