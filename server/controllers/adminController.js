@@ -86,8 +86,14 @@ exports.dashboardStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments({ role: "user" });
     const totalArtisans = await User.countDocuments({ role: "artisan" });
-    const pendingArtisans = await User.countDocuments({ role: "artisan", isVerified: false });
-    const approvedArtisans = await User.countDocuments({ role: "artisan", isVerified: true });
+    const pendingArtisans = await User.countDocuments({
+      role: "artisan",
+      isVerified: false,
+    });
+    const approvedArtisans = await User.countDocuments({
+      role: "artisan",
+      isVerified: true,
+    });
 
     const totalProducts = await Product.countDocuments();
     const pendingProducts = await Product.countDocuments({ isApproved: false });
