@@ -1,27 +1,53 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
+const Order = require("../models/Order");
 
 exports.getPendingArtisans = async (req, res) => {
   try {
     const artisans = await User.find({ role: "artisan", isVerified: false });
-    res.json({
+    res.status(200).json({
       success: true,
       data: artisans,
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch pending artisans",
+      error: err.message,
+    });
   }
 };
+
 exports.approveArtisan = async (req, res) => {
   try {
     const { id } = req.params;
+    const artisan = await User.findById(id);
+
+    if (!artisan) {
+      return res.status(404).json({
+        success: false,
+        message: "Artisan not found",
+      });
+    }
+
+    if (artisan.isVerified) {
+      return res.status(400).json({
+        success: false,
+        message: "Artisan is already verified",
+      });
+    }
+
     await User.findByIdAndUpdate(id, { isVerified: true });
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Artisan approved successfully",
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to approve artisan",
+      error: err.message,
+    });
   }
 };
 
@@ -31,54 +57,101 @@ exports.getPendingProducts = async (req, res) => {
       "createdBy",
       "username email"
     );
-    res.json({
+    res.status(200).json({
       success: true,
       data: products,
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch pending products",
+      error: err.message,
+    });
   }
 };
+
 exports.approveProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    if (product.isApproved) {
+      return res.status(400).json({
+        success: false,
+        message: "Product is already approved",
+      });
+    }
+
     await Product.findByIdAndUpdate(id, { isApproved: true });
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Product approved successfully",
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to approve product",
+      error: err.message,
+    });
   }
 };
+
 exports.rejectArtisan = async (req, res) => {
   try {
     const { id } = req.params;
+    const artisan = await User.findById(id);
 
-    // Optional: You can delete or flag artisan as rejected
+    if (!artisan) {
+      return res.status(404).json({
+        success: false,
+        message: "Artisan not found",
+      });
+    }
+
     await User.findByIdAndDelete(id);
-
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Artisan rejected and deleted successfully",
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to reject artisan",
+      error: err.message,
+    });
   }
 };
+
 exports.rejectProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    const product = await Product.findById(id);
 
-    // Optional: You can delete or flag product as rejected
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
     await Product.findByIdAndDelete(id);
-
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Product rejected and deleted successfully",
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to reject product",
+      error: err.message,
+    });
   }
 };
 
@@ -99,9 +172,9 @@ exports.dashboardStats = async (req, res) => {
     const pendingProducts = await Product.countDocuments({ isApproved: false });
     const approvedProducts = await Product.countDocuments({ isApproved: true });
 
-    const totalOrders = await Order.countDocuments(); // assuming Order model exists
+    const totalOrders = await Order.countDocuments();
 
-    res.json({
+    res.status(200).json({
       success: true,
       stats: {
         users: totalUsers,
@@ -119,6 +192,10 @@ exports.dashboardStats = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch dashboard statistics",
+      error: err.message,
+    });
   }
 };

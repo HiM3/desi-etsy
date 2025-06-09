@@ -8,6 +8,7 @@ const {
   updateOrderStatus,
 } = require("../controllers/orderController.js");
 const { verifyuser } = require("../middlewares/authMiddleware.js");
+const { requireRole } = require("../middlewares/roleMiddleware.js");
 
 const router = express.Router();
 
@@ -21,4 +22,4 @@ router.put("/:id/cancel", cancelOrder);
 router.get("/", verifyuser, requireRole("admin"), getAllOrders);
 router.put("/:id/status", verifyuser, requireRole("admin"), updateOrderStatus);
 
-export default router;
+module.exports = router;

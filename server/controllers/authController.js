@@ -170,13 +170,14 @@ exports.signup = async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Account created successfully. Please verify your email with the OTP sent.",
+      message:
+        "Account created successfully. Please verify your email with the OTP sent.",
       user: {
         id: user._id,
         username: user.username,
         email: user.email,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (error) {
     return res.status(500).json({
@@ -478,21 +479,31 @@ exports.verifyOTP = async (req, res) => {
 
     // Verify OTP
     if (otp === user.otp) {
-      // Clear OTP after successful verification
       user.otp = undefined;
       user.otpExpiry = undefined;
-
-      // If it's signup verification, mark user as verified
-      if (type === 'signup') {
+      
+      // Set isVerified to true for signup verification
+      if (type === "signup") {
         user.isVerified = true;
+        await user.save();
+        return res.json({
+          success: true,
+          message: "Email verified successfully",
+          user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            isVerified: user.isVerified
+          }
+        });
+      } else {
+        await user.save();
+        return res.json({
+          success: true,
+          message: "OTP verified successfully"
+        });
       }
-
-      await user.save();
-
-      return res.json({
-        success: true,
-        message: type === 'signup' ? "Email verified successfully" : "OTP verified successfully",
-      });
     } else {
       return res.json({
         success: false,
