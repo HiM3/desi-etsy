@@ -17,13 +17,6 @@ exports.signup = async (req, res) => {
       });
     }
 
-    if (password !== confirmpassword) {
-      return res.json({
-        success: false,
-        message: "Passwords do not match",
-      });
-    }
-
     const hashedPassword = await HashPassword(password);
 
     // Generate OTP for email verification
