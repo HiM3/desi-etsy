@@ -528,7 +528,7 @@ exports.forgotPassword = async (req, res) => {
         message: "Please verify OTP first",
       });
     }
-    if (new_password !== confirmpassword) {
+    if (new_password != confirmpassword) {
       return res.json({
         success: false,
         message: "Passwords do not match",

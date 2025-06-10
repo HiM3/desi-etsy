@@ -81,19 +81,25 @@ const VerifyOTP = () => {
 
       if (res.data.success) {
         toast.success("Email verified successfully!");
-        localStorage.removeItem("email");
-        localStorage.removeItem("type");
-        
-        if (type === "signup") {
+
+        if (type === "forgot-password") {
+          // localStorage.setItem("otp", otpString);
+          navigate("/forgot-password");
+          localStorage.removeItem("type");
+        } else if (type === "signup") {
+          localStorage.removeItem("email");
+          localStorage.removeItem("type");
           navigate("/login");
         } else {
+          localStorage.removeItem("email");
+          localStorage.removeItem("type");
           navigate("/");
         }
       } else {
         toast.error(res.data.message || "Verification failed");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong. Please try again.");
+      toast.error(error.res?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -101,7 +107,7 @@ const VerifyOTP = () => {
 
   const resendOTP = async () => {
     if (timer > 0) return;
-    
+
     setIsLoading(true);
     try {
       const res = await axios.post(
@@ -174,11 +180,10 @@ const VerifyOTP = () => {
             type="button"
             onClick={resendOTP}
             disabled={timer > 0 || isLoading}
-            className={`ml-1 font-semibold ${
-              timer > 0 || isLoading
+            className={`ml-1 font-semibold ${timer > 0 || isLoading
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-teal-600 hover:text-teal-700 cursor-pointer"
-            }`}
+              }`}
           >
             Resend
           </button>

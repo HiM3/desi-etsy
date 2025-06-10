@@ -5,6 +5,7 @@ import Signup from './pages/Authentication/Signup';
 import PrivateRoute from './components/PrivateRoute';
 import SendOTP from './pages/Authentication/SendOTP';
 import VerifyOTP from './pages/Authentication/VerifyOTP';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/sendOTP" element={<SendOTP />} />
           <Route path="/verifyOTP" element={<VerifyOTP />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
           {/* Protected Routes */}
           <Route element={<PrivateRoute />}>
