@@ -15,7 +15,7 @@ const VerifyOTP = () => {
   useEffect(() => {
     if (!email) {
       toast.error("Email not found. Please sign up again.");
-      navigate("/signup");
+      navigate("/login");
       return;
     }
 
@@ -141,26 +141,25 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-teal-50 to-white flex justify-center items-center p-5 font-sans">
-      <form className="bg-white p-8 rounded-xl shadow-lg w-full max-w-[420px] text-center">
+    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-5 font-sans">
+      <form className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-[420px] text-center transition-all duration-300">
         <h2 className="text-2xl font-semibold text-gray-800 mb-3">OTP Verification</h2>
         <p className="text-sm text-gray-600 mb-6">
           Enter the 6-digit OTP sent to <span className="font-semibold">{email || "your email"}</span>
         </p>
 
-        <div className="flex justify-between gap-2 mb-6">
+        <div className="flex justify-center gap-2 mb-6">
           {otp.map((digit, index) => (
             <input
               key={index}
               type="text"
-              maxLength={1}
+              maxLength="1"
               value={digit}
-              ref={(el) => (inputsRef.current[index] = el)}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
               disabled={isLoading}
-              className="w-12 h-14 text-xl text-center rounded-lg border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
+              className="w-12 h-14 text-xl text-center rounded-xl border border-gray-300 focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400] outline-none transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
             />
           ))}
         </div>
@@ -169,7 +168,7 @@ const VerifyOTP = () => {
           type="button"
           onClick={verifyOTP}
           disabled={isLoading || otp.join("").length !== 6}
-          className="w-full py-3.5 bg-teal-600 text-white text-base font-medium rounded-lg cursor-pointer transition-colors duration-300 hover:bg-teal-700 focus:ring-2 focus:ring-teal-200 focus:ring-offset-2 disabled:bg-teal-400 disabled:cursor-not-allowed"
+          className="w-full py-3.5 bg-[#d35400] text-white text-base font-medium rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg focus:ring-2 focus:ring-[#d35400] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Verifying..." : "Verify OTP"}
         </button>
@@ -182,7 +181,7 @@ const VerifyOTP = () => {
             disabled={timer > 0 || isLoading}
             className={`ml-1 font-semibold ${timer > 0 || isLoading
                 ? "text-gray-400 cursor-not-allowed"
-                : "text-teal-600 hover:text-teal-700 cursor-pointer"
+                : "text-[#d35400] hover:text-[#b34700] cursor-pointer"
               }`}
           >
             Resend

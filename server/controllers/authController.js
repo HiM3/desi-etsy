@@ -3,6 +3,7 @@ const otp_generator = require("otp-generator");
 const jwt = require("jsonwebtoken");
 const { HashPassword, PlainPassword } = require("../utils/password");
 const sendMailer = require("../config/mailer");
+const { use } = require("../routes/adminRoutes");
 
 exports.signup = async (req, res) => {
   const { username, email, gender, password, confirmpassword, role } = req.body;
@@ -50,7 +51,7 @@ exports.signup = async (req, res) => {
             padding: 0;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             color: #333;
-            background-color: #fff;
+            background-color: #fdf8f3;
           }
 
           .container {
@@ -58,62 +59,94 @@ exports.signup = async (req, res) => {
             width: 100%;
             max-width: 600px;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 16px;
             line-height: 1.8;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           }
 
           .header {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            border-bottom: 2px solid #fdf8f3;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            text-align: center;
           }
 
           .header a {
-            font-size: 1.4em;
-            color: #000;
+            font-size: 1.6em;
+            color: #d35400;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
           }
 
           .otp {
-            background: linear-gradient(to right, #00bc69 0, #00bc88 50%, #00bca8 100%);
-            margin: 20px auto;
+            background: linear-gradient(to right, #d35400 0, #b34700 100%);
+            margin: 25px auto;
             width: max-content;
-            padding: 10px 20px;
+            padding: 15px 30px;
             color: #fff;
-            border-radius: 4px;
-            font-size: 24px;
+            border-radius: 12px;
+            font-size: 28px;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            box-shadow: 0 4px 6px rgba(211, 84, 0, 0.2);
           }
 
           .footer {
-            color: #aaa;
-            font-size: 0.8em;
-            line-height: 1.5;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid #fdf8f3;
+            text-align: center;
           }
 
           .email-info {
-            color: #666666;
+            color: #666;
             font-weight: 400;
-            font-size: 13px;
-            line-height: 18px;
-            padding-bottom: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 20px 0;
             text-align: center;
           }
 
           .email-info a {
             text-decoration: none;
-            color: #00bc69;
+            color: #d35400;
           }
 
           .warning {
-            color: #dc3545;
-            font-size: 0.9em;
-            margin: 15px 0;
+            background-color: #fff5f0;
+            border-left: 4px solid #d35400;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+          }
+
+          .warning strong {
+            color: #d35400;
+          }
+
+          .warning ul {
+            margin: 10px 0;
+            padding-left: 20px;
+          }
+
+          .warning li {
+            margin: 5px 0;
+          }
+
+          .content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+          }
+
+          .greeting {
+            font-size: 1.2em;
+            color: #d35400;
+            margin-bottom: 20px;
           }
         </style>
       </head>
@@ -123,27 +156,29 @@ exports.signup = async (req, res) => {
             <a>Desi Etsy Email Verification</a>
           </div>
           
-          <strong>Dear ${username},</strong>
-          <p>
-            Welcome to Desi Etsy! Please verify your email address using the following
-            One-Time Password (OTP):
-          </p>
-          
-          <div class="otp">${otp}</div>
-          
-          <p class="warning">
-            <strong>Important:</strong>
-            <ul>
-              <li>This OTP is valid for 3 minutes only</li>
-              <li>Do not share this OTP with anyone</li>
-              <li>If you didn't create this account, please ignore this email</li>
-            </ul>
-          </p>
+          <div class="content">
+            <div class="greeting">Dear ${username},</div>
+            <p>
+              Welcome to Desi Etsy! Please verify your email address using the following
+              One-Time Password (OTP):
+            </p>
+            
+            <div class="otp">${otp}</div>
+            
+            <div class="warning">
+              <strong>Important:</strong>
+              <ul>
+                <li>This OTP is valid for 3 minutes only</li>
+                <li>Do not share this OTP with anyone</li>
+                <li>If you didn't create this account, please ignore this email</li>
+              </ul>
+            </div>
 
-          <p>
-            Best regards,<br>
-            <strong>Desi Etsy Team</strong>
-          </p>
+            <p>
+              Best regards,<br>
+              <strong>Desi Etsy Team</strong>
+            </p>
+          </div>
 
           <div class="footer">
             <p>This is an automated message, please do not reply to this email.</p>
@@ -326,7 +361,7 @@ exports.sendOTP = async (req, res) => {
             padding: 0;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             color: #333;
-            background-color: #fff;
+            background-color: #fdf8f3;
           }
 
           .container {
@@ -334,62 +369,94 @@ exports.sendOTP = async (req, res) => {
             width: 100%;
             max-width: 600px;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 16px;
             line-height: 1.8;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           }
 
           .header {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            border-bottom: 2px solid #fdf8f3;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            text-align: center;
           }
 
           .header a {
-            font-size: 1.4em;
-            color: #000;
+            font-size: 1.6em;
+            color: #d35400;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
           }
 
           .otp {
-            background: linear-gradient(to right, #00bc69 0, #00bc88 50%, #00bca8 100%);
-            margin: 20px auto;
+            background: linear-gradient(to right, #d35400 0, #b34700 100%);
+            margin: 25px auto;
             width: max-content;
-            padding: 10px 20px;
+            padding: 15px 30px;
             color: #fff;
-            border-radius: 4px;
-            font-size: 24px;
+            border-radius: 12px;
+            font-size: 28px;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            box-shadow: 0 4px 6px rgba(211, 84, 0, 0.2);
           }
 
           .footer {
-            color: #aaa;
-            font-size: 0.8em;
-            line-height: 1.5;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid #fdf8f3;
+            text-align: center;
           }
 
           .email-info {
-            color: #666666;
+            color: #666;
             font-weight: 400;
-            font-size: 13px;
-            line-height: 18px;
-            padding-bottom: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 20px 0;
             text-align: center;
           }
 
           .email-info a {
             text-decoration: none;
-            color: #00bc69;
+            color: #d35400;
           }
 
           .warning {
-            color: #dc3545;
-            font-size: 0.9em;
-            margin: 15px 0;
+            background-color: #fff5f0;
+            border-left: 4px solid #d35400;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+          }
+
+          .warning strong {
+            color: #d35400;
+          }
+
+          .warning ul {
+            margin: 10px 0;
+            padding-left: 20px;
+          }
+
+          .warning li {
+            margin: 5px 0;
+          }
+
+          .content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+          }
+
+          .greeting {
+            font-size: 1.2em;
+            color: #d35400;
+            margin-bottom: 20px;
           }
         </style>
       </head>
@@ -399,27 +466,29 @@ exports.sendOTP = async (req, res) => {
             <a>Desi Etsy Password Reset</a>
           </div>
           
-          <strong>Dear ${checkUser.username},</strong>
-          <p>
-            We received a request to reset your password. To proceed with the password reset,
-            please use the following One-Time Password (OTP):
-          </p>
-          
-          <div class="otp">${otp}</div>
-          
-          <p class="warning">
-            <strong>Important:</strong>
-            <ul>
-              <li>This OTP is valid for 3 minutes only</li>
-              <li>Do not share this OTP with anyone</li>
-              <li>If you didn't request this, please ignore this email</li>
-            </ul>
-          </p>
+          <div class="content">
+            <div class="greeting">Dear ${checkUser.username},</div>
+            <p>
+              We received a request to reset your password. To proceed with the password reset,
+              please use the following One-Time Password (OTP):
+            </p>
+            
+            <div class="otp">${otp}</div>
+            
+            <div class="warning">
+              <strong>Important:</strong>
+              <ul>
+                <li>This OTP is valid for 3 minutes only</li>
+                <li>Do not share this OTP with anyone</li>
+                <li>If you didn't request this, please ignore this email</li>
+              </ul>
+            </div>
 
-          <p>
-            Best regards,<br>
-            <strong>Desi Etsy Team</strong>
-          </p>
+            <p>
+              Best regards,<br>
+              <strong>Desi Etsy Team</strong>
+            </p>
+          </div>
 
           <div class="footer">
             <p>This is an automated message, please do not reply to this email.</p>
@@ -476,7 +545,7 @@ exports.verifyOTP = async (req, res) => {
       user.otpExpiry = undefined;
       
       // Set isVerified to true for signup verification
-      if (type === "signup") {
+      if (type === "signup" && user.role === "user") {
         user.isVerified = true;
         await user.save();
         return res.json({

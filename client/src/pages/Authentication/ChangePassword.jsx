@@ -62,8 +62,8 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-teal-50 to-white flex justify-center items-center p-5 font-sans">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-10 rounded-xl shadow-lg w-full max-w-[420px] transition-all duration-300">
+    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-5 font-sans">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-[420px] transition-all duration-300">
         <h2 className="text-center mb-2.5 text-2xl text-gray-800">Change Password</h2>
         <p className="text-center mb-6 text-sm text-gray-500">Enter your new password</p>
 
@@ -104,17 +104,17 @@ const ChangePassword = () => {
           )}
         </div>
 
-        <button 
+        <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 bg-teal-700 text-white text-base rounded-lg cursor-pointer mt-2.5 transition-colors duration-300 hover:bg-teal-800 disabled:bg-teal-400 disabled:cursor-not-allowed"
+          className="w-full py-3.5 bg-[#d35400] text-white text-base rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Changing Password..." : "Change Password"}
         </button>
 
         <p className="text-center mt-6 text-sm text-gray-600">
           Remember your password?{" "}
-          <a href="/login" className="text-teal-700 font-semibold hover:text-teal-800 transition-colors">
+          <a href="/login" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">
             Login
           </a>
         </p>
