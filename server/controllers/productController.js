@@ -38,16 +38,37 @@ exports.create_product = async (req, res) => {
 
 exports.view_products = async (req, res) => {
   try {
-    const products = await Product.find();
+    // Show only approved products for public view
+    const products = await Product.find({ isApproved: true });
+    
     res.json({
       success: true,
-      message: "All products fetched",
+      message: "Products fetched successfully",
       data: products,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Error fetching products",
+      error: error.message,
+    });
+  }
+};
+
+exports.view_artisan_products = async (req, res) => {
+  try {
+    // Show only artisan's own products
+    const products = await Product.find({ createdBy: req.user.id });
+    
+    res.json({
+      success: true,
+      message: "Your products fetched successfully",
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching your products",
       error: error.message,
     });
   }

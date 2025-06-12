@@ -71,7 +71,7 @@ const ChangePassword = () => {
           <input
             type="password"
             placeholder="New Password"
-            {...register("password", { 
+            {...register("password", {
               required: "Password is required",
               minLength: {
                 value: 6,
@@ -93,7 +93,7 @@ const ChangePassword = () => {
           <input
             type="password"
             placeholder="Confirm New Password"
-            {...register("confirmPassword", { 
+            {...register("confirmPassword", {
               required: "Please confirm your password",
               validate: value => value === password || "Passwords do not match"
             })}

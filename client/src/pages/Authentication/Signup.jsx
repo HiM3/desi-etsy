@@ -65,7 +65,7 @@ const Signup = () => {
         className="w-full max-w-[420px]"
       >
         <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-10 rounded-2xl shadow-xl w-full transition-all duration-300">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -73,7 +73,7 @@ const Signup = () => {
           >
             Create Account ✨
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -82,7 +82,7 @@ const Signup = () => {
             Join our community of artisans and customers
           </motion.p>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -91,7 +91,7 @@ const Signup = () => {
             <input
               type="text"
               placeholder="Username"
-              {...register("username", { 
+              {...register("username", {
                 required: "Username is required",
                 minLength: {
                   value: 3,
@@ -105,7 +105,7 @@ const Signup = () => {
             )}
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -114,7 +114,7 @@ const Signup = () => {
             <input
               type="email"
               placeholder="Email address"
-              {...register("email", { 
+              {...register("email", {
                 required: "Email is required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -128,7 +128,7 @@ const Signup = () => {
             )}
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
@@ -148,7 +148,7 @@ const Signup = () => {
             )}
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -157,7 +157,7 @@ const Signup = () => {
             <input
               type="password"
               placeholder="Password"
-              {...register("password", { 
+              {...register("password", {
                 required: "Password is required",
                 minLength: {
                   value: 6,
@@ -171,7 +171,7 @@ const Signup = () => {
             )}
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
@@ -180,7 +180,7 @@ const Signup = () => {
             <input
               type="password"
               placeholder="Confirm Password"
-              {...register("confirmPassword", { 
+              {...register("confirmPassword", {
                 required: "Please confirm your password",
                 validate: value => value === watch('password') || "Passwords do not match"
               })}
@@ -191,7 +191,7 @@ const Signup = () => {
             )}
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
@@ -210,7 +210,7 @@ const Signup = () => {
             )}
           </motion.div>
 
-          <motion.button 
+          <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.9 }}
@@ -221,7 +221,7 @@ const Signup = () => {
             {isLoading ? "Creating Account..." : "Sign Up"}
           </motion.button>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1 }}

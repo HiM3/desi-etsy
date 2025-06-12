@@ -22,7 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+console.log(path.join(__dirname, 'uploads'))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use("/auth", authRoutes);
@@ -32,11 +34,11 @@ app.use("/orders", orderRoutes);
 app.use("/admin", adminRoutes);
 
 // 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    status: "error",
-    message: "Route not found",
-  });
-});
+// app.use((req, res) => {
+//   res.status(404).json({
+//     status: "error",
+//     message: "Route not found",
+//   });
+// });
 
 module.exports = app;

@@ -83,7 +83,7 @@ const ForgotPassword = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="New Password"
-              {...register("password", { 
+              {...register("password", {
                 required: "Password is required",
                 minLength: {
                   value: 4,
@@ -110,7 +110,7 @@ const ForgotPassword = () => {
             <input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm New Password"
-              {...register("confirmPassword", { 
+              {...register("confirmPassword", {
                 required: "Please confirm your password",
                 validate: value => value === password || "Passwords do not match"
               })}

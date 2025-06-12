@@ -1,14 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import ErrorBoundary from './components/ErrorBoundary';
-import LoadingSpinner from './components/LoadingSpinner';
 import PrivateRoute from './components/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 // Lazy load components for better performance
+const Navbar = lazy(() => import('./components/Navbar'))
+const ErrorBoundary = lazy(() => import('./components/ErrorBoundary'))
+const LoadingSpinner = lazy(() => import('./components/LoadingSpinner'))
+const Footer = lazy(() => import('./components/Footer'))
 const Login = lazy(() => import('./pages/Authentication/Login'));
 const Signup = lazy(() => import('./pages/Authentication/Signup'));
 const SendOTP = lazy(() => import('./pages/Authentication/SendOTP'));
@@ -17,6 +18,9 @@ const ForgotPassword = lazy(() => import('./pages/Authentication/ForgotPassword'
 const ChangePassword = lazy(() => import('./pages/Authentication/ChangePassword'));
 const Dashboard = lazy(() => import('./Admin/Dashboard'));
 const Product = lazy(() => import('./pages/Product'));
+const Dashboard1 = lazy(() => import('./pages/Artisian/Dashboard'));
+const CreateProduct = lazy(() => import('./pages/Artisian/CreateProduct'));
+const ViewProduct = lazy(() => import('./pages/Artisian/ViewProduct'));
 const HomePage = lazy(() => import('./components/HomePage'));
 
 function App() {
@@ -42,6 +46,13 @@ function App() {
                   {/* User Routes */}
                   <Route path="/product" element={<Product />} />
                   <Route path="/change-password" element={<ChangePassword />} />
+
+                  {/* Artist Routes */}
+                  <Route path="/dashboard" element={<Dashboard1 />} />
+                  <Route path="/add-product" element={<CreateProduct />} />
+                  <Route path="/add-product/:id" element={<CreateProduct />} />
+                  <Route path="/view-artisan-products" element={<ViewProduct />} />
+
 
                   {/* Admin Routes */}
                   <Route path="/admin" element={<Dashboard />} />

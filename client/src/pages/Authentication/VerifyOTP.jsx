@@ -180,8 +180,8 @@ const VerifyOTP = () => {
             onClick={resendOTP}
             disabled={timer > 0 || isLoading}
             className={`ml-1 font-semibold ${timer > 0 || isLoading
-                ? "text-gray-400 cursor-not-allowed"
-                : "text-[#d35400] hover:text-[#b34700] cursor-pointer"
+              ? "text-gray-400 cursor-not-allowed"
+              : "text-[#d35400] hover:text-[#b34700] cursor-pointer"
               }`}
           >
             Resend
