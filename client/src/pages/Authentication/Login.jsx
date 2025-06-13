@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
@@ -138,22 +138,21 @@ const Login = () => {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="text-right mb-6"
           >
-            <Link to="/sendOTP" className="text-sm text-[#d35400] hover:text-[#b34700] transition-colors">
+            <NavLink to="/sendOTP" className="text-sm text-[#d35400] hover:text-[#b34700] transition-colors">
               Forgot Password?
-            </Link>
+            </NavLink>
           </motion.div>
-
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            type="submit"
             disabled={isLoading}
             className="w-full py-3.5 bg-[#d35400] text-white text-base font-semibold rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 disabled:bg-[#d35400]/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
           >
-            {isLoading ? "Logging in..." : "Login"}
+            <NavLink type="submit" >
+              {isLoading ? "Logging in..." : "Login"}
+            </NavLink>
           </motion.button>
-
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -161,9 +160,9 @@ const Login = () => {
             className="text-center mt-6 text-sm text-gray-600"
           >
             Don't have an account?{" "}
-            <Link to="/signup" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">
+            <NavLink to="/signup" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">
               Sign Up
-            </Link>
+            </NavLink>
           </motion.p>
         </form>
       </motion.div>

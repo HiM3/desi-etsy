@@ -133,14 +133,14 @@ const HomePage = () => {
                   className="flex gap-6"
                 >
                   <a
-                    href="/shop"
+                    href="/product"
                     className="group bg-[#d35400] text-white px-10 py-5 rounded-full text-xl font-medium shadow-lg hover:bg-[#b34700] hover:-translate-y-1 transition-all duration-300 flex items-center gap-3"
                   >
                     Shop Now
                     <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
                   </a>
                   <a
-                    href="/categories"
+                    href="/about"
                     className="bg-white/10 backdrop-blur-sm text-white px-10 py-5 rounded-full text-xl font-medium shadow-lg border-2 border-white hover:bg-white/20 hover:-translate-y-1 transition-all duration-300"
                   >
                     Learn More
@@ -198,7 +198,7 @@ const HomePage = () => {
             className="text-center mt-12"
           >
             <a
-              href="/categories"
+              href="/product"
               className="inline-flex items-center gap-2 bg-[#d35400] text-white px-8 py-3 rounded-full text-base font-semibold shadow-lg hover:bg-[#b34700] hover:-translate-y-1 transition-all duration-300"
             >
               Explore More
@@ -349,7 +349,7 @@ const HomePage = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-5 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="flex-1 px-5 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 bg-white"
             />
             <button
               type="submit"

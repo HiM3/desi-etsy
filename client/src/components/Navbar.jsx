@@ -1,22 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { FaShoppingCart, FaUser, FaSignOutAlt, FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaSignOutAlt, FaBars, FaTimes, FaCog, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, cartCount, logout } = useAuth();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -25,10 +21,36 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Listen for cart updates
+  useEffect(() => {
+    const handleCartUpdate = () => {
+      // The cartCount will be automatically updated through the AuthContext
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdate);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
+  }, []);
+
+  // Listen for user login/logout
+  useEffect(() => {
+    const handleUserLogin = () => {
+      // The user state will be automatically updated through the AuthContext
+    };
+
+    const handleUserLogout = () => {
+      // The user state will be automatically updated through the AuthContext
+    };
+
+    window.addEventListener('userLoggedIn', handleUserLogin);
+    window.addEventListener('userLoggedOut', handleUserLogout);
+    return () => {
+      window.removeEventListener('userLoggedIn', handleUserLogin);
+      window.removeEventListener('userLoggedOut', handleUserLogout);
+    };
+  }, []);
+
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    setUser(null);
+    logout();
     toast.success("Logged out successfully!", {
       position: "top-right",
       autoClose: 3000,
@@ -37,25 +59,19 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
   };
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-lg'
-          : 'bg-[#ffefdb]/80 backdrop-blur-sm'
-        }`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-[#ffefdb]/80 backdrop-blur-sm'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -80,14 +96,25 @@ const Navbar = () => {
                 Home
               </Link>
             </motion.div>
+
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                to="/categories"
+                to="/about"
                 className="text-gray-700 hover:text-[#d35400] font-medium transition-colors duration-300"
               >
-                Categories
+                About
               </Link>
             </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/product"
+                className="text-gray-700 hover:text-[#d35400] font-medium transition-colors duration-300"
+              >
+                Products
+              </Link>
+            </motion.div>
+
             {user?.role === 'artisan' && (
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
@@ -100,31 +127,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Search Bar */}
-          <motion.form
-            onSubmit={handleSearch}
-            className="hidden md:block relative"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-[200px] focus:w-[250px] px-4 py-2 rounded-full bg-white/30 backdrop-blur-sm border border-[#d35400]/50 focus:border-[#d35400] focus:outline-none transition-all duration-300 ease-in-out placeholder-gray-600"
-            />
-            <motion.button
-              type="submit"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-[#d35400]"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaSearch className="w-4 h-4" />
-            </motion.button>
-          </motion.form>
-
           {/* User Actions */}
           <div className="flex items-center space-x-4">
             {user ? (
@@ -132,55 +134,74 @@ const Navbar = () => {
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                   <Link
                     to="/cart"
-                    className="text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300"
+                    className="text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300 relative inline-flex items-center justify-center"
                   >
                     <FaShoppingCart className="h-6 w-6" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 bg-[#FF6B6B] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                        {cartCount}
+                      </span>
+                    )}
                   </Link>
                 </motion.div>
-                <div className="relative group">
+
+                {/* User Profile Dropdown */}
+                <div className="relative">
                   <motion.button
-                    className="text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
+                    onClick={toggleProfile}
+                    className="flex items-center space-x-2 text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300"
                   >
-                    <FaUser className="h-6 w-6" />
+                    <FaUserCircle className="h-6 w-6" />
+                    <span className="hidden md:inline">Hi, {user.username?.split(' ')[0]}</span>
                   </motion.button>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileHover={{ opacity: 1, y: 0 }}
-                    className="absolute right-0 w-48 mt-2 py-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-xl hidden group-hover:block"
-                  >
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-white/50 transition-all duration-300"
-                    >
-                      Profile
-                    </Link>
-                    {user.role === 'artisan' && (
-                      <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-white/50 transition-all duration-300"
+
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {isProfileOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
                       >
-                        Dashboard
-                      </Link>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#d35400] transition-colors duration-300"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <FaUser className="h-4 w-4" />
+                            <span>Profile</span>
+                          </div>
+                        </Link>
+                        <Link
+                          to="/change-password"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#d35400] transition-colors duration-300"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <FaCog className="h-4 w-4" />
+                            <span>Change Password</span>
+                          </div>
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setIsProfileOpen(false);
+                            handleLogout();
+                          }}
+                          className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#d35400] transition-colors duration-300"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <FaSignOutAlt className="h-4 w-4" />
+                            <span>Logout</span>
+                          </div>
+                        </button>
+                      </motion.div>
                     )}
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-white/50 transition-all duration-300 flex items-center"
-                    >
-                      <FaSignOutAlt className="mr-2" />
-                      Logout
-                    </button>
-                  </motion.div>
+                  </AnimatePresence>
                 </div>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                  <button
-                    onClick={handleLogout}
-                    className="text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300"
-                  >
-                    <FaSignOutAlt className="h-6 w-6" />
-                  </button>
-                </motion.div>
               </>
             ) : (
               <div className="flex items-center space-x-4">
@@ -245,20 +266,22 @@ const Navbar = () => {
                   Home
                 </Link>
               </motion.div>
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <Link
-                  to="/categories"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
-                  onClick={() => setIsMobileMenuOpen(false)}
+              {user && (
+                <motion.div
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
                 >
-                  Categories
-                </Link>
-              </motion.div>
-              {user?.role === 'artisan' && (
+                  <Link
+                    to="/product"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Products
+                  </Link>
+                </motion.div>
+              )}
+              {!user && (
                 <motion.div
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -273,47 +296,64 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
               )}
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300 flex items-center"
-                >
-                  <FaSignOutAlt className="mr-2" />
-                  Logout
-                </button>
-              </motion.div>
-              <motion.form
-                onSubmit={handleSearch}
-                className="px-3 py-2"
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-2 rounded-full bg-white/30 backdrop-blur-sm border border-[#d35400]/50 focus:border-[#d35400] focus:outline-none transition-all duration-300 placeholder-gray-600"
-                  />
-                  <motion.button
-                    type="submit"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-[#d35400]"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+              {user && (
+                <>
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
                   >
-                    <FaSearch className="w-4 h-4" />
-                  </motion.button>
-                </div>
-              </motion.form>
+                    <Link
+                      to="/cart"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Cart
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <Link
+                      to="/profile"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <Link
+                      to="/change-password"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Change Password
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        handleLogout();
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                    >
+                      Logout
+                    </button>
+                  </motion.div>
+                </>
+              )}
             </div>
           </motion.div>
         )}

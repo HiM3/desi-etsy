@@ -8,10 +8,10 @@ const ChangePassword = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const password = watch("password");
+  const newPassword = watch("new_password");
 
   const onSubmit = async (data) => {
-    if (data.password !== data.confirmPassword) {
+    if (data.new_password !== data.confirmpassword) {
       toast.error("Passwords do not match!", {
         position: "top-right",
         autoClose: 3000,
@@ -25,8 +25,9 @@ const ChangePassword = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/change-password`,
         {
-          password: data.password,
-          confirmPassword: data.confirmPassword
+          current_password: data.current_password,
+          new_password: data.new_password,
+          confirmpassword: data.confirmpassword
         },
         {
           headers: {
@@ -70,22 +71,28 @@ const ChangePassword = () => {
         <div className="mb-3">
           <input
             type="password"
-            placeholder="New Password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters"
-              },
-              pattern: {
-                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-                message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-              }
+            placeholder="Current Password"
+            {...register("current_password", {
+              required: "Current password is required"
             })}
             className="w-full px-4 py-3.5 rounded-lg border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+          {errors.current_password && (
+            <p className="text-red-500 text-sm mt-1">{errors.current_password.message}</p>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="password"
+            placeholder="New Password"
+            {...register("new_password", {
+              required: "New password is required"
+            })}
+            className="w-full px-4 py-3.5 rounded-lg border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
+          />
+          {errors.new_password && (
+            <p className="text-red-500 text-sm mt-1">{errors.new_password.message}</p>
           )}
         </div>
 
@@ -93,14 +100,14 @@ const ChangePassword = () => {
           <input
             type="password"
             placeholder="Confirm New Password"
-            {...register("confirmPassword", {
+            {...register("confirmpassword", {
               required: "Please confirm your password",
-              validate: value => value === password || "Passwords do not match"
+              validate: value => value === newPassword || "Passwords do not match"
             })}
             className="w-full px-4 py-3.5 rounded-lg border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
           />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+          {errors.confirmpassword && (
+            <p className="text-red-500 text-sm mt-1">{errors.confirmpassword.message}</p>
           )}
         </div>
 

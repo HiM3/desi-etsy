@@ -15,6 +15,6 @@ router.get("/showcase", getAllApprovedArtisans);
 router.get("/dashboard", verifyuser, requireRole("artisan"), getArtisanDashboard);
 
 // Optional: artisan profile detail
-router.get("/:id", getArtisanById);
+router.get("/getArtisanById/:id", getArtisanById);
 
 module.exports = router;

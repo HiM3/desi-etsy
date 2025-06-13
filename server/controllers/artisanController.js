@@ -52,19 +52,19 @@ exports.getArtisanById = async (req, res) => {
     .select('username email')
     .lean();
 
-    if (!artisan) {
-      return res.status(404).json({
-        success: false,
-        message: "Artisan not found"
-      });
-    }
+    // if (!artisan) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Artisan not found"
+    //   });
+    // }
 
-    if (!artisan.isApproved) {
-      return res.status(403).json({
-        success: false,
-        message: "This artisan account is not approved yet"
-      });
-    }
+    // if (!artisan.isApproved) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "This artisan account is not approved yet"
+    //   });
+    // }
 
     const products = await Product.find({ createdBy: artisan._id })
       .select('title price images rating description')

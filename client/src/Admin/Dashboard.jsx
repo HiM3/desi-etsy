@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
+import { FaUsers, FaStore, FaShoppingBag, FaShoppingCart } from 'react-icons/fa';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [pendingArtisans, setPendingArtisans] = useState([]);
   const [pendingProducts, setPendingProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchDashboardData();
@@ -15,7 +17,14 @@ const Dashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
       const [statsRes, artisansRes, productsRes] = await Promise.all([
         axios.get(`${import.meta.env.VITE_API_URL}/admin/dashboard-stats`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -32,7 +41,9 @@ const Dashboard = () => {
       setPendingArtisans(artisansRes.data.data);
       setPendingProducts(productsRes.data.data);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to fetch dashboard data");
+      const errorMessage = error.response?.data?.message || error.message || "Failed to fetch dashboard data";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -41,30 +52,42 @@ const Dashboard = () => {
   const handleArtisanAction = async (artisanId, action) => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
       await axios.put(
         `${import.meta.env.VITE_API_URL}/admin/${action}-artisan/${artisanId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       toast.success(`Artisan ${action === 'approve' ? 'approved' : 'rejected'} successfully`);
       fetchDashboardData();
     } catch (error) {
-      toast.error(error.response?.data?.message || `Failed to ${action} artisan`);
+      const errorMessage = error.response?.data?.message || error.message || `Failed to ${action} artisan`;
+      toast.error(errorMessage);
     }
   };
 
   const handleProductAction = async (productId, action) => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
       await axios.put(
         `${import.meta.env.VITE_API_URL}/admin/${action}-product/${productId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       toast.success(`Product ${action === 'approve' ? 'approved' : 'rejected'} successfully`);
       fetchDashboardData();
     } catch (error) {
-      toast.error(error.response?.data?.message || `Failed to ${action} product`);
+      const errorMessage = error.response?.data?.message || error.message || `Failed to ${action} product`;
+      toast.error(errorMessage);
     }
   };
 
@@ -74,6 +97,23 @@ const Dashboard = () => {
         <div className="relative">
           <div className="w-12 h-12 rounded-full absolute border-4 border-gray-200"></div>
           <div className="w-12 h-12 rounded-full animate-spin absolute border-4 border-[#d35400] border-t-transparent"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] flex items-center justify-center">
+        <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Dashboard</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={fetchDashboardData}
+            className="bg-[#d35400] text-white px-6 py-2 rounded-xl hover:bg-[#b34700] transition-all duration-300"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
@@ -96,7 +136,10 @@ const Dashboard = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Total Users</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-700">Total Users</h3>
+              <FaUsers className="text-[#d35400] text-2xl" />
+            </div>
             <p className="text-3xl font-bold text-[#d35400]">{stats?.users || 0}</p>
           </motion.div>
 
@@ -106,7 +149,10 @@ const Dashboard = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Total Artisans</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-700">Total Artisans</h3>
+              <FaStore className="text-[#d35400] text-2xl" />
+            </div>
             <p className="text-3xl font-bold text-[#d35400]">{stats?.artisans?.total || 0}</p>
             <p className="text-sm text-gray-500 mt-1">
               {stats?.artisans?.pending || 0} pending approval
@@ -119,7 +165,10 @@ const Dashboard = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Total Products</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-700">Total Products</h3>
+              <FaShoppingBag className="text-[#d35400] text-2xl" />
+            </div>
             <p className="text-3xl font-bold text-[#d35400]">{stats?.products?.total || 0}</p>
             <p className="text-sm text-gray-500 mt-1">
               {stats?.products?.pending || 0} pending approval
@@ -132,7 +181,10 @@ const Dashboard = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Total Orders</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-700">Total Orders</h3>
+              <FaShoppingCart className="text-[#d35400] text-2xl" />
+            </div>
             <p className="text-3xl font-bold text-[#d35400]">{stats?.orders || 0}</p>
           </motion.div>
         </div>
@@ -148,7 +200,7 @@ const Dashboard = () => {
             Pending Artisan Approvals
           </h2>
           {pendingArtisans.length === 0 ? (
-            <p className="text-gray-500">No pending artisan approvals</p>
+            <p className="text-gray-500 text-center py-4">No pending artisan approvals</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full">
@@ -197,7 +249,7 @@ const Dashboard = () => {
             Pending Product Approvals
           </h2>
           {pendingProducts.length === 0 ? (
-            <p className="text-gray-500">No pending product approvals</p>
+            <p className="text-gray-500 text-center py-4">No pending product approvals</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full">
