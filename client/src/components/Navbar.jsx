@@ -39,8 +39,9 @@ const Navbar = () => {
     };
 
     const handleUserLogout = () => {
-      // Force a re-render when user logs out
-      window.location.reload();
+      // Clear user state without reload
+      setUser(null);
+      setCartCount(0);
     };
 
     window.addEventListener('userLoggedIn', handleUserLogin);
