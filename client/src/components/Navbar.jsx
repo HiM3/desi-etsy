@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, cartCount, logout } = useAuth();
+  const { user, cartCount, logout, updateCartCount } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,21 +24,23 @@ const Navbar = () => {
   // Listen for cart updates
   useEffect(() => {
     const handleCartUpdate = () => {
-      // The cartCount will be automatically updated through the AuthContext
+      updateCartCount(); // Update cart count when cart is modified
     };
 
     window.addEventListener('cartUpdated', handleCartUpdate);
     return () => window.removeEventListener('cartUpdated', handleCartUpdate);
-  }, []);
+  }, [updateCartCount]);
 
   // Listen for user login/logout
   useEffect(() => {
     const handleUserLogin = () => {
-      // The user state will be automatically updated through the AuthContext
+      // Force a re-render when user logs in
+      window.location.reload();
     };
 
     const handleUserLogout = () => {
-      // The user state will be automatically updated through the AuthContext
+      // Force a re-render when user logs out
+      window.location.reload();
     };
 
     window.addEventListener('userLoggedIn', handleUserLogin);
@@ -56,6 +58,8 @@ const Navbar = () => {
       autoClose: 3000,
       theme: "colored",
     });
+    // Dispatch logout event
+    window.dispatchEvent(new Event('userLoggedOut'));
     navigate('/login');
   };
 

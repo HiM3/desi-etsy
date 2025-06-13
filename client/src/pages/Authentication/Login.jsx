@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -23,10 +25,16 @@ const Login = () => {
         }
       );
 
+      console.log('Login Response:', res.data);
+
       if (res.data.success) {
         const { token, user } = res.data;
+
+        // Store auth data
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
+
+        // Call login function from context
 
         toast.success("Login successful!", {
           position: "top-right",
@@ -36,13 +44,20 @@ const Login = () => {
 
         // Redirect based on user role
         if (user.role === 'admin') {
-          navigate('/admin');
+          navigate('/admin', { replace: true });
+          login(user);
+
         } else if (user.role === 'Artisian') {
-          navigate('/dashboard');
+          navigate('/dashboard', { replace: true });
+          login(user);
+
         } else {
-          navigate('/');
+          navigate('/', { replace: true });
+          login(user);
+
         }
       } else {
+        console.error('Login failed:', res.data);
         toast.error(res.data.message || "Login failed!", {
           position: "top-right",
           autoClose: 3000,
@@ -50,7 +65,9 @@ const Login = () => {
         });
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong. Please try again.", {
+      console.error('Login error:', error);
+      const errorMessage = error.response?.data?.message || "Something went wrong. Please try again.";
+      toast.error(errorMessage, {
         position: "top-right",
         autoClose: 3000,
         theme: "colored",
@@ -68,7 +85,13 @@ const Login = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-[420px]"
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-10 rounded-2xl shadow-xl w-full transition-all duration-300">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(onSubmit)(e);
+          }}
+          className="bg-white p-10 rounded-2xl shadow-xl w-full transition-all duration-300"
+        >
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -142,17 +165,18 @@ const Login = () => {
               Forgot Password?
             </NavLink>
           </motion.div>
+
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
+            type="submit"
             disabled={isLoading}
             className="w-full py-3.5 bg-[#d35400] text-white text-base font-semibold rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 disabled:bg-[#d35400]/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
           >
-            <NavLink type="submit" >
-              {isLoading ? "Logging in..." : "Login"}
-            </NavLink>
+            {isLoading ? "Logging in..." : "Login"}
           </motion.button>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

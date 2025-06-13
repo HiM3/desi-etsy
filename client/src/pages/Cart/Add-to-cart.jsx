@@ -39,7 +39,7 @@ const AddToCart = ({ product, onAddToCart }) => {
 
       // Get existing cart items
       const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      
+
       // Check if item already exists in cart
       const existingItemIndex = existingCart.findIndex(item => item.id === product._id);
 
@@ -53,15 +53,13 @@ const AddToCart = ({ product, onAddToCart }) => {
 
       // Save updated cart to localStorage
       localStorage.setItem('cart', JSON.stringify(existingCart));
-      
       // Update cart count and trigger real-time update
       updateCartCount();
-      
+
       // Dispatch cart updated event
       window.dispatchEvent(new Event('cartUpdated'));
-      
       toast.success('Added to cart successfully!');
-      
+
       // Call the onAddToCart callback if provided
       if (onAddToCart) {
         onAddToCart();
