@@ -90,6 +90,7 @@ const Product = () => {
       localStorage.setItem('cart', JSON.stringify(existingCart));
       toast.success('Product added to cart successfully!');
       navigate('/cart');
+      window.location.reload()
     } catch (error) {
       toast.error('Failed to add to cart');
       console.error('Add to cart error:', error);

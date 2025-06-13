@@ -50,7 +50,7 @@ const AddToCart = ({ product, onAddToCart }) => {
         // Add new item if it doesn't exist
         existingCart.push(cartItem);
       }
-
+      
       // Save updated cart to localStorage
       localStorage.setItem('cart', JSON.stringify(existingCart));
       // Update cart count and trigger real-time update

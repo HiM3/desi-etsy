@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, cartCount, logout, updateCartCount } = useAuth();
+  const { user, cartCount, logout, updateCartCount, setUser, setCartCount } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {

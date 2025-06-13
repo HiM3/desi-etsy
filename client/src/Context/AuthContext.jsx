@@ -27,6 +27,8 @@ export const AuthProvider = ({ children }) => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     setCartCount(totalItems);
+    // Dispatch event for real-time updates
+    window.dispatchEvent(new Event('cartUpdated'));
   };
 
   const login = (userData) => {
@@ -101,7 +103,9 @@ export const AuthProvider = ({ children }) => {
     cartCount,
     login,
     logout,
-    updateCartCount
+    updateCartCount,
+    setUser,
+    setCartCount
   };
 
   return (
