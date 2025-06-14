@@ -31,25 +31,27 @@ const Dashboard = () => {
         }
       });
 
-      const { artisanProfile, products, orders, stats: dashboardStats } = response.data.data;
-      
-      setArtisanProfile(artisanProfile);
-      setArtisanProducts(products);
-      setRecentOrders(orders || []);
-      setStats(dashboardStats || {
-        totalOrders: orders?.length || 0,
-        pendingOrders: orders?.filter(order => order.status === 'pending').length || 0,
-        totalProducts: products?.length || 0,
-        totalRevenue: orders?.reduce((sum, order) => sum + order.totalAmount, 0) || 0,
-        averageRating: products?.reduce((sum, product) => sum + (product.rating || 0), 0) / (products?.length || 1) || 0
-      });
-      
-      if (refreshing) {
-        toast.success('Dashboard data refreshed successfully');
+      if (response.data.success) {
+        const { artisan, products, orders, stats: dashboardStats } = response.data.data;
+        
+        setArtisanProfile(artisan);
+        setArtisanProducts(products);
+        setRecentOrders(orders || []);
+        setStats(dashboardStats || {
+          totalOrders: orders?.length || 0,
+          pendingOrders: orders?.filter(order => order.status === 'pending').length || 0,
+          totalProducts: products?.length || 0,
+          totalRevenue: orders?.reduce((sum, order) => sum + (order.totalAmount || 0), 0) || 0,
+          averageRating: products?.reduce((sum, product) => sum + (product.rating || 0), 0) / (products?.length || 1) || 0
+        });
+        
+        if (refreshing) {
+          toast.success('Dashboard data refreshed successfully');
+        }
       }
     } catch (error) {
-      console.error("Error fetching artisan dashboard data:", error);
-      toast.error('Failed to fetch dashboard data');
+      console.error("Error fetching dashboard data:", error);
+      toast.error(error.response?.data?.message || 'Failed to fetch dashboard data');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -63,16 +65,24 @@ const Dashboard = () => {
   const handleOrderStatusUpdate = async (orderId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(
+      const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/orders/${orderId}/status`,
         { status: newStatus },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { 
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          } 
+        }
       );
-      toast.success(`Order status updated to ${newStatus}`);
-      fetchDashboardData();
+
+      if (response.data.success) {
+        toast.success(`Order status updated to ${newStatus}`);
+        fetchDashboardData(); // Refresh the dashboard data
+      }
     } catch (error) {
       console.error("Error updating order status:", error);
-      toast.error('Failed to update order status');
+      toast.error(error.response?.data?.message || 'Failed to update order status');
     }
   };
 
@@ -97,7 +107,7 @@ const Dashboard = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-800">Artisan Dashboard</h1>
             <p className="text-gray-600 mt-1">
-              Welcome back{artisanProfile?.user?.username ? `, ${artisanProfile.user.username}` : ''}! Here's what's happening with your store.
+              Welcome back{artisanProfile?.username ? `, ${artisanProfile.username}` : ''}! Here's what's happening with your store.
             </p>
           </div>
           <div className="flex gap-4">

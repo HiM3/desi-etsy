@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
@@ -148,8 +148,8 @@ const Cart = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => toast.success('Checkout functionality coming soon!')}
-                  className="w-full bg-[#FF6B6B] text-white py-3 rounded-lg hover:bg-[#FF5252] transition-colors"
+                  onClick={() => navigate("/checkout")}
+                  className="w-full bg-[#FF6B6B] text-white py-3 rounded-lg hover:bg-[#FF5252] transition-colors flex items-center justify-center"
                 >
                   Proceed to Checkout
                 </button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaFacebook, FaInstagram, FaTwitter, FaPinterest, FaEnvelope, FaPhone, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -41,7 +42,7 @@ const Footer = () => {
               About DesiEtsy
             </h3>
             <p className="text-sm leading-relaxed text-[#6e2c00]/80">
-              Empowering artisans and connecting them with customers who appreciate handmade, authentic products.
+              Empowering artisans and connecting them with customers who appreciate handmade, authentic products. Join us in celebrating traditional craftsmanship.
             </p>
           </motion.div>
 
@@ -54,17 +55,26 @@ const Footer = () => {
               Quick Links
             </h3>
             <div className="flex flex-col gap-3">
-              {['About Us', 'Contact Us', 'FAQ', 'Shipping Policy', 'Returns & Refunds'].map((link, index) => (
-                <motion.a
-                  key={index}
-                  href={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group"
-                  whileHover={{ x: 5 }}
-                >
-                  <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  {link}
-                </motion.a>
-              ))}
+              <Link to="/" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+                <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                Home
+              </Link>
+              <Link to="/products" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+                <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                Products
+              </Link>
+              <Link to="/cart" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+                <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                Cart
+              </Link>
+              <Link to="/myorders" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+                <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                My Orders
+              </Link>
+              <Link to="/profile" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+                <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                Profile
+              </Link>
             </div>
           </motion.div>
 
@@ -78,21 +88,20 @@ const Footer = () => {
             </h3>
             <div className="flex flex-col gap-3">
               {[
-                'Handmade Jewelry',
-                'Clay Pots',
-                'Jute Bags',
-                'Paintings',
-                'Textiles'
+                { name: 'Jewelry', path: '/products?category=jewelry' },
+                { name: 'Clothing', path: '/products?category=clothing' },
+                { name: 'Home Decor', path: '/products?category=home' },
+                { name: 'Handicrafts', path: '/products?category=handicrafts' },
+                { name: 'Art & Paintings', path: '/products?category=art' }
               ].map((category, index) => (
-                <motion.a
+                <Link
                   key={index}
-                  href={`/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                  to={category.path}
                   className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group"
-                  whileHover={{ x: 5 }}
                 >
                   <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  {category}
-                </motion.a>
+                  {category.name}
+                </Link>
               ))}
             </div>
           </motion.div>
@@ -123,10 +132,10 @@ const Footer = () => {
             </div>
             <div className="flex gap-4 mt-2">
               {[
-                { icon: FaFacebook, url: 'https://facebook.com' },
-                { icon: FaInstagram, url: 'https://instagram.com' },
-                { icon: FaTwitter, url: 'https://twitter.com' },
-                { icon: FaPinterest, url: 'https://pinterest.com' }
+                { icon: FaFacebook, url: 'https://facebook.com/desietsy' },
+                { icon: FaInstagram, url: 'https://instagram.com/desietsy' },
+                { icon: FaTwitter, url: 'https://twitter.com/desietsy' },
+                { icon: FaPinterest, url: 'https://pinterest.com/desietsy' }
               ].map((social, index) => (
                 <motion.a
                   key={index}

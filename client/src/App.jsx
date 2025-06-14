@@ -27,6 +27,9 @@ const CreateProduct = lazy(() => import('./pages/Artisian/CreateProduct'));
 const ViewProduct = lazy(() => import('./pages/Artisian/ViewProduct'));
 const AdminDashboard = lazy(() => import('./Admin/Dashboard'));
 const About = lazy(()=> import('./components/About'))
+const Checkout = lazy(()=> import('./pages/Checkout/Checkout'))
+const Orders = lazy(()=> import('./pages/Artisian/Orders'))
+const Myorders = lazy(()=> import('./pages/Myorders'))
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen">
     <LoadingSpinner />
@@ -71,6 +74,8 @@ function App() {
                   <Route element={<PrivateRoute />}>
                     {/* User Routes */}
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/my-orders" element={<Myorders />} />
+                    <Route path="/checkout" element={<Checkout />} />
                     <Route path="/change-password" element={<ChangePassword />} />
 
                     {/* Artisan Routes */}
@@ -78,6 +83,7 @@ function App() {
                     <Route path="/add-product" element={<CreateProduct />} />
                     <Route path="/add-product/:id" element={<CreateProduct />} />
                     <Route path="/view-artisan-products" element={<ViewProduct />} />
+                    <Route path="/orders" element={<Orders />} />
 
                     {/* Admin Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />

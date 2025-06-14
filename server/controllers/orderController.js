@@ -52,11 +52,18 @@ exports.createOrder = async (req, res) => {
       })
     );
 
+    // Calculate total amount
+    const totalAmount = orderItems.reduce(
+      (total, item) => total + (item.price * item.quantity),
+      0
+    );
+
     const order = new Order({
       user: req.user._id,
       items: orderItems,
       shippingAddress,
       paymentMethod,
+      totalAmount,
       status: "pending",
       paymentStatus: "pending"
     });
@@ -81,7 +88,7 @@ exports.createOrder = async (req, res) => {
 exports.getAllOrders = async (req, res) => {
   try {
     // Check if user is admin
-    if (req.user.role !== "admin") {
+    if (req.user.role !== "artisan") {
       return res.status(403).json({
         success: false,
         message: "Not authorized to view all orders"
@@ -145,7 +152,7 @@ exports.getOrder = async (req, res) => {
     // Check if the order belongs to the user or if user is admin
     if (
       order.user._id.toString() !== req.user._id.toString() &&
-      req.user.role !== "admin"
+      req.user.role !== "user"
     ) {
       return res.status(403).json({
         success: false,
@@ -167,11 +174,9 @@ exports.getOrder = async (req, res) => {
   }
 };
 
-// Update order status (admin only)
 exports.updateOrderStatus = async (req, res) => {
   try {
-    // Check if user is admin
-    if (req.user.role !== "admin") {
+    if (req.user.role !== "artisan") {
       return res.status(403).json({
         success: false,
         message: "Not authorized to update order status"

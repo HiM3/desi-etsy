@@ -66,6 +66,13 @@ exports.getArtisanById = async (req, res) => {
     //   });
     // }
 
+    // if (!artisan.isApproved) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "This artisan account is not approved yet"
+    //   });
+    // }
+
     const products = await Product.find({ createdBy: artisan._id })
       .select('title price images rating description')
       .lean();
@@ -89,7 +96,7 @@ exports.getArtisanById = async (req, res) => {
 
 exports.getArtisanDashboard = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     if (!userId) {
       return res.status(400).json({
@@ -105,19 +112,12 @@ exports.getArtisanDashboard = async (req, res) => {
     .select('username email')
     .lean();
 
-    // if (!artisan) {
-    //   return res.status(404).json({
-    //     success: false,
-    //     message: "Artisan account not found"
-    //   });
-    // }
-
-    // if (!artisan.isApproved) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "Your artisan account is not approved yet"
-    //   });
-    // }
+    if (!artisan) {
+      return res.status(404).json({
+        success: false,
+        message: "Artisan account not found"
+      });
+    }
 
     // Get products with optimized query
     const products = await Product.find({ createdBy: userId })

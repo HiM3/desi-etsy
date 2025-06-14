@@ -110,15 +110,16 @@ const Navbar = () => {
                 About
               </Link>
             </motion.div>
-
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                to="/product"
-                className="text-gray-700 hover:text-[#d35400] font-medium transition-colors duration-300"
-              >
-                Products
-              </Link>
-            </motion.div>
+            {user?.role !== 'artisan' && (
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/product"
+                  className="text-gray-700 hover:text-[#d35400] font-medium transition-colors duration-300"
+                >
+                  Products
+                </Link>
+              </motion.div>
+            )}
 
             {user?.role === 'artisan' && (
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -136,19 +137,21 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                  <Link
-                    to="/cart"
-                    className="text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300 relative inline-flex items-center justify-center"
-                  >
-                    <FaShoppingCart className="h-6 w-6" />
-                    {cartCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 bg-[#FF6B6B] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                </motion.div>
+                {user?.role === 'user' && (
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Link
+                      to="/cart"
+                      className="text-gray-700 hover:text-[#d35400] p-2 rounded-full hover:bg-white/30 transition-all duration-300 relative inline-flex items-center justify-center"
+                    >
+                      <FaShoppingCart className="h-6 w-6" />
+                      {cartCount > 0 && (
+                        <span className="absolute -top-0.5 -right-0.5 bg-[#FF6B6B] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                          {cartCount}
+                        </span>
+                      )}
+                    </Link>
+                  </motion.div>
+                )}
 
                 {/* User Profile Dropdown */}
                 <div className="relative">
@@ -171,16 +174,19 @@ const Navbar = () => {
                         exit={{ opacity: 0, y: -10 }}
                         className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
                       >
-                        <Link
-                          to="/profile"
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#d35400] transition-colors duration-300"
-                          onClick={() => setIsProfileOpen(false)}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <FaUser className="h-4 w-4" />
-                            <span>Profile</span>
-                          </div>
-                        </Link>
+                        {user?.role === 'user' && (
+                          <Link
+                            to="/my-orders"
+                            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#d35400] transition-colors duration-300"
+                            onClick={() => setIsProfileOpen(false)}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <FaUser className="h-4 w-4" />
+                              <span>My orders</span>
+                            </div>
+                          </Link>
+                        )}
+
                         <Link
                           to="/change-password"
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#d35400] transition-colors duration-300"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSpinner, FaShoppingCart, FaBolt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaSpinner, FaShoppingCart, FaBolt, FaChevronLeft, FaChevronRight, FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 const Product = () => {
@@ -9,7 +9,18 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const navigate = useNavigate();
+
+  const categories = [
+    { id: 'all', name: 'All Categories' },
+    { id: 'jewelry', name: 'Jewelry' },
+    { id: 'clothing', name: 'Clothing' },
+    { id: 'home', name: 'Home Decor' },
+    { id: 'handicrafts', name: 'handicrafts' },
+    { id: 'art', name: 'Art & Paintings' }
+  ];
 
   useEffect(() => {
     fetchProducts();
@@ -74,7 +85,7 @@ const Product = () => {
 
       // Get existing cart items
       const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      
+
       // Check if item already exists in cart
       const existingItemIndex = existingCart.findIndex(item => item.id === product._id);
 
@@ -90,7 +101,7 @@ const Product = () => {
       localStorage.setItem('cart', JSON.stringify(existingCart));
       toast.success('Product added to cart successfully!');
       navigate('/cart');
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       toast.error('Failed to add to cart');
       console.error('Add to cart error:', error);
@@ -98,7 +109,47 @@ const Product = () => {
   };
 
   const handleBuyNow = (product) => {
-    toast.info('Buy now functionality coming soon!');
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to add items to cart');
+        navigate('/login');
+        return;
+      }
+
+      // Create cart item object
+      const cartItem = {
+        id: product._id,
+        name: product.title,
+        price: product.price,
+        quantity: 1,
+        image: product.images[0],
+        creator: product.creator
+      };
+
+      // Get existing cart items
+      const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+      // Check if item already exists in cart
+      const existingItemIndex = existingCart.findIndex(item => item.id === product._id);
+
+      if (existingItemIndex > -1) {
+        // Update quantity if item exists
+        existingCart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item if it doesn't exist
+        existingCart.push(cartItem);
+      }
+
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+      toast.success('Product added to cart successfully!');
+      navigate('/cart');
+      window.location.reload();
+    } catch (error) {
+      toast.error('Failed to add to cart');
+      console.error('Add to cart error:', error);
+    }
   };
 
   const nextImage = (productId, totalImages) => {
@@ -114,6 +165,18 @@ const Product = () => {
       [productId]: (prev[productId] - 1 + totalImages) % totalImages
     }));
   };
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = 
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.creator.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.materials.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    
+    return matchesSearch && matchesCategory;
+  });
 
   if (loading) {
     return (
@@ -142,12 +205,43 @@ const Product = () => {
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
+        {/* Header */}
+        <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Discover Handcrafted Treasures</h1>
         </div>
 
+        {/* Search and Filter Section - Centered */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search Bar */}
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-[#FF6B6B] focus:border-[#FF6B6B]"
+              />
+              <FaSearch className="absolute left-3 top-3 text-gray-400" />
+            </div>
+
+            {/* Category Filter */}
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full md:w-48 px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-[#FF6B6B] focus:border-[#FF6B6B]"
+            >
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div
               key={product._id}
               className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
@@ -182,11 +276,10 @@ const Product = () => {
                       {product.images.map((_, index) => (
                         <div
                           key={index}
-                          className={`w-2 h-2 rounded-full ${
-                            currentImageIndex[product._id] === index
+                          className={`w-2 h-2 rounded-full ${currentImageIndex[product._id] === index
                               ? 'bg-white'
                               : 'bg-white/50'
-                          }`}
+                            }`}
                         />
                       ))}
                     </div>
@@ -201,7 +294,12 @@ const Product = () => {
               <div className="p-6">
                 <div className="mb-3">
                   <p className="text-sm text-gray-600">Crafted by</p>
-                  <p className="font-medium text-gray-800">{product.creator}</p>
+                  <Link 
+                    to={`/artisan/${product.createdBy}`}
+                    className="font-medium text-gray-800 hover:text-[#FF6B6B] transition-colors"
+                  >
+                    {product.creator || 'Unknown Artisan'}
+                  </Link>
                 </div>
                 <h2 className="text-xl font-semibold text-gray-800 mb-2 line-clamp-1">
                   {product.title}
@@ -242,7 +340,7 @@ const Product = () => {
             </div>
           ))}
         </div>
-        {products.length === 0 && (
+        {filteredProducts.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-600 text-xl">No products found</p>
           </div>

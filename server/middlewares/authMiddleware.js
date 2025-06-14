@@ -10,14 +10,18 @@ exports.verifyuser = async (req, res, next) => {
       });
     }
     token = token.split(" ")[1];
-    const verfiyuser = jwt.verify(token, process.env.secret_key);
-    if (!verfiyuser) {
+    const decoded = jwt.verify(token, process.env.secret_key);
+    if (!decoded) {
       return res.status(401).json({
         success: false,
         message: "Invalid Token",
       });
     }
-    req.user = verfiyuser;
+    req.user = {
+      _id: decoded.id,
+      role: decoded.role,
+      email: decoded.email
+    };
     next();
   } catch (error) {
     return res.status(401).json({
