@@ -2,7 +2,7 @@ const OrderService = require('../services/orderService');
 
 let stripe;
 try {
-  const STRIPE_SECRET_KEY = 'sk_test_51RaGcjP7KH8leRNeTqAQUqxp2uiPsnNQhhYLHmMBFriZJbGhluFREsvTKqKqft2pe6oj2Jo4LlfdCZeaXDRiiCDy008XgrM3fJ';
+  const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
   if (!STRIPE_SECRET_KEY) {
     console.error('STRIPE_SECRET_KEY is not set');
   } else {
