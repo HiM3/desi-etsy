@@ -39,7 +39,7 @@ exports.create_product = async (req, res) => {
 exports.view_products = async (req, res) => {
   try {
     const products = await Product.find({ isApproved: true });
-    
+
     res.json({
       success: true,
       message: "Products fetched successfully",
@@ -57,7 +57,7 @@ exports.view_products = async (req, res) => {
 exports.view_artisan_products = async (req, res) => {
   try {
     const products = await Product.find({ createdBy: req.user.id });
-    
+
     res.json({
       success: true,
       message: "Your products fetched successfully",

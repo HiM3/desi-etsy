@@ -140,14 +140,14 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-5 font-sans">
-      <form className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-[420px] text-center transition-all duration-300">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">OTP Verification</h2>
-        <p className="text-sm text-gray-600 mb-6">
+    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
+      <form className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-[420px] text-center transition-all duration-300">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 sm:mb-3">OTP Verification</h2>
+        <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
           Enter the 6-digit OTP sent to <span className="font-semibold">{email || "your email"}</span>
         </p>
 
-        <div className="flex justify-center gap-2 mb-6">
+        <div className="flex justify-center gap-1.5 sm:gap-2 mb-4 sm:mb-6">
           {otp.map((digit, index) => (
             <input
               key={index}
@@ -158,7 +158,7 @@ const VerifyOTP = () => {
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
               disabled={isLoading}
-              className="w-12 h-14 text-xl text-center rounded-xl border border-gray-300 focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400] outline-none transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
+              className="w-10 h-12 sm:w-12 sm:h-14 text-lg sm:text-xl text-center rounded-xl border border-gray-300 focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400] outline-none transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
             />
           ))}
         </div>
@@ -167,12 +167,12 @@ const VerifyOTP = () => {
           type="button"
           onClick={verifyOTP}
           disabled={isLoading || otp.join("").length !== 6}
-          className="w-full py-3.5 bg-[#d35400] text-white text-base font-medium rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg focus:ring-2 focus:ring-[#d35400] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 sm:py-3.5 bg-[#d35400] text-white text-sm sm:text-base font-medium rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg focus:ring-2 focus:ring-[#d35400] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Verifying..." : "Verify OTP"}
         </button>
 
-        <div className="mt-6 text-sm text-gray-600">
+        <div className="mt-4 sm:mt-6 text-xs sm:text-sm text-gray-600">
           Didn't get the code?
           <button
             type="button"

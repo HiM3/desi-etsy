@@ -73,10 +73,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-5 font-sans">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-[420px] transition-all duration-300">
-        <h2 className="text-center mb-2.5 text-2xl text-gray-800">Reset Your Password</h2>
-        <p className="text-center mb-6 text-sm text-gray-500">Enter your new password below</p>
+    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg w-full max-w-[420px] transition-all duration-300">
+        <h2 className="text-center mb-2 text-xl sm:text-2xl text-gray-800">Reset Your Password</h2>
+        <p className="text-center mb-4 sm:mb-6 text-xs sm:text-sm text-gray-500">Enter your new password below</p>
 
         <div className="mb-3">
           <div className="relative">
@@ -90,18 +90,18 @@ const ForgotPassword = () => {
                   message: "Password must be at least 4 characters"
                 }
               })}
-              className="w-full px-4 py-3.5 rounded-xl border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white pr-10"
+              className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-300 text-sm sm:text-[15px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white pr-10"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 text-xs sm:text-sm"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.password.message}</p>
           )}
         </div>
 
@@ -114,30 +114,30 @@ const ForgotPassword = () => {
                 required: "Please confirm your password",
                 validate: value => value === password || "Passwords do not match"
               })}
-              className="w-full px-4 py-3.5 rounded-xl border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white pr-10"
+              className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-300 text-sm sm:text-[15px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white pr-10"
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 text-xs sm:text-sm"
             >
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
           </div>
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.confirmPassword.message}</p>
           )}
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 bg-[#d35400] text-white text-base rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 sm:py-3.5 bg-[#d35400] text-white text-sm sm:text-base rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Resetting Password..." : "Reset Password"}
         </button>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="text-center mt-4 sm:mt-6 text-xs sm:text-sm text-gray-600">
           Remember your password?{" "}
           <a href="/login" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">
             Login

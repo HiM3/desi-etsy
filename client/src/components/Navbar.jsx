@@ -253,117 +253,133 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white/90 backdrop-blur-md"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            className="fixed inset-0 bg-white z-50 md:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.1 }}
-              >
-                <Link
-                  to="/"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Home
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-center p-4 border-b">
+                <Link to="/" className="text-2xl font-bold text-[#d35400]" onClick={() => setIsMobileMenuOpen(false)}>
+                  DesiEtsy
                 </Link>
-              </motion.div>
-              {user && (
-                <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
+                <button
+                  onClick={toggleMobileMenu}
+                  className="text-gray-700 hover:text-[#d35400] p-2"
                 >
+                  <FaTimes className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4">
+                <div className="flex flex-col space-y-4">
                   <Link
-                    to="/product"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                    to="/"
+                    className="text-gray-700 hover:text-[#d35400] font-medium py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Products
+                    Home
                   </Link>
-                </motion.div>
-              )}
-              {!user && (
-                <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
                   <Link
-                    to="/dashboard"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                    to="/about"
+                    className="text-gray-700 hover:text-[#d35400] font-medium py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Artisan Dashboard
+                    About
                   </Link>
-                </motion.div>
-              )}
-              {user && (
-                <>
-                  <motion.div
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
+                  {user?.role !== 'artisan' && (
                     <Link
-                      to="/cart"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      to="/product"
+                      className="text-gray-700 hover:text-[#d35400] font-medium py-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Cart
+                      Products
                     </Link>
-                  </motion.div>
-                  <motion.div
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                  >
+                  )}
+                  {user?.role === 'artisan' && (
                     <Link
-                      to="/profile"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      to="/dashboard"
+                      className="text-gray-700 hover:text-[#d35400] font-medium py-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Profile
+                      Artisan Dashboard
                     </Link>
-                  </motion.div>
-                  <motion.div
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                  >
+                  )}
+                  {user?.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      className="text-gray-700 hover:text-[#d35400] font-medium py-2"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
+                </div>
+              </div>
+
+              <div className="p-4 border-t">
+                {user ? (
+                  <div className="flex flex-col space-y-4">
+                    {user?.role === 'user' && (
+                      <Link
+                        to="/cart"
+                        className="flex items-center space-x-2 text-gray-700 hover:text-[#d35400] py-2"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <FaShoppingCart className="h-5 w-5" />
+                        <span>Cart ({cartCount})</span>
+                      </Link>
+                    )}
+                    <Link
+                      to="/my-orders"
+                      className="flex items-center space-x-2 text-gray-700 hover:text-[#d35400] py-2"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <FaUser className="h-5 w-5" />
+                      <span>My Orders</span>
+                    </Link>
                     <Link
                       to="/change-password"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      className="flex items-center space-x-2 text-gray-700 hover:text-[#d35400] py-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Change Password
+                      <FaCog className="h-5 w-5" />
+                      <span>Change Password</span>
                     </Link>
-                  </motion.div>
-                  <motion.div
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                  >
                     <button
                       onClick={() => {
                         setIsMobileMenuOpen(false);
                         handleLogout();
                       }}
-                      className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#d35400] hover:bg-white/30 transition-all duration-300"
+                      className="flex items-center space-x-2 text-gray-700 hover:text-[#d35400] py-2 w-full text-left"
                     >
-                      Logout
+                      <FaSignOutAlt className="h-5 w-5" />
+                      <span>Logout</span>
                     </button>
-                  </motion.div>
-                </>
-              )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-4">
+                    <Link
+                      to="/login"
+                      className="text-gray-700 hover:text-[#d35400] font-medium py-2"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="bg-[#d35400] text-white hover:bg-[#b34700] px-4 py-2 rounded-full font-medium text-center"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Register
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         )}

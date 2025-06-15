@@ -20,14 +20,14 @@ exports.verifyuser = async (req, res, next) => {
     req.user = {
       _id: decoded.id,
       role: decoded.role,
-      email: decoded.email
+      email: decoded.email,
     };
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
       message: "Authentication failed",
-      error: error.message
+      error: error.message,
     });
   }
 };

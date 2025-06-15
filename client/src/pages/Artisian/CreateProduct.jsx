@@ -128,20 +128,20 @@ const CreateProduct = () => {
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gray-50 pt-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-sm p-6"
+          className="bg-white rounded-xl shadow-sm p-4 sm:p-6"
         >
-          <h1 className="text-2xl font-bold text-gray-800 mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
             {id ? 'Edit Product' : 'Create New Product'}
           </h1>
 
-          <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data' className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data' className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                   Product Title
                 </label>
                 <input
@@ -157,15 +157,15 @@ const CreateProduct = () => {
                       message: 'Title cannot exceed 100 characters'
                     }
                   })}
-                  className={`w-full bg-white px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400]`}
+                  className={`w-full bg-white px-3 sm:px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400] text-sm sm:text-base`}
                   placeholder="Enter product title"
                 />
                 {errors.title && (
-                  <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>
+                  <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.title.message}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                   Price ($)
                 </label>
                 <input
@@ -179,17 +179,17 @@ const CreateProduct = () => {
                       message: 'Price cannot be negative'
                     }
                   })}
-                  className={`w-full bg-white px-4 py-2 rounded-lg border ${errors.price ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400]`}
+                  className={`w-full bg-white px-3 sm:px-4 py-2 rounded-lg border ${errors.price ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400] text-sm sm:text-base`}
                   placeholder="Enter price"
                 />
                 {errors.price && (
-                  <p className="mt-1 text-sm text-red-500">{errors.price.message}</p>
+                  <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.price.message}</p>
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                 Description
               </label>
               <textarea
@@ -205,24 +205,24 @@ const CreateProduct = () => {
                     message: 'Description cannot exceed 2000 characters'
                   }
                 })}
-                className={`w-full bg-white px-4 py-2 rounded-lg border ${errors.description ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400]`}
+                className={`w-full bg-white px-3 sm:px-4 py-2 rounded-lg border ${errors.description ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400] text-sm sm:text-base`}
                 placeholder="Enter product description"
               />
               {errors.description && (
-                <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>
+                <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.description.message}</p>
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                   Category
                 </label>
                 <select
                   {...register('category', {
                     required: 'Category is required'
                   })}
-                  className={`w-full bg-white px-4 py-2 rounded-lg border ${errors.category ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400]`}
+                  className={`w-full bg-white px-3 sm:px-4 py-2 rounded-lg border ${errors.category ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400] text-sm sm:text-base`}
                 >
                   <option value="">Select Category</option>
                   <option value="handicrafts">Handicrafts</option>
@@ -231,11 +231,11 @@ const CreateProduct = () => {
                   <option value="home-decor">Home Decor</option>
                 </select>
                 {errors.category && (
-                  <p className="mt-1 text-sm text-red-500">{errors.category.message}</p>
+                  <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.category.message}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                   Size
                 </label>
                 <input
@@ -243,17 +243,17 @@ const CreateProduct = () => {
                   {...register('size', {
                     required: 'Size is required'
                   })}
-                  className={`w-full bg-white px-4 py-2 rounded-lg border ${errors.size ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400]`}
+                  className={`w-full bg-white px-3 sm:px-4 py-2 rounded-lg border ${errors.size ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400] text-sm sm:text-base`}
                   placeholder="Enter product size"
                 />
                 {errors.size && (
-                  <p className="mt-1 text-sm text-red-500">{errors.size.message}</p>
+                  <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.size.message}</p>
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                 Materials Used
               </label>
               <input
@@ -261,82 +261,86 @@ const CreateProduct = () => {
                 {...register('materials', {
                   required: 'Materials used is required'
                 })}
-                className={`w-full bg-white px-4 py-2 rounded-lg border ${errors.materials ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400]`}
+                className={`w-full bg-white px-3 sm:px-4 py-2 rounded-lg border ${errors.materials ? 'border-red-500' : 'border-gray-300'} focus:ring-[#d35400] focus:border-[#d35400] text-sm sm:text-base`}
                 placeholder="Enter materials used"
               />
               {errors.materials && (
-                <p className="mt-1 text-sm text-red-500">{errors.materials.message}</p>
+                <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.materials.message}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Product Images ({images.length}/5)
+              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                Product Images (Max 5)
               </label>
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
                 <div className="space-y-1 text-center">
-                  <FaUpload className="mx-auto h-12 w-12 text-gray-400" />
+                  <FaUpload className="mx-auto h-8 w-8 text-gray-400" />
                   <div className="flex text-sm text-gray-600">
-                    <label className="relative cursor-pointer bg-white rounded-md font-medium text-[#d35400] hover:text-[#b34700] focus-within:outline-none">
-                      <span>Upload images</span>
+                    <label
+                      htmlFor="file-upload"
+                      className="relative cursor-pointer bg-white rounded-md font-medium text-[#d35400] hover:text-[#b34700] focus-within:outline-none"
+                    >
+                      <span>Upload files</span>
                       <input
+                        id="file-upload"
+                        name="file-upload"
                         type="file"
+                        className="sr-only"
                         multiple
                         accept="image/*"
                         onChange={handleImageUpload}
-                        className="sr-only"
-                        disabled={uploading || images.length >= 5}
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>
-                  <p className="text-xs text-gray-500">Upload up to 5 product images</p>
+                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
                 </div>
               </div>
-              {uploading && (
-                <div className="mt-4 text-center">
-                  <FaSpinner className="animate-spin text-[#d35400] mx-auto" />
-                  <p className="text-sm text-gray-500 mt-2">Uploading images...</p>
-                </div>
-              )}
-              {images.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {images.map((image, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={typeof image === 'string' ? image : URL.createObjectURL(image)}
-                        alt={`Product ${index + 1}`}
-                        className="h-24 w-24 object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <FaTimes />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
 
-            <div className="flex justify-end space-x-4">
+            {images.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {images.map((image, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                      alt={`Product ${index + 1}`}
+                      className="w-full h-24 sm:h-32 object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    >
+                      <FaTimes className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="flex justify-end space-x-3 sm:space-x-4">
               <button
                 type="button"
                 onClick={() => navigate('/view-artisan-products')}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                disabled={isSubmitting}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-sm sm:text-base text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d35400]"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting || uploading}
-                className="px-6 py-2 bg-[#d35400] text-white rounded-lg hover:bg-[#b34700] disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                disabled={isSubmitting}
+                className="px-4 py-2 border border-transparent rounded-lg text-sm sm:text-base text-white bg-[#d35400] hover:bg-[#b34700] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d35400] disabled:opacity-50"
               >
-                {isSubmitting && <FaSpinner className="animate-spin mr-2" />}
-                {id ? 'Update Product' : 'Create Product'}
+                {isSubmitting ? (
+                  <span className="flex items-center">
+                    <FaSpinner className="animate-spin mr-2" />
+                    {id ? 'Updating...' : 'Creating...'}
+                  </span>
+                ) : (
+                  id ? 'Update Product' : 'Create Product'
+                )}
               </button>
             </div>
           </form>

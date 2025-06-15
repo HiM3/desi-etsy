@@ -3,26 +3,32 @@ const Product = require("../models/Product");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { items, shippingAddress, paymentMethod, totalAmount, paymentDetails } = req.body;
+    const {
+      items,
+      shippingAddress,
+      paymentMethod,
+      totalAmount,
+      paymentDetails,
+    } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Order items are required and must be an array"
+        message: "Order items are required and must be an array",
       });
     }
 
     if (!shippingAddress) {
       return res.status(400).json({
         success: false,
-        message: "Shipping address is required"
+        message: "Shipping address is required",
       });
     }
 
     if (!paymentMethod) {
       return res.status(400).json({
         success: false,
-        message: "Payment method is required"
+        message: "Payment method is required",
       });
     }
 
@@ -50,7 +56,7 @@ exports.createOrder = async (req, res) => {
     );
 
     const calculatedTotal = orderItems.reduce(
-      (total, item) => total + (item.price * item.quantity),
+      (total, item) => total + item.price * item.quantity,
       0
     );
 
@@ -72,7 +78,7 @@ exports.createOrder = async (req, res) => {
       taxAmount: 0,
       orderStatus: "pending",
       paymentStatus: initialPaymentStatus,
-      paymentDetails: paymentDetails || {}
+      paymentDetails: paymentDetails || {},
     });
 
     await order.save();
@@ -83,7 +89,7 @@ exports.createOrder = async (req, res) => {
       data: order,
     });
   } catch (error) {
-    console.error('Order creation error:', error);
+    console.error("Order creation error:", error);
     res.status(400).json({
       success: false,
       message: "Failed to create order",
@@ -97,7 +103,7 @@ exports.getAllOrders = async (req, res) => {
     if (req.user.role !== "artisan") {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to view all orders"
+        message: "Not authorized to view all orders",
       });
     }
 
@@ -182,23 +188,31 @@ exports.updateOrderStatus = async (req, res) => {
     if (req.user.role !== "artisan") {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to update order status"
+        message: "Not authorized to update order status",
       });
     }
 
     const { orderStatus, paymentStatus, trackingNumber } = req.body;
 
-    if (orderStatus && !["pending", "processing", "shipped", "delivered", "cancelled"].includes(orderStatus)) {
+    if (
+      orderStatus &&
+      !["pending", "processing", "shipped", "delivered", "cancelled"].includes(
+        orderStatus
+      )
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Invalid order status"
+        message: "Invalid order status",
       });
     }
 
-    if (paymentStatus && !["pending", "paid", "failed", "refunded"].includes(paymentStatus)) {
+    if (
+      paymentStatus &&
+      !["pending", "paid", "failed", "refunded"].includes(paymentStatus)
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Invalid payment status"
+        message: "Invalid payment status",
       });
     }
 

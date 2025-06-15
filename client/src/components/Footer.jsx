@@ -24,20 +24,20 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-[#fbe9e7] to-[#ffccbc] text-[#6e2c00] py-16">
+    <footer className="bg-gradient-to-b from-[#fbe9e7] to-[#ffccbc] text-[#6e2c00] py-8 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={footerVariants}
         >
           <motion.div
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-3 sm:gap-4"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
+            <h3 className="text-lg sm:text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
               About DesiEtsy
             </h3>
             <p className="text-sm leading-relaxed text-[#6e2c00]/80">
@@ -46,13 +46,13 @@ const Footer = () => {
           </motion.div>
 
           <motion.div
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-3 sm:gap-4"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
+            <h3 className="text-lg sm:text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
               Quick Links
             </h3>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 sm:gap-3">
               <Link to="/" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
                 <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 Home
@@ -77,13 +77,13 @@ const Footer = () => {
           </motion.div>
 
           <motion.div
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-3 sm:gap-4"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
+            <h3 className="text-lg sm:text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
               Categories
             </h3>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 sm:gap-3">
               {[
                 { name: 'Jewelry', path: '/products?category=jewelry' },
                 { name: 'Clothing', path: '/products?category=clothing' },
@@ -104,25 +104,25 @@ const Footer = () => {
           </motion.div>
 
           <motion.div
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-3 sm:gap-4"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
+            <h3 className="text-lg sm:text-xl font-bold text-[#d35400] relative inline-block after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-12 after:h-1 after:bg-[#d35400]">
               Connect With Us
             </h3>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 sm:gap-3">
               <a
                 href="mailto:support@desietsy.com"
-                className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group"
+                className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group break-all"
               >
-                <FaEnvelope className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                <FaEnvelope className="w-4 h-4 group-hover:scale-110 transition-transform duration-300 flex-shrink-0" />
                 support@desietsy.com
               </a>
               <a
                 href="tel:+911234567890"
                 className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group"
               >
-                <FaPhone className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                <FaPhone className="w-4 h-4 group-hover:scale-110 transition-transform duration-300 flex-shrink-0" />
                 +91 1234567890
               </a>
             </div>
@@ -149,7 +149,7 @@ const Footer = () => {
         </motion.div>
 
         <motion.div
-          className="text-center mt-12 pt-8 border-t border-[#6e2c00]/10"
+          className="text-center mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-[#6e2c00]/10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}

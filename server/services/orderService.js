@@ -1,5 +1,5 @@
-const Order = require('../models/Order');
-const Product = require('../models/Product');
+const Order = require("../models/Order");
+const Product = require("../models/Product");
 
 class OrderService {
   static calculateOrderTotals(items, shippingCost = 0, taxRate = 0.18) {
@@ -65,7 +65,7 @@ class OrderService {
 
       const validation = await this.validateOrderItems(items);
       if (!validation.isValid) {
-        throw new Error(validation.errors.join(', '));
+        throw new Error(validation.errors.join(", "));
       }
 
       const totals = this.calculateOrderTotals(items);
@@ -89,19 +89,21 @@ class OrderService {
     try {
       const order = await Order.findOne({ _id: orderId, user: userId });
       if (!order) {
-        throw new Error('Order not found');
+        throw new Error("Order not found");
       }
 
       const validTransitions = {
-        pending: ['processing', 'cancelled'],
-        processing: ['shipped', 'cancelled'],
-        shipped: ['delivered'],
+        pending: ["processing", "cancelled"],
+        processing: ["shipped", "cancelled"],
+        shipped: ["delivered"],
         delivered: [],
         cancelled: [],
       };
 
       if (!validTransitions[order.orderStatus].includes(status)) {
-        throw new Error(`Invalid status transition from ${order.orderStatus} to ${status}`);
+        throw new Error(
+          `Invalid status transition from ${order.orderStatus} to ${status}`
+        );
       }
 
       order.orderStatus = status;
@@ -116,18 +118,20 @@ class OrderService {
     try {
       const order = await Order.findById(orderId);
       if (!order) {
-        throw new Error('Order not found');
+        throw new Error("Order not found");
       }
 
       const validTransitions = {
-        pending: ['paid', 'failed'],
-        paid: ['refunded'],
-        failed: ['pending'],
+        pending: ["paid", "failed"],
+        paid: ["refunded"],
+        failed: ["pending"],
         refunded: [],
       };
 
       if (!validTransitions[order.paymentStatus].includes(paymentStatus)) {
-        throw new Error(`Invalid payment status transition from ${order.paymentStatus} to ${paymentStatus}`);
+        throw new Error(
+          `Invalid payment status transition from ${order.paymentStatus} to ${paymentStatus}`
+        );
       }
 
       order.paymentStatus = paymentStatus;
@@ -136,9 +140,9 @@ class OrderService {
         ...paymentDetails,
       };
 
-      if (paymentStatus === 'paid') {
+      if (paymentStatus === "paid") {
         await this.updateProductStock(order.items);
-        order.orderStatus = 'processing';
+        order.orderStatus = "processing";
       }
 
       await order.save();
@@ -171,10 +175,12 @@ class OrderService {
     try {
       const order = await Order.findOne({ _id: orderId, user: userId });
       if (!order) {
-        throw new Error('Order not found');
+        throw new Error("Order not found");
       }
 
-      return order.orderStatus === 'pending' && order.paymentStatus === 'pending';
+      return (
+        order.orderStatus === "pending" && order.paymentStatus === "pending"
+      );
     } catch (error) {
       throw new Error(`Error checking order cancellation: ${error.message}`);
     }
@@ -184,7 +190,7 @@ class OrderService {
     try {
       const order = await Order.findOne({ _id: orderId, user: userId });
       if (!order) {
-        throw new Error('Order not found');
+        throw new Error("Order not found");
       }
 
       const orderAge = Math.floor(
@@ -192,8 +198,8 @@ class OrderService {
       );
 
       return (
-        order.paymentStatus === 'paid' &&
-        ['processing', 'shipped'].includes(order.orderStatus) &&
+        order.paymentStatus === "paid" &&
+        ["processing", "shipped"].includes(order.orderStatus) &&
         orderAge <= 7
       );
     } catch (error) {
@@ -204,12 +210,12 @@ class OrderService {
   static async getUserOrders(userId, page = 1, limit = 10) {
     try {
       const skip = (page - 1) * limit;
-      
+
       const orders = await Order.find({ user: userId })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .populate('items.product', 'name images price');
+        .populate("items.product", "name images price");
 
       const total = await Order.countDocuments({ user: userId });
 
@@ -229,11 +235,11 @@ class OrderService {
   static async getOrderDetails(orderId, userId) {
     try {
       const order = await Order.findOne({ _id: orderId, user: userId })
-        .populate('items.product', 'name images price')
-        .populate('user', 'name email');
+        .populate("items.product", "name images price")
+        .populate("user", "name email");
 
       if (!order) {
-        throw new Error('Order not found');
+        throw new Error("Order not found");
       }
 
       return order;
@@ -245,18 +251,20 @@ class OrderService {
   static async getOrderByPaymentIntent(paymentIntentId) {
     try {
       const order = await Order.findOne({
-        'paymentDetails.paymentIntentId': paymentIntentId,
+        "paymentDetails.paymentIntentId": paymentIntentId,
       });
 
       if (!order) {
-        throw new Error('Order not found for payment intent');
+        throw new Error("Order not found for payment intent");
       }
 
       return order;
     } catch (error) {
-      throw new Error(`Error fetching order by payment intent: ${error.message}`);
+      throw new Error(
+        `Error fetching order by payment intent: ${error.message}`
+      );
     }
   }
 }
 
-module.exports = OrderService; 
+module.exports = OrderService;

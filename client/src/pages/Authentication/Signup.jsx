@@ -57,20 +57,20 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen pt-20 bg-[#fdf8f3]">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen pt-16 sm:pt-20 bg-[#fdf8f3]">
+      <div className="container mx-auto px-4 py-4 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="max-w-[420px] mx-auto"
         >
-          <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-2xl shadow-xl w-full transition-all duration-300">
+          <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full transition-all duration-300">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-center mb-2.5 text-3xl font-bold text-gray-800"
+              className="text-center mb-2 text-2xl sm:text-3xl font-bold text-gray-800"
             >
               Create Account ✨
             </motion.h2>
@@ -78,7 +78,7 @@ const Signup = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-center mb-8 text-sm text-gray-500"
+              className="text-center mb-6 sm:mb-8 text-xs sm:text-sm text-gray-500"
             >
               Join our community of artisans and customers
             </motion.p>
@@ -99,10 +99,10 @@ const Signup = () => {
                     message: "Username must be at least 3 characters"
                   }
                 })}
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
               />
               {errors.username && (
-                <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.username.message}</p>
               )}
             </motion.div>
 
@@ -122,10 +122,10 @@ const Signup = () => {
                     message: "Invalid email address"
                   }
                 })}
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email.message}</p>
               )}
             </motion.div>
 
@@ -137,7 +137,7 @@ const Signup = () => {
             >
               <select
                 {...register("gender", { required: "Please select your gender" })}
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
               >
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
@@ -145,7 +145,7 @@ const Signup = () => {
                 <option value="other">Other</option>
               </select>
               {errors.gender && (
-                <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.gender.message}</p>
               )}
             </motion.div>
 
@@ -165,10 +165,10 @@ const Signup = () => {
                     message: "Password must be at least 6 characters"
                   }
                 })}
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.password.message}</p>
               )}
             </motion.div>
 
@@ -185,10 +185,10 @@ const Signup = () => {
                   required: "Please confirm your password",
                   validate: value => value === watch('password') || "Passwords do not match"
                 })}
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
               />
               {errors.confirmPassword && (
-                <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.confirmPassword.message}</p>
               )}
             </motion.div>
 
@@ -196,18 +196,18 @@ const Signup = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
-              className="mb-6"
+              className="mb-4 sm:mb-6"
             >
               <select
                 {...register("role", { required: "Please select your role" })}
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
               >
                 <option value="">Select Role</option>
                 <option value="user">Customer</option>
                 <option value="artisan">Artisan</option>
               </select>
               {errors.role && (
-                <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.role.message}</p>
               )}
             </motion.div>
 
@@ -217,7 +217,7 @@ const Signup = () => {
               transition={{ duration: 0.5, delay: 0.9 }}
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 bg-[#d35400] text-white text-base font-semibold rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 disabled:bg-[#d35400]/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="w-full py-3 sm:py-3.5 bg-[#d35400] text-white text-sm sm:text-base font-semibold rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 disabled:bg-[#d35400]/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               {isLoading ? "Creating Account..." : "Sign Up"}
             </motion.button>
@@ -226,7 +226,7 @@ const Signup = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1 }}
-              className="text-center mt-6 text-sm text-gray-600"
+              className="text-center mt-4 sm:mt-6 text-xs sm:text-sm text-gray-600"
             >
               Already have an account?{" "}
               <Link to="/login" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">

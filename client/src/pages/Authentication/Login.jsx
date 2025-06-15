@@ -75,7 +75,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-5 font-sans">
+    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -87,13 +87,13 @@ const Login = () => {
             e.preventDefault();
             handleSubmit(onSubmit)(e);
           }}
-          className="bg-white p-10 rounded-2xl shadow-xl w-full transition-all duration-300"
+          className="bg-white p-6 sm:p-10 rounded-2xl shadow-xl w-full transition-all duration-300"
         >
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-center mb-2.5 text-3xl font-bold text-gray-800"
+            className="text-center mb-2 text-2xl sm:text-3xl font-bold text-gray-800"
           >
             Welcome Back 👋
           </motion.h2>
@@ -101,7 +101,7 @@ const Login = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center mb-8 text-sm text-gray-500"
+            className="text-center mb-6 sm:mb-8 text-xs sm:text-sm text-gray-500"
           >
             Login to continue shopping
           </motion.p>
@@ -122,10 +122,10 @@ const Login = () => {
                   message: "Invalid email address"
                 }
               })}
-              className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+              className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email.message}</p>
             )}
           </motion.div>
 
@@ -145,10 +145,10 @@ const Login = () => {
                   message: "Password must be at least 6 characters"
                 }
               })}
-              className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
+              className="w-full px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl border border-gray-200 text-sm sm:text-[15px] transition-all duration-300 focus:outline-none focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400]/20 bg-white"
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.password.message}</p>
             )}
           </motion.div>
 
@@ -156,9 +156,9 @@ const Login = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="text-right mb-6"
+            className="text-right mb-4 sm:mb-6"
           >
-            <NavLink to="/sendOTP" className="text-sm text-[#d35400] hover:text-[#b34700] transition-colors">
+            <NavLink to="/sendOTP" className="text-xs sm:text-sm text-[#d35400] hover:text-[#b34700] transition-colors">
               Forgot Password?
             </NavLink>
           </motion.div>
@@ -169,7 +169,7 @@ const Login = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 bg-[#d35400] text-white text-base font-semibold rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 disabled:bg-[#d35400]/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+            className="w-full py-3 sm:py-3.5 bg-[#d35400] text-white text-sm sm:text-base font-semibold rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 disabled:bg-[#d35400]/50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
           >
             {isLoading ? "Logging in..." : "Login"}
           </motion.button>
@@ -178,7 +178,7 @@ const Login = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="text-center mt-6 text-sm text-gray-600"
+            className="text-center mt-4 sm:mt-6 text-xs sm:text-sm text-gray-600"
           >
             Don't have an account?{" "}
             <NavLink to="/signup" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">

@@ -292,24 +292,24 @@ exports.changePassword = async (req, res) => {
   try {
     const user = await User.findById(userId);
     if (!user) {
-      return res.json({ 
-        success: false, 
-        message: "User not found" 
+      return res.json({
+        success: false,
+        message: "User not found",
       });
     }
 
     const isMatch = await PlainPassword(current_password, user.password);
     if (!isMatch) {
-      return res.json({ 
-        success: false, 
-        message: "Current password is incorrect" 
+      return res.json({
+        success: false,
+        message: "Current password is incorrect",
       });
     }
 
     if (new_password !== confirmpassword) {
       return res.json({
         success: false,
-        message: "New passwords do not match"
+        message: "New passwords do not match",
       });
     }
 
@@ -319,13 +319,13 @@ exports.changePassword = async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Password changed successfully"
+      message: "Password changed successfully",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Failed to change password",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -544,7 +544,7 @@ exports.verifyOTP = async (req, res) => {
     if (otp === user.otp) {
       user.otp = undefined;
       user.otpExpiry = undefined;
-      
+
       if (type === "signup" && user.role === "user") {
         user.isVerified = true;
         await user.save();
@@ -556,14 +556,14 @@ exports.verifyOTP = async (req, res) => {
             username: user.username,
             email: user.email,
             role: user.role,
-            isVerified: user.isVerified
-          }
+            isVerified: user.isVerified,
+          },
         });
       } else {
         await user.save();
         return res.json({
           success: true,
-          message: "OTP verified successfully"
+          message: "OTP verified successfully",
         });
       }
     } else {

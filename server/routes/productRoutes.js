@@ -22,11 +22,22 @@ router.post(
 
 router.get("/view_products", view_products);
 
-router.get("/view_artisan_products", verifyuser, requireRole("artisan"), view_artisan_products);
+router.get(
+  "/view_artisan_products",
+  verifyuser,
+  requireRole("artisan"),
+  view_artisan_products
+);
 
 router.get("/get_product/:id", get_product);
 
-router.put("/update_product/:id", verifyuser, requireRole("artisan"), upload.array("images", 5), update_product);
+router.put(
+  "/update_product/:id",
+  verifyuser,
+  requireRole("artisan"),
+  upload.array("images", 5),
+  update_product
+);
 
 router.delete(
   "/delete_product/:id",

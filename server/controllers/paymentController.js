@@ -1,45 +1,46 @@
-const OrderService = require('../services/orderService');
+const OrderService = require("../services/orderService");
 
 let stripe;
 try {
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
   if (!STRIPE_SECRET_KEY) {
-    console.error('STRIPE_SECRET_KEY is not set');
+    console.error("STRIPE_SECRET_KEY is not set");
   } else {
-    stripe = require('stripe')(STRIPE_SECRET_KEY);
-    console.log('Stripe initialized successfully');
+    stripe = require("stripe")(STRIPE_SECRET_KEY);
+    console.log("Stripe initialized successfully");
   }
 } catch (error) {
-  console.error('Error initializing Stripe:', error);
+  console.error("Error initializing Stripe:", error);
 }
 
 exports.createPaymentIntent = async (req, res) => {
   try {
     if (!stripe) {
-      console.error('Stripe not initialized');
+      console.error("Stripe not initialized");
       return res.status(503).json({
         success: false,
-        message: 'Payment service is not configured. Please check your STRIPE_SECRET_KEY',
+        message:
+          "Payment service is not configured. Please check your STRIPE_SECRET_KEY",
       });
     }
 
-    const { amount, currency = 'usd', orderId } = req.body;
+    const { amount, currency = "usd", orderId } = req.body;
 
     if (!amount || amount <= 0) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid amount provided',
+        message: "Invalid amount provided",
       });
     }
 
-    console.log('Creating payment intent for amount:', amount);
+    console.log("Creating payment intent for amount:", amount);
 
     if (orderId) {
       const order = await OrderService.getOrderDetails(orderId, req.user._id);
-      if (order.paymentStatus !== 'pending') {
+      if (order.paymentStatus !== "pending") {
         return res.status(400).json({
           success: false,
-          message: 'Order is not in pending state',
+          message: "Order is not in pending state",
         });
       }
     }
@@ -49,12 +50,12 @@ exports.createPaymentIntent = async (req, res) => {
       currency: currency.toLowerCase(),
       automatic_payment_methods: { enabled: true },
       metadata: {
-        orderId: orderId || 'pending',
+        orderId: orderId || "pending",
         userId: req.user._id.toString(),
       },
     });
 
-    console.log('Payment intent created successfully:', paymentIntent.id);
+    console.log("Payment intent created successfully:", paymentIntent.id);
 
     res.json({
       success: true,
@@ -62,32 +63,33 @@ exports.createPaymentIntent = async (req, res) => {
       paymentIntentId: paymentIntent.id,
     });
   } catch (error) {
-    console.error('Payment Intent Error:', error);
+    console.error("Payment Intent Error:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Error creating payment intent',
+      message: error.message || "Error creating payment intent",
     });
   }
 };
 
 exports.handlePaymentStatus = async (req, res) => {
   try {
-   
     const { orderId, paymentIntentId, status, error } = req.body;
 
     if (!orderId || !paymentIntentId) {
       return res.status(400).json({
         success: false,
-        message: 'Order ID and Payment Intent ID are required',
+        message: "Order ID and Payment Intent ID are required",
       });
     }
 
-    if (status === 'paid') {
-      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-      if (paymentIntent.status !== 'succeeded') {
+    if (status === "paid") {
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        paymentIntentId
+      );
+      if (paymentIntent.status !== "succeeded") {
         return res.status(400).json({
           success: false,
-          message: 'Payment has not been completed',
+          message: "Payment has not been completed",
         });
       }
     }
@@ -95,7 +97,7 @@ exports.handlePaymentStatus = async (req, res) => {
     const order = await OrderService.updatePaymentStatus(orderId, status, {
       paymentIntentId,
       status,
-      [status === 'paid' ? 'paidAt' : 'failedAt']: new Date(),
+      [status === "paid" ? "paidAt" : "failedAt"]: new Date(),
       ...(error && { error }),
     });
 
@@ -109,7 +111,7 @@ exports.handlePaymentStatus = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Payment Status Error:', error);
+    console.error("Payment Status Error:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -123,18 +125,21 @@ exports.getPaymentStatus = async (req, res) => {
     const order = await OrderService.getOrderDetails(orderId, req.user._id);
 
     // Check Stripe status if payment is pending
-    if (order.paymentStatus === 'pending' && order.paymentDetails?.paymentIntentId) {
+    if (
+      order.paymentStatus === "pending" &&
+      order.paymentDetails?.paymentIntentId
+    ) {
       const paymentIntent = await stripe.paymentIntents.retrieve(
         order.paymentDetails.paymentIntentId
       );
-      
-      if (paymentIntent.status === 'succeeded') {
-        await OrderService.updatePaymentStatus(orderId, 'paid', {
-          status: 'succeeded',
+
+      if (paymentIntent.status === "succeeded") {
+        await OrderService.updatePaymentStatus(orderId, "paid", {
+          status: "succeeded",
           paidAt: new Date(),
         });
-        order.paymentStatus = 'paid';
-        order.orderStatus = 'processing';
+        order.paymentStatus = "paid";
+        order.orderStatus = "processing";
       }
     }
 
@@ -145,7 +150,7 @@ exports.getPaymentStatus = async (req, res) => {
       paymentDetails: order.paymentDetails,
     });
   } catch (error) {
-    console.error('Payment Status Error:', error);
+    console.error("Payment Status Error:", error);
     res.status(500).json({
       success: false,
       message: error.message,

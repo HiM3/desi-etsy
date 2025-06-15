@@ -63,40 +63,40 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-5 font-sans">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-[420px] transition-all duration-300">
-        <h2 className="text-center mb-2.5 text-2xl text-gray-800">Change Password</h2>
-        <p className="text-center mb-6 text-sm text-gray-500">Enter your new password</p>
+    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl shadow-lg w-full max-w-[320px] sm:max-w-[380px] md:max-w-[420px] transition-all duration-300">
+        <h2 className="text-center mb-2 text-xl sm:text-2xl text-gray-800">Change Password</h2>
+        <p className="text-center mb-4 sm:mb-6 text-xs sm:text-sm text-gray-500">Enter your new password</p>
 
-        <div className="mb-3">
+        <div className="mb-3 sm:mb-4">
           <input
             type="password"
             placeholder="Current Password"
             {...register("current_password", {
               required: "Current password is required"
             })}
-            className="w-full px-4 py-3.5 rounded-lg border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-lg border border-gray-300 text-sm sm:text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
           />
           {errors.current_password && (
-            <p className="text-red-500 text-sm mt-1">{errors.current_password.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.current_password.message}</p>
           )}
         </div>
 
-        <div className="mb-3">
+        <div className="mb-3 sm:mb-4">
           <input
             type="password"
             placeholder="New Password"
             {...register("new_password", {
               required: "New password is required"
             })}
-            className="w-full px-4 py-3.5 rounded-lg border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-lg border border-gray-300 text-sm sm:text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
           />
           {errors.new_password && (
-            <p className="text-red-500 text-sm mt-1">{errors.new_password.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.new_password.message}</p>
           )}
         </div>
 
-        <div className="mb-3">
+        <div className="mb-4 sm:mb-5">
           <input
             type="password"
             placeholder="Confirm New Password"
@@ -104,22 +104,22 @@ const ChangePassword = () => {
               required: "Please confirm your password",
               validate: value => value === newPassword || "Passwords do not match"
             })}
-            className="w-full px-4 py-3.5 rounded-lg border border-gray-300 text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-lg border border-gray-300 text-sm sm:text-[15px] transition-colors duration-200 focus:outline-none focus:border-teal-600 bg-white"
           />
           {errors.confirmpassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.confirmpassword.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.confirmpassword.message}</p>
           )}
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 bg-[#d35400] text-white text-base rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-2.5 sm:py-3.5 bg-[#d35400] text-white text-sm sm:text-base rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 hover:bg-[#b34700] hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Changing Password..." : "Change Password"}
         </button>
 
-        <p className="text-center mt-6 text-sm text-gray-600">
+        <p className="text-center mt-4 sm:mt-6 text-xs sm:text-sm text-gray-600">
           Remember your password?{" "}
           <a href="/login" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">
             Login

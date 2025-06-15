@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
@@ -90,7 +90,15 @@ const orderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["card", "upi", "netbanking", "cod", "stripe", "paypal", "razorpay"],
+      enum: [
+        "card",
+        "upi",
+        "netbanking",
+        "cod",
+        "stripe",
+        "paypal",
+        "razorpay",
+      ],
       required: true,
     },
     paymentDetails: {

@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  
+
   const [cartCount, setCartCount] = useState(() => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     window.addEventListener('cartUpdated', handleCartUpdate);
     window.addEventListener('userLoggedIn', handleUserLogin);
     window.addEventListener('userLoggedOut', handleUserLogout);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('cartUpdated', handleCartUpdate);

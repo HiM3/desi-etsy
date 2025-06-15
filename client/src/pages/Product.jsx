@@ -155,14 +155,14 @@ const Product = () => {
   };
 
   const filteredProducts = products.filter(product => {
-    const matchesSearch = 
+    const matchesSearch =
       product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.creator.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.materials.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -191,13 +191,13 @@ const Product = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Discover Handcrafted Treasures</h1>
+    <div className="min-h-screen pt-16 sm:pt-20 bg-gray-50">
+      <div className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Discover Handcrafted Treasures</h1>
         </div>
 
-        <div className="max-w-3xl mx-auto mb-12">
+        <div className="max-w-3xl mx-auto mb-8 sm:mb-12">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
               <input
@@ -205,7 +205,7 @@ const Product = () => {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-[#FF6B6B] focus:border-[#FF6B6B]"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-[#FF6B6B] focus:border-[#FF6B6B] text-sm sm:text-base"
               />
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
             </div>
@@ -213,7 +213,7 @@ const Product = () => {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full md:w-48 px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-[#FF6B6B] focus:border-[#FF6B6B]"
+              className="w-full md:w-48 px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-[#FF6B6B] focus:border-[#FF6B6B] text-sm sm:text-base"
             >
               {categories.map(category => (
                 <option key={category.id} value={category.id}>
@@ -224,13 +224,13 @@ const Product = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product._id}
               className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
             >
-              <div className="relative h-64 group">
+              <div className="relative h-48 sm:h-64 group">
                 <img
                   src={`${import.meta.env.VITE_API_URL}/uploads/${product.images[currentImageIndex[product._id]]}`}
                   alt={product.title}
@@ -243,26 +243,26 @@ const Product = () => {
                         e.stopPropagation();
                         prevImage(product._id, product.images.length);
                       }}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition-colors"
                     >
-                      <FaChevronLeft />
+                      <FaChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
                     </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         nextImage(product._id, product.images.length);
                       }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1.5 sm:p-2 rounded-full hover:bg-black/70 transition-colors"
                     >
-                      <FaChevronRight />
+                      <FaChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                     </button>
                     <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
                       {product.images.map((_, index) => (
                         <div
                           key={index}
-                          className={`w-2 h-2 rounded-full ${currentImageIndex[product._id] === index
-                              ? 'bg-white'
-                              : 'bg-white/50'
+                          className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${currentImageIndex[product._id] === index
+                            ? 'bg-white'
+                            : 'bg-white/50'
                             }`}
                         />
                       ))}
@@ -270,53 +270,53 @@ const Product = () => {
                   </>
                 )}
                 {product.isApproved && (
-                  <div className="absolute top-4 left-4 bg-[#FF6B6B] text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-[#FF6B6B] text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium">
                     Verified
                   </div>
                 )}
               </div>
-              <div className="p-6">
-                <div className="mb-3">
-                  <p className="text-sm text-gray-600">Crafted by</p>
-                  <Link 
+              <div className="p-4 sm:p-6">
+                <div className="mb-2 sm:mb-3">
+                  <p className="text-xs sm:text-sm text-gray-600">Crafted by</p>
+                  <Link
                     to={`/artisan/${product.createdBy}`}
-                    className="font-medium text-gray-800 hover:text-[#FF6B6B] transition-colors"
+                    className="font-medium text-gray-800 hover:text-[#FF6B6B] transition-colors text-sm sm:text-base"
                   >
                     {product.creator || 'Unknown Artisan'}
                   </Link>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800 mb-2 line-clamp-1">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-1 sm:mb-2 line-clamp-1">
                   {product.title}
                 </h2>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2">
                   {product.description}
                 </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
                     <span className="font-medium">Materials:</span>
                     <span>{product.materials}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
                     <span className="font-medium">Size:</span>
                     <span>{product.size}</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-bold text-[#FF6B6B]">${product.price.toLocaleString()}</span>
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <span className="text-xl sm:text-2xl font-bold text-[#FF6B6B]">${product.price.toLocaleString()}</span>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3">
                   <button
                     onClick={() => handleAddToCart(product)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-[#FF6B6B] text-white py-3 rounded-lg hover:bg-[#FF5252] transition-colors duration-300"
+                    className="flex-1 flex items-center justify-center gap-1 sm:gap-2 bg-[#FF6B6B] text-white py-2 sm:py-3 rounded-lg hover:bg-[#FF5252] transition-colors duration-300 text-xs sm:text-sm"
                   >
-                    <FaShoppingCart />
+                    <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
                     Add to Cart
                   </button>
                   <button
                     onClick={() => handleBuyNow(product)}
-                    className="flex-1 flex items-center justify-center gap-2 bg-white border-2 border-[#FF6B6B] text-[#FF6B6B] py-3 rounded-lg hover:bg-[#FF6B6B] hover:text-white transition-colors duration-300"
+                    className="flex-1 flex items-center justify-center gap-1 sm:gap-2 bg-white border-2 border-[#FF6B6B] text-[#FF6B6B] py-2 sm:py-3 rounded-lg hover:bg-[#FF6B6B] hover:text-white transition-colors duration-300 text-xs sm:text-sm"
                   >
-                    <FaBolt />
+                    <FaBolt className="w-3 h-3 sm:w-4 sm:h-4" />
                     Buy Now
                   </button>
                 </div>
@@ -325,8 +325,8 @@ const Product = () => {
           ))}
         </div>
         {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-xl">No products found</p>
+          <div className="text-center py-8 sm:py-12">
+            <p className="text-gray-600 text-base sm:text-xl">No products found</p>
           </div>
         )}
       </div>

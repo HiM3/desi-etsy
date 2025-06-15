@@ -18,6 +18,11 @@ router.get("/getOrder/:id", verifyuser, getOrder);
 router.put("/cancelOrder/:id/cancel", verifyuser, cancelOrder);
 
 router.get("/artisan-orders", verifyuser, requireRole("artisan"), getAllOrders);
-router.put("/:id/status", verifyuser, requireRole("artisan"), updateOrderStatus);
+router.put(
+  "/:id/status",
+  verifyuser,
+  requireRole("artisan"),
+  updateOrderStatus
+);
 
 module.exports = router;

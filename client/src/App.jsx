@@ -23,10 +23,10 @@ const ArtisanDashboard = lazy(() => import('./pages/Artisian/Dashboard'));
 const CreateProduct = lazy(() => import('./pages/Artisian/CreateProduct'));
 const ViewProduct = lazy(() => import('./pages/Artisian/ViewProduct'));
 const AdminDashboard = lazy(() => import('./Admin/Dashboard'));
-const About = lazy(()=> import('./components/About'))
-const Checkout = lazy(()=> import('./pages/Checkout/Checkout'))
-const Orders = lazy(()=> import('./pages/Artisian/Orders'))
-const Myorders = lazy(()=> import('./pages/Myorders'))
+const About = lazy(() => import('./components/About'))
+const Checkout = lazy(() => import('./pages/Checkout/Checkout'))
+const Orders = lazy(() => import('./pages/Artisian/Orders'))
+const Myorders = lazy(() => import('./pages/Myorders'))
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen">
     <LoadingSpinner />
@@ -57,7 +57,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/product" element={<Product />} />
-                  
+
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/sendOTP" element={<SendOTP />} />
@@ -85,8 +85,8 @@ function App() {
                       <div className="text-center">
                         <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
                         <p className="text-gray-600 mb-4">Page not found</p>
-                        <Link 
-                          to="/" 
+                        <Link
+                          to="/"
                           className="inline-block bg-[#d35400] text-white px-6 py-3 rounded-full hover:bg-[#b34700] transition-colors duration-300"
                         >
                           Return to Home

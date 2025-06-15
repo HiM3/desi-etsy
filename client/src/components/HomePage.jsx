@@ -5,13 +5,11 @@ import 'slick-carousel/slick/slick-theme.css';
 import { FaQuoteLeft, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-// Import images
 import banner1 from '../components/Slider-Images/combine.jpg';
 import banner2 from '../components/Slider-Images/combine2.jpg';
 import banner3 from '../components/Slider-Images/combine3.jpg';
 
 const HomePage = () => {
-  // Hero Banner Data
   const slides = [
     {
       img: banner1,
@@ -45,7 +43,6 @@ const HomePage = () => {
     )
   };
 
-  // Category Grid Data
   const categories = [
     { name: "Handmade Jewelry", img: "5.jpg", description: "Unique pieces crafted with love" },
     { name: "Clay Pots", img: "2.jpg", description: "Traditional pottery with modern designs" },
@@ -53,7 +50,6 @@ const HomePage = () => {
     { name: "Paintings", img: "6.jpg", description: "Art that tells stories" }
   ];
 
-  // Featured Products Data
   const featuredProducts = [
     { name: "Handcrafted Necklace", price: "$45", img: "Necklace.jpg" },
     { name: "Ceramic Vase", price: "$35", img: "1.jpg" },
@@ -61,7 +57,6 @@ const HomePage = () => {
     { name: "Wall Painting", price: "$120", img: "Wall_Painting.jpg" }
   ];
 
-  // Artisan Data
   const artisans = [
     {
       name: "Priya Sharma",
@@ -80,7 +75,6 @@ const HomePage = () => {
     }
   ];
 
-  // Testimonials Data
   const testimonials = [
     {
       text: "The quality of products is exceptional. Each piece tells a story of our rich cultural heritage.",
@@ -108,12 +102,12 @@ const HomePage = () => {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
-              <div className="absolute top-1/2 left-[10%] -translate-y-1/2 text-white max-w-[700px] z-10">
+              <div className="absolute top-1/2 left-[10%] -translate-y-1/2 text-white max-w-[700px] z-10 px-4 sm:px-6 lg:px-8">
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-6xl font-bold mb-6 text-shadow-lg"
+                  className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-shadow-lg"
                 >
                   {slide.title}
                 </motion.h1>
@@ -121,7 +115,7 @@ const HomePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-xl mb-10 text-shadow-lg"
+                  className="text-lg sm:text-xl mb-6 sm:mb-10 text-shadow-lg"
                 >
                   {slide.subtitle}
                 </motion.p>
@@ -129,18 +123,18 @@ const HomePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="flex gap-6"
+                  className="flex flex-col sm:flex-row gap-4 sm:gap-6"
                 >
                   <a
                     href="/product"
-                    className="group bg-[#d35400] text-white px-10 py-5 rounded-full text-xl font-medium shadow-lg hover:bg-[#b34700] hover:-translate-y-1 transition-all duration-300 flex items-center gap-3"
+                    className="group bg-[#d35400] text-white px-6 sm:px-10 py-3 sm:py-5 rounded-full text-base sm:text-xl font-medium shadow-lg hover:bg-[#b34700] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
                   >
                     Shop Now
                     <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
                   </a>
                   <a
                     href="/about"
-                    className="bg-white/10 backdrop-blur-sm text-white px-10 py-5 rounded-full text-xl font-medium shadow-lg border-2 border-white hover:bg-white/20 hover:-translate-y-1 transition-all duration-300"
+                    className="bg-white/10 backdrop-blur-sm text-white px-6 sm:px-10 py-3 sm:py-5 rounded-full text-base sm:text-xl font-medium shadow-lg border-2 border-white hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
                     Learn More
                   </a>
@@ -151,18 +145,18 @@ const HomePage = () => {
         </Slider>
       </div>
 
-      <div className="py-20 bg-[#fdf8f3]">
+      <div className="py-12 sm:py-20 bg-[#fdf8f3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-bold mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
+            className="text-3xl sm:text-4xl font-bold mb-12 sm:mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
           >
             Explore Our Categories
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {categories.map((cat, index) => (
               <motion.div
                 key={index}
@@ -206,18 +200,18 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-20 bg-white">
+      <div className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-bold mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
+            className="text-3xl sm:text-4xl font-bold mb-12 sm:mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
           >
             Featured Products
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {featuredProducts.map((product, index) => (
               <motion.div
                 key={index}
@@ -246,18 +240,18 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-20 bg-gray-50">
+      <div className="py-12 sm:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-bold mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
+            className="text-3xl sm:text-4xl font-bold mb-12 sm:mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
           >
             Meet Our Artisans
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {artisans.map((artisan, index) => (
               <motion.div
                 key={index}
@@ -283,18 +277,18 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-20 bg-white">
+      <div className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-bold mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
+            className="text-3xl sm:text-4xl font-bold mb-12 sm:mb-16 text-center relative after:content-[''] after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-1 after:bg-[#d35400]"
           >
             What Our Customers Say
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}

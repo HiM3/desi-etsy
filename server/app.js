@@ -20,8 +20,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/auth", authRoutes);
 app.use("/artisans", artisanRoutes);
@@ -29,7 +28,6 @@ app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payments", paymentRoutes);
-
 
 app.get("/", (req, res) => {
   return res.send("API Working");

@@ -10,7 +10,12 @@ const router = express.Router();
 
 router.get("/showcase", getAllApprovedArtisans);
 
-router.get("/dashboard", verifyuser, requireRole("artisan"), getArtisanDashboard);
+router.get(
+  "/dashboard",
+  verifyuser,
+  requireRole("artisan"),
+  getArtisanDashboard
+);
 
 router.get("/getArtisanById/:id", getArtisanById);
 
