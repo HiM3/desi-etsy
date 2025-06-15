@@ -1,12 +1,10 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 
-// Create a new order
 exports.createOrder = async (req, res) => {
   try {
-    const { items, shippingAddress, paymentMethod } = req.body;
+    const { items, shippingAddress, paymentMethod, totalAmount, paymentDetails } = req.body;
 
-    // Validate required fields
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
         success: false,
@@ -28,7 +26,6 @@ exports.createOrder = async (req, res) => {
       });
     }
 
-    // Validate items and get product details
     const orderItems = await Promise.all(
       items.map(async (item) => {
         if (!item.product || !item.quantity) {
@@ -47,25 +44,35 @@ exports.createOrder = async (req, res) => {
         return {
           product: item.product,
           quantity: item.quantity,
-          price: product.price,
+          price: item.price || product.price,
         };
       })
     );
 
-    // Calculate total amount
-    const totalAmount = orderItems.reduce(
+    const calculatedTotal = orderItems.reduce(
       (total, item) => total + (item.price * item.quantity),
       0
     );
+
+    const finalTotalAmount = totalAmount || calculatedTotal;
+
+    let initialPaymentStatus = "pending";
+    if (paymentMethod === "stripe" && paymentDetails?.status === "succeeded") {
+      initialPaymentStatus = "paid";
+    }
 
     const order = new Order({
       user: req.user._id,
       items: orderItems,
       shippingAddress,
       paymentMethod,
-      totalAmount,
-      status: "pending",
-      paymentStatus: "pending"
+      totalAmount: finalTotalAmount,
+      finalAmount: finalTotalAmount,
+      shippingCost: 0,
+      taxAmount: 0,
+      orderStatus: "pending",
+      paymentStatus: initialPaymentStatus,
+      paymentDetails: paymentDetails || {}
     });
 
     await order.save();
@@ -76,6 +83,7 @@ exports.createOrder = async (req, res) => {
       data: order,
     });
   } catch (error) {
+    console.error('Order creation error:', error);
     res.status(400).json({
       success: false,
       message: "Failed to create order",
@@ -84,10 +92,8 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// Get all orders (admin only)
 exports.getAllOrders = async (req, res) => {
   try {
-    // Check if user is admin
     if (req.user.role !== "artisan") {
       return res.status(403).json({
         success: false,
@@ -114,7 +120,6 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
-// Get user's orders
 exports.getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id })
@@ -135,7 +140,6 @@ exports.getUserOrders = async (req, res) => {
   }
 };
 
-// Get single order
 exports.getOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
@@ -149,7 +153,6 @@ exports.getOrder = async (req, res) => {
       });
     }
 
-    // Check if the order belongs to the user or if user is admin
     if (
       order.user._id.toString() !== req.user._id.toString() &&
       req.user.role !== "user"
@@ -183,17 +186,15 @@ exports.updateOrderStatus = async (req, res) => {
       });
     }
 
-    const { status, paymentStatus, trackingNumber } = req.body;
+    const { orderStatus, paymentStatus, trackingNumber } = req.body;
 
-    // Validate status if provided
-    if (status && !["pending", "processing", "shipped", "delivered", "cancelled"].includes(status)) {
+    if (orderStatus && !["pending", "processing", "shipped", "delivered", "cancelled"].includes(orderStatus)) {
       return res.status(400).json({
         success: false,
         message: "Invalid order status"
       });
     }
 
-    // Validate payment status if provided
     if (paymentStatus && !["pending", "paid", "failed", "refunded"].includes(paymentStatus)) {
       return res.status(400).json({
         success: false,
@@ -210,7 +211,7 @@ exports.updateOrderStatus = async (req, res) => {
       });
     }
 
-    if (status) order.status = status;
+    if (orderStatus) order.orderStatus = orderStatus;
     if (paymentStatus) order.paymentStatus = paymentStatus;
     if (trackingNumber) order.trackingNumber = trackingNumber;
 
@@ -230,7 +231,6 @@ exports.updateOrderStatus = async (req, res) => {
   }
 };
 
-// Cancel order
 exports.cancelOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -242,7 +242,6 @@ exports.cancelOrder = async (req, res) => {
       });
     }
 
-    // Check if the order belongs to the user
     if (order.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
@@ -250,15 +249,14 @@ exports.cancelOrder = async (req, res) => {
       });
     }
 
-    // Only allow cancellation if order is pending
-    if (order.status !== "pending") {
+    if (order.orderStatus !== "pending") {
       return res.status(400).json({
         success: false,
         message: "Cannot cancel order that is not in pending status",
       });
     }
 
-    order.status = "cancelled";
+    order.orderStatus = "cancelled";
     await order.save();
 
     res.status(200).json({

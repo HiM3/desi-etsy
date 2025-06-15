@@ -12,7 +12,7 @@ const ViewProduct = () => {
   const [loading, setLoading] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState({});
-  const [currentProductToDeleteId, setCurrentProductToDeleteId] = useState(null); // Changed state variable name to avoid confusion with route ID
+  const [currentProductToDeleteId, setCurrentProductToDeleteId] = useState(null);
 
   useEffect(() => {
     fetchProduct();
@@ -30,7 +30,6 @@ const ViewProduct = () => {
       
       if (response.data.success) {
         setProduct(response.data.data);
-        // Initialize currentImageIndex for each product
         const initialIndexes = {};
         response.data.data.forEach(item => {
           initialIndexes[item._id] = 0;
@@ -64,7 +63,7 @@ const ViewProduct = () => {
   };
 
   const handleDelete = async () => {
-    if (!currentProductToDeleteId) return; // Ensure we have an ID to delete
+    if (!currentProductToDeleteId) return;
 
     try {
       const token = localStorage.getItem('token');
@@ -77,9 +76,9 @@ const ViewProduct = () => {
 
       if (response.data.success) {
         toast.success('Product deleted successfully');
-        setShowDeleteConfirm(false); // Close modal
-        setCurrentProductToDeleteId(null); // Reset the ID
-        fetchProduct(); // Re-fetch products to update the list
+        setShowDeleteConfirm(false);
+        setCurrentProductToDeleteId(null);
+        fetchProduct();
       } else {
         toast.error(response.data.message || 'Failed to delete product');
       }
@@ -142,7 +141,7 @@ const ViewProduct = () => {
                   <button
                     onClick={() => {
                       setShowDeleteConfirm(true);
-                      setCurrentProductToDeleteId(item._id); // Set the ID for deletion
+                      setCurrentProductToDeleteId(item._id);
                     }}
                     className="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
                   >

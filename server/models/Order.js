@@ -29,7 +29,29 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    shippingCost: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    taxAmount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    finalAmount: {
+      type: Number,
+      required: true,
+    },
     shippingAddress: {
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
       street: {
         type: String,
         required: true,
@@ -50,23 +72,48 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      phone: {
+        type: String,
+        required: true,
+      },
+      notes: String,
     },
-    status: {
+    orderStatus: {
       type: String,
       enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
       default: "pending",
     },
     paymentStatus: {
       type: String,
-      enum: ["pending", "completed", "failed", "refunded"],
+      enum: ["pending", "paid", "failed", "refunded"],
       default: "pending",
     },
     paymentMethod: {
       type: String,
+      enum: ["card", "upi", "netbanking", "cod", "stripe", "paypal", "razorpay"],
       required: true,
+    },
+    paymentDetails: {
+      paymentIntentId: String,
+      status: String,
+      paidAt: Date,
+      failedAt: Date,
+      amount: Number,
+      currency: {
+        type: String,
+        default: "usd",
+      },
+      paymentMethod: String,
+      error: String,
     },
     trackingNumber: {
       type: String,
+    },
+    notes: {
+      type: String,
+    },
+    estimatedDelivery: {
+      type: Date,
     },
   },
   {
@@ -74,16 +121,23 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-// Calculate total amount before saving
 orderSchema.pre("save", function (next) {
   if (this.isModified("items")) {
     this.totalAmount = this.items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
+    if (!this.finalAmount) {
+      this.finalAmount = this.totalAmount;
+    }
   }
   next();
 });
+
+orderSchema.index({ user: 1, createdAt: -1 });
+orderSchema.index({ orderStatus: 1 });
+orderSchema.index({ paymentStatus: 1 });
+orderSchema.index({ "paymentDetails.paymentIntentId": 1 });
 
 const Order = mongoose.model("Order", orderSchema);
 

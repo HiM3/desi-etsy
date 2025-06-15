@@ -18,7 +18,6 @@ router.get(
   requireRole("admin"),
   dashboardStats
 );
-// All routes protected by 'admin' role
 router.get(
   "/pending-artisans",
   verifyuser,

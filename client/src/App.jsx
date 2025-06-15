@@ -6,12 +6,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
 
-// Components
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
-
 const HomePage = lazy(() => import('./components/HomePage'));
 const Product = lazy(() => import('./pages/Product'));
 const Login = lazy(() => import('./pages/Authentication/Login'));
@@ -21,7 +19,6 @@ const VerifyOTP = lazy(() => import('./pages/Authentication/VerifyOTP'));
 const ForgotPassword = lazy(() => import('./pages/Authentication/ForgotPassword'));
 const ChangePassword = lazy(() => import('./pages/Authentication/ChangePassword'));
 const Cart = lazy(() => import('./pages/Cart/Cart'));
-// const AddToCart = lazy(() => import('./pages/Cart/Add-to-cart'));
 const ArtisanDashboard = lazy(() => import('./pages/Artisian/Dashboard'));
 const CreateProduct = lazy(() => import('./pages/Artisian/CreateProduct'));
 const ViewProduct = lazy(() => import('./pages/Artisian/ViewProduct'));
@@ -58,11 +55,9 @@ function App() {
             <main className="flex-grow">
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>
-                  {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
                   <Route path="/product" element={<Product />} />
                   
-                  {/* Auth Routes */}
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/sendOTP" element={<SendOTP />} />
@@ -70,26 +65,21 @@ function App() {
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/about" element={<About />} />
 
-                  {/* Protected Routes */}
                   <Route element={<PrivateRoute />}>
-                    {/* User Routes */}
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/my-orders" element={<Myorders />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/change-password" element={<ChangePassword />} />
 
-                    {/* Artisan Routes */}
                     <Route path="/dashboard" element={<ArtisanDashboard />} />
                     <Route path="/add-product" element={<CreateProduct />} />
                     <Route path="/add-product/:id" element={<CreateProduct />} />
                     <Route path="/view-artisan-products" element={<ViewProduct />} />
                     <Route path="/orders" element={<Orders />} />
 
-                    {/* Admin Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />
                   </Route>
 
-                  {/* 404 Route */}
                   <Route path="*" element={
                     <div className="flex items-center justify-center min-h-[60vh]">
                       <div className="text-center">

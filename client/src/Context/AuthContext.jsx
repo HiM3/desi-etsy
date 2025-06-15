@@ -1,9 +1,7 @@
-// context/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
-// Separate hook definition
 function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
@@ -27,7 +25,6 @@ export const AuthProvider = ({ children }) => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     setCartCount(totalItems);
-    // Dispatch event for real-time updates
     window.dispatchEvent(new Event('cartUpdated'));
   };
 
@@ -35,7 +32,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
     updateCartCount();
-    // Dispatch event for login
     window.dispatchEvent(new Event('userLoggedIn'));
   };
 
@@ -45,11 +41,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('cart');
     setUser(null);
     setCartCount(0);
-    // Dispatch event for logout
     window.dispatchEvent(new Event('userLoggedOut'));
   };
 
-  // Listen for storage changes and cart updates
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === 'user') {
@@ -80,16 +74,13 @@ export const AuthProvider = ({ children }) => {
       setCartCount(0);
     };
 
-    // Initial check
     updateCartCount();
 
-    // Add event listeners
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('cartUpdated', handleCartUpdate);
     window.addEventListener('userLoggedIn', handleUserLogin);
     window.addEventListener('userLoggedOut', handleUserLogout);
     
-    // Cleanup
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('cartUpdated', handleCartUpdate);

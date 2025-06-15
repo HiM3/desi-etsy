@@ -5,7 +5,6 @@ import { FaHandSparkles, FaHeart, FaUsers, FaLeaf, FaEye } from 'react-icons/fa'
 const About = () => {
   return (
     <div className="min-h-screen bg-[#fdf8f3] pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-      {/* Hero Section */}
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -22,9 +21,7 @@ const About = () => {
           </p>
         </motion.div>
 
-        {/* Mission & Vision Section */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {/* Mission */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -54,7 +51,6 @@ const About = () => {
             </ul>
           </motion.div>
 
-          {/* Vision */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,7 +80,6 @@ const About = () => {
           </motion.div>
         </div>
 
-        {/* Features Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,7 +120,6 @@ const About = () => {
           </div>
         </motion.div>
 
-        {/* Artisan Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -141,7 +135,6 @@ const About = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Artisan Cards */}
             <div className="bg-[#fdf8f3] rounded-xl p-6">
               <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4">
                 <img

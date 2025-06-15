@@ -81,7 +81,7 @@ const Myorders = () => {
           item.product?.title?.toLowerCase().includes(searchTerm.toLowerCase())
         );
       
-      const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || order.orderStatus === statusFilter;
       
       return matchesSearch && matchesStatus;
     })
@@ -98,7 +98,6 @@ const Myorders = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header with Refresh Button */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">My Orders</h1>
@@ -114,7 +113,6 @@ const Myorders = () => {
           </button>
         </div>
 
-        {/* Filters and Search */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
@@ -143,7 +141,6 @@ const Myorders = () => {
           </div>
         </div>
 
-        {/* Orders Table */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -177,13 +174,13 @@ const Myorders = () => {
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                          order.status === 'shipped' ? 'bg-purple-100 text-purple-800' :
-                          order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                          order.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          order.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' :
+                          order.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                          order.orderStatus === 'cancelled' ? 'bg-red-100 text-red-800' :
                           'bg-green-100 text-green-800'
                         }`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          {order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}
                         </span>
                       </td>
                       <td className="px-6 py-4">
@@ -197,7 +194,7 @@ const Myorders = () => {
                           >
                             <FaEye />
                           </button>
-                          {order.status === 'pending' && (
+                          {order.orderStatus === 'pending' && (
                             <button
                               onClick={() => handleCancelOrder(order._id)}
                               className="px-3 py-1 text-sm text-red-600 hover:text-red-800"
@@ -215,7 +212,6 @@ const Myorders = () => {
           </div>
         </div>
 
-        {/* Order Details Modal */}
         {showOrderDetails && selectedOrder && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl max-w-2xl w-full p-6">
@@ -233,15 +229,22 @@ const Myorders = () => {
                   <h3 className="font-medium text-gray-700">Order Information</h3>
                   <p className="text-sm text-gray-600">Order ID: #{selectedOrder._id.slice(-6)}</p>
                   <p className="text-sm text-gray-600">Date: {new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
-                  <p className="text-sm text-gray-600">Status: {selectedOrder.status}</p>
+                  <p className="text-sm text-gray-600">Status: {selectedOrder.orderStatus}</p>
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-700">Shipping Address</h3>
+                  <p className="text-sm text-gray-600">
+                    {selectedOrder.shippingAddress?.firstName} {selectedOrder.shippingAddress?.lastName}
+                  </p>
                   <p className="text-sm text-gray-600">{selectedOrder.shippingAddress?.street}</p>
                   <p className="text-sm text-gray-600">
                     {selectedOrder.shippingAddress?.city}, {selectedOrder.shippingAddress?.state} {selectedOrder.shippingAddress?.zipCode}
                   </p>
                   <p className="text-sm text-gray-600">{selectedOrder.shippingAddress?.country}</p>
+                  <p className="text-sm text-gray-600">Phone: {selectedOrder.shippingAddress?.phone}</p>
+                  {selectedOrder.shippingAddress?.notes && (
+                    <p className="text-sm text-gray-600">Notes: {selectedOrder.shippingAddress.notes}</p>
+                  )}
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-700">Products</h3>
@@ -251,7 +254,7 @@ const Myorders = () => {
                         <p className="text-sm text-gray-800">{item.product?.title}</p>
                         <p className="text-xs text-gray-600">Quantity: {item.quantity}</p>
                       </div>
-                      <p className="text-sm text-gray-800">${item.product?.price * item.quantity}</p>
+                      <p className="text-sm text-gray-800">${item.price * item.quantity}</p>
                     </div>
                   ))}
                 </div>
@@ -260,8 +263,9 @@ const Myorders = () => {
                     <span className="font-medium text-gray-700">Total Amount</span>
                     <span className="font-bold text-gray-800">${selectedOrder.totalAmount?.toLocaleString()}</span>
                   </div>
+
                 </div>
-                {selectedOrder.status === 'pending' && (
+                {selectedOrder.orderStatus === 'pending' && (
                   <div className="pt-4">
                     <button
                       onClick={() => {

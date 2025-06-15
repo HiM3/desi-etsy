@@ -12,7 +12,6 @@ const {
   view_artisan_products,
 } = require("../controllers/productController");
 
-// Create product - Artisan only
 router.post(
   "/create_product",
   verifyuser,
@@ -21,19 +20,14 @@ router.post(
   create_product
 );
 
-// Get all approved products - Public
 router.get("/view_products", view_products);
 
-// Get artisan's own products - Artisan only
 router.get("/view_artisan_products", verifyuser, requireRole("artisan"), view_artisan_products);
 
-// Get single product - Public
 router.get("/get_product/:id", get_product);
 
-// Update product - Artisan only
 router.put("/update_product/:id", verifyuser, requireRole("artisan"), upload.array("images", 5), update_product);
 
-// Delete product - Artisan only
 router.delete(
   "/delete_product/:id",
   verifyuser,

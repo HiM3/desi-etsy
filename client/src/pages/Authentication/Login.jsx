@@ -30,11 +30,9 @@ const Login = () => {
       if (res.data.success) {
         const { token, user } = res.data;
 
-        // Store auth data
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
-        // Call login function from context
 
         toast.success("Login successful!", {
           position: "top-right",
@@ -42,7 +40,6 @@ const Login = () => {
           theme: "colored",
         });
 
-        // Redirect based on user role
         if (user.role === 'admin') {
           navigate('/admin', { replace: true });
           login(user);

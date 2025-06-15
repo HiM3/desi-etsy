@@ -34,7 +34,6 @@ const Cart = () => {
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     
-    // Update cart count and trigger real-time update
     updateCartCount();
     window.dispatchEvent(new Event('cartUpdated'));
   };
@@ -44,7 +43,6 @@ const Cart = () => {
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     
-    // Update cart count and trigger real-time update
     updateCartCount();
     window.dispatchEvent(new Event('cartUpdated'));
     

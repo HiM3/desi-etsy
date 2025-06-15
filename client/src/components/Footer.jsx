@@ -33,7 +33,6 @@ const Footer = () => {
           viewport={{ once: true }}
           variants={footerVariants}
         >
-          {/* About Section */}
           <motion.div
             className="flex flex-col gap-4"
             variants={itemVariants}
@@ -46,7 +45,6 @@ const Footer = () => {
             </p>
           </motion.div>
 
-          {/* Quick Links */}
           <motion.div
             className="flex flex-col gap-4"
             variants={itemVariants}
@@ -67,18 +65,17 @@ const Footer = () => {
                 <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 Cart
               </Link>
-              <Link to="/myorders" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+              <Link to="/my-orders" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
                 <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 My Orders
               </Link>
-              <Link to="/profile" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
+              <Link to="/about" className="text-sm hover:text-[#d35400] transition-all duration-300 flex items-center gap-2 group">
                 <FaArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                Profile
+                About us
               </Link>
             </div>
           </motion.div>
 
-          {/* Categories */}
           <motion.div
             className="flex flex-col gap-4"
             variants={itemVariants}
@@ -106,7 +103,6 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Contact & Social */}
           <motion.div
             className="flex flex-col gap-4"
             variants={itemVariants}

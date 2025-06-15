@@ -74,12 +74,10 @@ const CreateProduct = () => {
       const token = localStorage.getItem('token');
       const formData = new FormData();
 
-      // Append all form fields
       Object.keys(data).forEach(key => {
         formData.append(key, data[key]);
       });
 
-      // Append all images
       images.forEach(image => {
         formData.append('images', image);
       });
@@ -141,7 +139,6 @@ const CreateProduct = () => {
           </h1>
 
           <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data' className="space-y-6">
-            {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -216,7 +213,6 @@ const CreateProduct = () => {
               )}
             </div>
 
-            {/* Product Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -273,7 +269,6 @@ const CreateProduct = () => {
               )}
             </div>
 
-            {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Product Images ({images.length}/5)

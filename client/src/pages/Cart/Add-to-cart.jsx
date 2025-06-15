@@ -11,7 +11,6 @@ const AddToCart = ({ product, onAddToCart }) => {
   const { updateCartCount } = useAuth();
 
   useEffect(() => {
-    // Load cart items from localStorage on component mount
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
       setCartItems(JSON.parse(savedCart));
@@ -27,7 +26,6 @@ const AddToCart = ({ product, onAddToCart }) => {
         return;
       }
 
-      // Create cart item object
       const cartItem = {
         id: product._id,
         name: product.title,
@@ -37,30 +35,22 @@ const AddToCart = ({ product, onAddToCart }) => {
         creator: product.creator
       };
 
-      // Get existing cart items
       const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-      // Check if item already exists in cart
       const existingItemIndex = existingCart.findIndex(item => item.id === product._id);
 
       if (existingItemIndex > -1) {
-        // Update quantity if item exists
         existingCart[existingItemIndex].quantity += quantity;
       } else {
-        // Add new item if it doesn't exist
         existingCart.push(cartItem);
       }
       
-      // Save updated cart to localStorage
       localStorage.setItem('cart', JSON.stringify(existingCart));
-      // Update cart count and trigger real-time update
       updateCartCount();
 
-      // Dispatch cart updated event
       window.dispatchEvent(new Event('cartUpdated'));
       toast.success('Added to cart successfully!');
 
-      // Call the onAddToCart callback if provided
       if (onAddToCart) {
         onAddToCart();
       }

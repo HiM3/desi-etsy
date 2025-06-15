@@ -20,7 +20,6 @@ exports.signup = async (req, res) => {
 
     const hashedPassword = await HashPassword(password);
 
-    // Generate OTP for email verification
     const otp = otp_generator.generate(6, {
       lowerCaseAlphabets: false,
       upperCaseAlphabets: false,
@@ -33,12 +32,11 @@ exports.signup = async (req, res) => {
       gender,
       password: hashedPassword,
       role: role || "user",
-      isVerified: false, // Set to false until OTP is verified
+      isVerified: false,
       otp,
-      otpExpiry: new Date(Date.now() + 3 * 60 * 1000), // 3 minutes expiry
+      otpExpiry: new Date(Date.now() + 3 * 60 * 1000),
     });
 
-    // Send verification email
     const emailTemplate = `
       <!DOCTYPE html>
       <html lang="en">
@@ -238,7 +236,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Artisan check
     if (user.role === "artisan" && !user.isVerified) {
       return res.json({
         success: false,
@@ -527,7 +524,7 @@ exports.sendOTP = async (req, res) => {
 
 exports.verifyOTP = async (req, res) => {
   try {
-    const { email, otp, type } = req.body; // type can be 'signup' or 'forgot-password'
+    const { email, otp, type } = req.body;
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -537,7 +534,6 @@ exports.verifyOTP = async (req, res) => {
       });
     }
 
-    // Check if OTP exists and hasn't expired
     if (!user.otp || !user.otpExpiry || new Date() > user.otpExpiry) {
       return res.json({
         success: false,
@@ -545,12 +541,10 @@ exports.verifyOTP = async (req, res) => {
       });
     }
 
-    // Verify OTP
     if (otp === user.otp) {
       user.otp = undefined;
       user.otpExpiry = undefined;
       
-      // Set isVerified to true for signup verification
       if (type === "signup" && user.role === "user") {
         user.isVerified = true;
         await user.save();

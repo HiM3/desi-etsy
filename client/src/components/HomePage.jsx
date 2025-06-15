@@ -98,7 +98,6 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Banner Section */}
       <div className="relative w-full overflow-hidden">
         <Slider {...sliderSettings}>
           {slides.map((slide, index) => (
@@ -152,7 +151,6 @@ const HomePage = () => {
         </Slider>
       </div>
 
-      {/* Category Grid Section */}
       <div className="py-20 bg-[#fdf8f3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
@@ -208,7 +206,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Featured Products Section */}
       <div className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
@@ -249,7 +246,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Artisan Showcase Section */}
       <div className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
@@ -287,7 +283,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Testimonials Section */}
       <div className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
@@ -318,7 +313,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Newsletter Section */}
       <div className="py-20 bg-[#d35400] text-white">
         <div className="max-w-2xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <motion.h2

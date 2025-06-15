@@ -83,7 +83,6 @@ const VerifyOTP = () => {
         toast.success("Email verified successfully!");
 
         if (type === "forgot-password") {
-          // localStorage.setItem("otp", otpString);
           navigate("/forgot-password");
           localStorage.removeItem("type");
         } else if (type === "signup") {

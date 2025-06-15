@@ -28,7 +28,6 @@ const SendOTP = () => {
         autoClose: 3000,
         theme: "colored",
       });
-      // Call your backend API to send the reset email
     };
   }
   return (

@@ -49,7 +49,7 @@ const Orders = () => {
       const token = localStorage.getItem('token');
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/orders/${orderId}/status`,
-        { status: newStatus },
+        { orderStatus: newStatus },
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -83,7 +83,7 @@ const Orders = () => {
           item.product?.title?.toLowerCase().includes(searchTerm.toLowerCase())
         );
       
-      const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || order.orderStatus === statusFilter;
       
       return matchesSearch && matchesStatus;
     })
@@ -113,7 +113,6 @@ const Orders = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header with Refresh Button */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">Orders</h1>
@@ -129,7 +128,6 @@ const Orders = () => {
           </button>
         </div>
 
-        {/* Filters and Search */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
@@ -153,6 +151,7 @@ const Orders = () => {
               <option value="processing">Processing</option>
               <option value="shipped">Shipped</option>
               <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
             </select>
 
             <select
@@ -168,7 +167,6 @@ const Orders = () => {
           </div>
         </div>
 
-        {/* Orders Table */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -204,18 +202,19 @@ const Orders = () => {
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                          order.status === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                          order.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          order.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' :
+                          order.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                          order.orderStatus === 'cancelled' ? 'bg-red-100 text-red-800' :
                           'bg-green-100 text-green-800'
                         }`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          {order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
                           <select
-                            value={order.status}
+                            value={order.orderStatus}
                             onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
                             className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#d35400] focus:border-[#d35400] p-2"
                           >
@@ -223,6 +222,7 @@ const Orders = () => {
                             <option value="processing">Processing</option>
                             <option value="shipped">Shipped</option>
                             <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
                           </select>
                           <button
                             onClick={() => {
@@ -243,7 +243,6 @@ const Orders = () => {
           </div>
         </div>
 
-        {/* Order Details Modal */}
         {showOrderDetails && selectedOrder && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl max-w-2xl w-full p-6">
@@ -261,7 +260,7 @@ const Orders = () => {
                   <h3 className="font-medium text-gray-700">Order Information</h3>
                   <p className="text-sm text-gray-600">Order ID: #{selectedOrder._id.slice(-6)}</p>
                   <p className="text-sm text-gray-600">Date: {new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
-                  <p className="text-sm text-gray-600">Status: {selectedOrder.status}</p>
+                  <p className="text-sm text-gray-600">Status: {selectedOrder.orderStatus}</p>
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-700">Customer Information</h3>

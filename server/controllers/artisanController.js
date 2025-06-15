@@ -52,27 +52,6 @@ exports.getArtisanById = async (req, res) => {
     .select('username email')
     .lean();
 
-    // if (!artisan) {
-    //   return res.status(404).json({
-    //     success: false,
-    //     message: "Artisan not found"
-    //   });
-    // }
-
-    // if (!artisan.isApproved) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "This artisan account is not approved yet"
-    //   });
-    // }
-
-    // if (!artisan.isApproved) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "This artisan account is not approved yet"
-    //   });
-    // }
-
     const products = await Product.find({ createdBy: artisan._id })
       .select('title price images rating description')
       .lean();
@@ -119,12 +98,10 @@ exports.getArtisanDashboard = async (req, res) => {
       });
     }
 
-    // Get products with optimized query
     const products = await Product.find({ createdBy: userId })
       .select('title price images rating description')
       .lean();
 
-    // Get orders with optimized query
     const orders = await Order.find({
       'items.product': { $in: products.map(p => p._id) }
     })
@@ -135,10 +112,9 @@ exports.getArtisanDashboard = async (req, res) => {
     .limit(10)
     .lean();
 
-    // Calculate stats
     const stats = {
       totalOrders: orders.length,
-      pendingOrders: orders.filter(order => order.status === 'pending').length,
+      pendingOrders: orders.filter(order => order.orderStatus === 'pending').length,
       totalProducts: products.length,
       totalRevenue: orders.reduce((sum, order) => sum + (order.totalAmount || 0), 0),
       averageRating: products.length > 0 

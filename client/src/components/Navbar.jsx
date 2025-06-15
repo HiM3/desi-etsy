@@ -21,25 +21,21 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Listen for cart updates
   useEffect(() => {
     const handleCartUpdate = () => {
-      updateCartCount(); // Update cart count when cart is modified
+      updateCartCount();
     };
 
     window.addEventListener('cartUpdated', handleCartUpdate);
     return () => window.removeEventListener('cartUpdated', handleCartUpdate);
   }, [updateCartCount]);
 
-  // Listen for user login/logout
   useEffect(() => {
     const handleUserLogin = () => {
-      // Force a re-render when user logs in
       window.location.reload();
     };
 
     const handleUserLogout = () => {
-      // Clear user state without reload
       setUser(null);
       setCartCount(0);
     };
@@ -59,7 +55,6 @@ const Navbar = () => {
       autoClose: 3000,
       theme: "colored",
     });
-    // Dispatch logout event
     window.dispatchEvent(new Event('userLoggedOut'));
     navigate('/login');
   };
@@ -80,7 +75,6 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
           <motion.div
             className="flex-shrink-0"
             whileHover={{ scale: 1.05 }}
@@ -91,7 +85,6 @@ const Navbar = () => {
             </Link>
           </motion.div>
 
-          {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
@@ -131,9 +124,19 @@ const Navbar = () => {
                 </Link>
               </motion.div>
             )}
+
+            {user?.role === 'admin' && (
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/admin"
+                  className="text-gray-700 hover:text-[#d35400] font-medium transition-colors duration-300"
+                >
+                  Admin Dashboard
+                </Link>
+              </motion.div>
+            )}
           </div>
 
-          {/* User Actions */}
           <div className="flex items-center space-x-4">
             {user ? (
               <>
@@ -153,7 +156,6 @@ const Navbar = () => {
                   </motion.div>
                 )}
 
-                {/* User Profile Dropdown */}
                 <div className="relative">
                   <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -165,7 +167,6 @@ const Navbar = () => {
                     <span className="hidden md:inline">Hi, {user.username?.split(' ')[0]}</span>
                   </motion.button>
 
-                  {/* Dropdown Menu */}
                   <AnimatePresence>
                     {isProfileOpen && (
                       <motion.div
@@ -236,7 +237,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <motion.button
             type="button"
             className="md:hidden text-gray-700 hover:text-[#d35400] p-2 rounded-md hover:bg-white/30 transition-all duration-300"
@@ -253,7 +253,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

@@ -39,7 +39,7 @@ const Dashboard = () => {
         setRecentOrders(orders || []);
         setStats(dashboardStats || {
           totalOrders: orders?.length || 0,
-          pendingOrders: orders?.filter(order => order.status === 'pending').length || 0,
+          pendingOrders: orders?.filter(order => order.orderStatus === 'pending').length || 0,
           totalProducts: products?.length || 0,
           totalRevenue: orders?.reduce((sum, order) => sum + (order.totalAmount || 0), 0) || 0,
           averageRating: products?.reduce((sum, product) => sum + (product.rating || 0), 0) / (products?.length || 1) || 0
@@ -67,7 +67,7 @@ const Dashboard = () => {
       const token = localStorage.getItem('token');
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/orders/${orderId}/status`,
-        { status: newStatus },
+        { orderStatus: newStatus },
         { 
           headers: { 
             'Authorization': `Bearer ${token}`,
@@ -78,7 +78,7 @@ const Dashboard = () => {
 
       if (response.data.success) {
         toast.success(`Order status updated to ${newStatus}`);
-        fetchDashboardData(); // Refresh the dashboard data
+        fetchDashboardData();
       }
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -102,7 +102,6 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header with Actions */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">Artisan Dashboard</h1>
@@ -135,7 +134,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -205,7 +203,6 @@ const Dashboard = () => {
           </motion.div>
         </div>
 
-        {/* Recent Orders */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="p-6 border-b border-gray-100">
             <div className="flex justify-between items-center">
@@ -248,17 +245,18 @@ const Dashboard = () => {
                       <td className="px-6 py-4 text-sm text-gray-900">${order.totalAmount?.toLocaleString() || 0}</td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                          order.status === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                          !order.orderStatus || order.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          order.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' :
+                          order.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                          order.orderStatus === 'cancelled' ? 'bg-red-100 text-red-800' :
                           'bg-green-100 text-green-800'
                         }`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          {(order.orderStatus || 'pending').charAt(0).toUpperCase() + (order.orderStatus || 'pending').slice(1)}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <select
-                          value={order.status}
+                          value={order.orderStatus || 'pending'}
                           onChange={(e) => handleOrderStatusUpdate(order._id, e.target.value)}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#d35400] focus:border-[#d35400] p-2"
                         >
@@ -266,6 +264,7 @@ const Dashboard = () => {
                           <option value="processing">Processing</option>
                           <option value="shipped">Shipped</option>
                           <option value="delivered">Delivered</option>
+                          <option value="cancelled">Cancelled</option>
                         </select>
                       </td>
                     </tr>

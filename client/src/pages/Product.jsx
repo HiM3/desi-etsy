@@ -73,7 +73,6 @@ const Product = () => {
         return;
       }
 
-      // Create cart item object
       const cartItem = {
         id: product._id,
         name: product.title,
@@ -83,21 +82,16 @@ const Product = () => {
         creator: product.creator
       };
 
-      // Get existing cart items
       const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-      // Check if item already exists in cart
       const existingItemIndex = existingCart.findIndex(item => item.id === product._id);
 
       if (existingItemIndex > -1) {
-        // Update quantity if item exists
         existingCart[existingItemIndex].quantity += 1;
       } else {
-        // Add new item if it doesn't exist
         existingCart.push(cartItem);
       }
 
-      // Save updated cart to localStorage
       localStorage.setItem('cart', JSON.stringify(existingCart));
       toast.success('Product added to cart successfully!');
       navigate('/cart');
@@ -117,7 +111,6 @@ const Product = () => {
         return;
       }
 
-      // Create cart item object
       const cartItem = {
         id: product._id,
         name: product.title,
@@ -127,21 +120,16 @@ const Product = () => {
         creator: product.creator
       };
 
-      // Get existing cart items
       const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-      // Check if item already exists in cart
       const existingItemIndex = existingCart.findIndex(item => item.id === product._id);
 
       if (existingItemIndex > -1) {
-        // Update quantity if item exists
         existingCart[existingItemIndex].quantity += 1;
       } else {
-        // Add new item if it doesn't exist
         existingCart.push(cartItem);
       }
 
-      // Save updated cart to localStorage
       localStorage.setItem('cart', JSON.stringify(existingCart));
       toast.success('Product added to cart successfully!');
       navigate('/cart');
@@ -205,15 +193,12 @@ const Product = () => {
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Discover Handcrafted Treasures</h1>
         </div>
 
-        {/* Search and Filter Section - Centered */}
         <div className="max-w-3xl mx-auto mb-12">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Search Bar */}
             <div className="relative flex-1">
               <input
                 type="text"
@@ -225,7 +210,6 @@ const Product = () => {
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
             </div>
 
-            {/* Category Filter */}
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}

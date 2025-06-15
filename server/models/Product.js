@@ -35,8 +35,8 @@ const productSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    }, // Artisan
-    isApproved: { type: Boolean, default: false }, // Admin approval
+    },
+    isApproved: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

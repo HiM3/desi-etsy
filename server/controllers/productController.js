@@ -38,7 +38,6 @@ exports.create_product = async (req, res) => {
 
 exports.view_products = async (req, res) => {
   try {
-    // Show only approved products for public view
     const products = await Product.find({ isApproved: true });
     
     res.json({
@@ -57,7 +56,6 @@ exports.view_products = async (req, res) => {
 
 exports.view_artisan_products = async (req, res) => {
   try {
-    // Show only artisan's own products
     const products = await Product.find({ createdBy: req.user.id });
     
     res.json({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
-import { FaUsers, FaStore, FaShoppingBag, FaShoppingCart } from 'react-icons/fa';
+import { FaUsers, FaStore, FaShoppingBag, FaShoppingCart, FaSync } from 'react-icons/fa';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -10,6 +10,10 @@ const Dashboard = () => {
   const [pendingProducts, setPendingProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState({
+    artisan: {},
+    product: {}
+  });
 
   useEffect(() => {
     fetchDashboardData();
@@ -51,6 +55,7 @@ const Dashboard = () => {
 
   const handleArtisanAction = async (artisanId, action) => {
     try {
+      setActionLoading(prev => ({ ...prev, artisan: { ...prev.artisan, [artisanId]: true } }));
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No authentication token found');
@@ -67,11 +72,14 @@ const Dashboard = () => {
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || `Failed to ${action} artisan`;
       toast.error(errorMessage);
+    } finally {
+      setActionLoading(prev => ({ ...prev, artisan: { ...prev.artisan, [artisanId]: false } }));
     }
   };
 
   const handleProductAction = async (productId, action) => {
     try {
+      setActionLoading(prev => ({ ...prev, product: { ...prev.product, [productId]: true } }));
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No authentication token found');
@@ -88,6 +96,8 @@ const Dashboard = () => {
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || `Failed to ${action} product`;
       toast.error(errorMessage);
+    } finally {
+      setActionLoading(prev => ({ ...prev, product: { ...prev.product, [productId]: false } }));
     }
   };
 
@@ -122,13 +132,11 @@ const Dashboard = () => {
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-4 sm:px-6 lg:px-8 pb-8">
       <div className="max-w-7xl mx-auto mt-20 py-8">
-        {/* Admin Dashboard Heading */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
           <div className="w-24 h-1 bg-[#d35400] mt-2"></div>
         </div>
 
-        {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -189,7 +197,6 @@ const Dashboard = () => {
           </motion.div>
         </div>
 
-        {/* Pending Artisans Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -219,15 +226,31 @@ const Dashboard = () => {
                       <td className="px-6 py-4 whitespace-nowrap space-x-2">
                         <button
                           onClick={() => handleArtisanAction(artisan._id, 'approve')}
-                          className="bg-[#d35400] text-white px-4 py-2 rounded-xl hover:bg-[#b34700] transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                          disabled={actionLoading.artisan[artisan._id]}
+                          className="bg-[#d35400] text-white px-4 py-2 rounded-xl hover:bg-[#b34700] transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Approve
+                          {actionLoading.artisan[artisan._id] ? (
+                            <span className="flex items-center space-x-2">
+                              <FaSync className="animate-spin" />
+                              <span>Processing...</span>
+                            </span>
+                          ) : (
+                            'Approve'
+                          )}
                         </button>
                         <button
                           onClick={() => handleArtisanAction(artisan._id, 'reject')}
-                          className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                          disabled={actionLoading.artisan[artisan._id]}
+                          className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Reject
+                          {actionLoading.artisan[artisan._id] ? (
+                            <span className="flex items-center space-x-2">
+                              <FaSync className="animate-spin" />
+                              <span>Processing...</span>
+                            </span>
+                          ) : (
+                            'Reject'
+                          )}
                         </button>
                       </td>
                     </tr>
@@ -238,7 +261,6 @@ const Dashboard = () => {
           )}
         </motion.div>
 
-        {/* Pending Products Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -270,15 +292,31 @@ const Dashboard = () => {
                       <td className="px-6 py-4 whitespace-nowrap space-x-2">
                         <button
                           onClick={() => handleProductAction(product._id, 'approve')}
-                          className="bg-[#d35400] text-white px-4 py-2 rounded-xl hover:bg-[#b34700] transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                          disabled={actionLoading.product[product._id]}
+                          className="bg-[#d35400] text-white px-4 py-2 rounded-xl hover:bg-[#b34700] transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Approve
+                          {actionLoading.product[product._id] ? (
+                            <span className="flex items-center space-x-2">
+                              <FaSync className="animate-spin" />
+                              <span>Processing...</span>
+                            </span>
+                          ) : (
+                            'Approve'
+                          )}
                         </button>
                         <button
                           onClick={() => handleProductAction(product._id, 'reject')}
-                          className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg"
+                          disabled={actionLoading.product[product._id]}
+                          className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Reject
+                          {actionLoading.product[product._id] ? (
+                            <span className="flex items-center space-x-2">
+                              <FaSync className="animate-spin" />
+                              <span>Processing...</span>
+                            </span>
+                          ) : (
+                            'Reject'
+                          )}
                         </button>
                       </td>
                     </tr>
