@@ -1,12 +1,13 @@
 const OrderService = require("../services/orderService");
 
+
 let stripe;
 try {
-  const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
-  if (!STRIPE_SECRET_KEY) {
-    console.error("STRIPE_SECRET_KEY is not set");
+  const S = process.env.S;
+  if (!S) {
+    console.error("S is not set");
   } else {
-    stripe = require("stripe")(STRIPE_SECRET_KEY);
+    stripe = require("stripe")(S);
     console.log("Stripe initialized successfully");
   }
 } catch (error) {
@@ -20,7 +21,7 @@ exports.createPaymentIntent = async (req, res) => {
       return res.status(503).json({
         success: false,
         message:
-          "Payment service is not configured. Please check your STRIPE_SECRET_KEY",
+          "Payment service is not configured. Please check your S",
       });
     }
 

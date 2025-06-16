@@ -84,9 +84,9 @@ const StripePaymentForm = ({ amount, onSuccess, onCancel }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-4 sm:p-6 max-w-md w-full mx-4">
-        <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Complete Payment</h3>
-        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+      <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+        <h3 className="text-xl font-semibold mb-4">Complete Payment</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Card Holder Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -97,7 +97,7 @@ const StripePaymentForm = ({ amount, onSuccess, onCancel }) => {
               value={cardHolderName}
               onChange={(e) => setCardHolderName(e.target.value)}
               placeholder="Name as it appears on card"
-              className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white text-sm sm:text-base"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
               required
             />
           </div>
@@ -107,12 +107,12 @@ const StripePaymentForm = ({ amount, onSuccess, onCancel }) => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Card Details
             </label>
-            <div className="p-3 sm:p-4 border rounded-lg bg-white">
+            <div className="p-4 border rounded-lg bg-white">
               <CardElement
                 options={{
                   style: {
                     base: {
-                      fontSize: '14px',
+                      fontSize: '16px',
                       color: '#424770',
                       '::placeholder': {
                         color: '#aab7c4',
@@ -130,37 +130,37 @@ const StripePaymentForm = ({ amount, onSuccess, onCancel }) => {
           </div>
 
           {/* Payment Amount */}
-          <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+          <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex justify-between items-center">
-              <span className="text-sm sm:text-base text-gray-600">Total Amount:</span>
-              <span className="text-lg sm:text-xl font-semibold text-[#d35400]">
+              <span className="text-gray-600">Total Amount:</span>
+              <span className="text-xl font-semibold text-[#d35400]">
                 ${amount.toFixed(2)}
               </span>
             </div>
           </div>
 
           {error && (
-            <div className="text-red-500 text-xs sm:text-sm bg-red-50 p-2 sm:p-3 rounded-lg">
+            <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg">
               {error}
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row sm:justify-end sm:space-x-4 space-y-2 sm:space-y-0 pt-3 sm:pt-4">
+          <div className="flex justify-end space-x-4 pt-4">
             <button
               type="button"
               onClick={onCancel}
-              className="w-full sm:w-auto px-4 sm:px-6 py-2 text-sm sm:text-base text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-6 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!stripe || isProcessing}
-              className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-[#d35400] text-white rounded-lg disabled:opacity-50 hover:bg-[#b34700] transition-colors text-sm sm:text-base"
+              className="px-6 py-2 bg-[#d35400] text-white rounded-lg disabled:opacity-50 hover:bg-[#b34700] transition-colors"
             >
               {isProcessing ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -202,7 +202,6 @@ const Checkout = () => {
   }, []);
 
   const total = subtotal + shippingCost + (subtotal * tax);
-
 
   const handleStripeSuccess = async (paymentIntent) => {
     if (!shippingData) {
@@ -347,26 +346,26 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen pt-16 sm:pt-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8">Checkout</h1>
+    <div className="min-h-screen pt-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Shipping Information */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">Shipping Information</h2>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-xl font-semibold text-gray-800 mb-6">Shipping Information</h2>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
                     <input
                       type="text"
                       {...register('firstName', { required: 'First name is required' })}
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                     />
                     {errors.firstName && (
-                      <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.firstName.message}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
                     )}
                   </div>
                   <div>
@@ -374,10 +373,10 @@ const Checkout = () => {
                     <input
                       type="text"
                       {...register('lastName', { required: 'Last name is required' })}
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                     />
                     {errors.lastName && (
-                      <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.lastName.message}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
                     )}
                   </div>
                 </div>
@@ -387,23 +386,23 @@ const Checkout = () => {
                   <input
                     type="text"
                     {...register('street', { required: 'Street address is required' })}
-                    className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                   />
                   {errors.street && (
-                    <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.street.message}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.street.message}</p>
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
                     <input
                       type="text"
                       {...register('city', { required: 'City is required' })}
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                     />
                     {errors.city && (
-                      <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.city.message}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.city.message}</p>
                     )}
                   </div>
                   <div>
@@ -411,24 +410,24 @@ const Checkout = () => {
                     <input
                       type="text"
                       {...register('state', { required: 'State is required' })}
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                     />
                     {errors.state && (
-                      <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.state.message}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.state.message}</p>
                     )}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
                     <input
                       type="text"
                       {...register('country', { required: 'Country is required' })}
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                     />
                     {errors.country && (
-                      <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.country.message}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.country.message}</p>
                     )}
                   </div>
                   <div>
@@ -436,10 +435,10 @@ const Checkout = () => {
                     <input
                       type="text"
                       {...register('zipCode', { required: 'ZIP code is required' })}
-                      className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                     />
                     {errors.zipCode && (
-                      <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.zipCode.message}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.zipCode.message}</p>
                     )}
                   </div>
                 </div>
@@ -449,10 +448,10 @@ const Checkout = () => {
                   <input
                     type="tel"
                     {...register('phone', { required: 'Phone number is required' })}
-                    className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                   />
                   {errors.phone && (
-                    <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.phone.message}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
                   )}
                 </div>
 
@@ -461,80 +460,107 @@ const Checkout = () => {
                   <textarea
                     {...register('notes')}
                     rows="3"
-                    className="w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent text-sm sm:text-base"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#d35400] focus:border-transparent bg-white"
                   />
                 </div>
               </form>
             </div>
-
-            {/* Payment Methods */}
-            <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mt-6 sm:mt-8">
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">Payment Method</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                <button
-                  type="button"
-                  onClick={() => setSelectedPayment('stripe')}
-                  className={`p-3 sm:p-4 rounded-lg border-2 flex items-center justify-center gap-2 transition-all ${selectedPayment === 'stripe'
-                      ? 'border-[#d35400] bg-[#fff5f0]'
-                      : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                >
-                  <FaStripe className="w-6 h-6 sm:w-8 sm:h-8 text-[#6772e5]" />
-                  <span className="text-sm sm:text-base font-medium">Stripe</span>
-                </button>
-                {/* Add other payment method buttons with similar responsive classes */}
-              </div>
-            </div>
           </div>
 
-          {/* Order Summary */}
+          {/* Right Section - Order Summary and Payment Methods */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">Order Summary</h2>
-              <div className="space-y-3 sm:space-y-4">
+            {/* Order Summary */}
+            <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-6">Order Summary</h2>
+              <div className="space-y-4">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="flex items-center gap-3 sm:gap-4">
+                  <div key={item.id} className="flex items-center gap-4">
                     <div
-                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-cover bg-center flex-shrink-0"
+                      className="w-20 h-20 rounded-lg bg-cover bg-center flex-shrink-0"
                       style={{ backgroundImage: `url(${import.meta.env.VITE_API_URL}/uploads/${item.image})` }}
                     />
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm sm:text-base font-medium text-gray-800 truncate">{item.name}</h3>
-                      <p className="text-xs sm:text-sm text-gray-600">Qty: {item.quantity}</p>
-                      <p className="text-sm sm:text-base font-semibold text-[#d35400]">
+                      <h3 className="text-base font-medium text-gray-800 truncate">{item.name}</h3>
+                      <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                      <p className="text-base font-semibold text-[#d35400]">
                         ${(item.price * item.quantity).toLocaleString()}
                       </p>
                     </div>
                   </div>
                 ))}
 
-                <div className="border-t pt-3 sm:pt-4 space-y-2 sm:space-y-3">
-                  <div className="flex justify-between text-sm sm:text-base text-gray-600">
+                <div className="border-t pt-4 space-y-3">
+                  <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
                     <span>${subtotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-sm sm:text-base text-gray-600">
+                  <div className="flex justify-between text-gray-600">
                     <span>Shipping</span>
                     <span className="text-[#d35400]">Free</span>
                   </div>
-                  <div className="flex justify-between text-sm sm:text-base text-gray-600">
+                  <div className="flex justify-between text-gray-600">
                     <span>Tax (18%)</span>
                     <span>${(subtotal * tax).toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-base sm:text-lg font-semibold pt-2 sm:pt-3 border-t">
+                  <div className="flex justify-between text-lg font-semibold pt-3 border-t">
                     <span>Total</span>
                     <span className="text-[#d35400]">${total.toLocaleString()}</span>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Payment Methods */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-xl font-semibold text-gray-800 mb-6">Payment Method</h2>
+              <div className="space-y-4">
+                <button
+                  type="button"
+                  onClick={() => setSelectedPayment('stripe')}
+                  className={`w-full p-4 rounded-lg border-2 flex items-center justify-center gap-3 transition-all ${
+                    selectedPayment === 'stripe'
+                      ? 'border-[#d35400] bg-[#fff5f0]'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <FaStripe className="w-8 h-8 text-[#6772e5]" />
+                  <span className="font-medium">Pay with Stripe</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedPayment('razorpay')}
+                  className={`w-full p-4 rounded-lg border-2 flex items-center justify-center gap-3 transition-all ${
+                    selectedPayment === 'razorpay'
+                      ? 'border-[#d35400] bg-[#fff5f0]'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <SiRazorpay className="w-8 h-8 text-[#3395FF]" />
+                  <span className="font-medium">Pay with Razorpay</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedPayment('cod')}
+                  className={`w-full p-4 rounded-lg border-2 flex items-center justify-center gap-3 transition-all ${
+                    selectedPayment === 'cod'
+                      ? 'border-[#d35400] bg-[#fff5f0]'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <FaMoneyBillWave className="w-8 h-8 text-[#4CAF50]" />
+                  <span className="font-medium">Cash on Delivery</span>
+                </button>
 
                 <button
                   onClick={handleSubmit(onSubmit)}
                   disabled={!selectedPayment || isProcessing}
-                  className="w-full bg-[#d35400] text-white py-2.5 sm:py-3 rounded-lg disabled:opacity-50 hover:bg-[#b34700] transition-colors text-sm sm:text-base"
+                  className="w-full bg-[#d35400] text-white py-3 rounded-lg disabled:opacity-50 hover:bg-[#b34700] transition-colors mt-4"
                 >
                   {isProcessing ? (
                     <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
