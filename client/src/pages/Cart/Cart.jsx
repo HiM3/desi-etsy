@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);

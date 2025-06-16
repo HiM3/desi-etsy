@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { FaCreditCard, FaPaypal, FaGooglePay, FaMoneyBillWave, FaStripe } from 'react-icons/fa';
 import { SiRazorpay } from "react-icons/si";
 import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
 import {

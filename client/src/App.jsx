@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from '../context/AuthContext';
 
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { FaShoppingCart, FaUser, FaSignOutAlt, FaBars, FaTimes, FaCog, FaUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
