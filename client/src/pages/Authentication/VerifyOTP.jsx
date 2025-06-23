@@ -98,7 +98,7 @@ const VerifyOTP = () => {
         toast.error(res.data.message || "Verification failed");
       }
     } catch (error) {
-      toast.error(error.res?.data?.message || "Something went wrong. Please try again.");
+      toast.error(error.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -158,6 +158,7 @@ const VerifyOTP = () => {
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
               disabled={isLoading}
+              ref={(el) => (inputsRef.current[index] = el)}
               className="w-10 h-12 sm:w-12 sm:h-14 text-lg sm:text-xl text-center rounded-xl border border-gray-300 focus:border-[#d35400] focus:ring-2 focus:ring-[#d35400] outline-none transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
             />
           ))}
