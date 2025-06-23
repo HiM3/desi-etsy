@@ -23,7 +23,7 @@ const SingleProduct = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/products/get_product/${id}`);
-      
+
       if (response.data.success) {
         setProduct(response.data.data);
         // Fetch artisan details
@@ -77,7 +77,7 @@ const SingleProduct = () => {
 
   const prevImage = () => {
     if (product && product.images.length > 0) {
-      setCurrentImageIndex((prevIndex) => 
+      setCurrentImageIndex((prevIndex) =>
         prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
       );
     }
@@ -137,8 +137,8 @@ const SingleProduct = () => {
       <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Product Not Found</h2>
         <p className="text-gray-600 mb-6">The product you're looking for doesn't exist or has been removed.</p>
-        <Link 
-          to="/product" 
+        <Link
+          to="/product"
           className="flex items-center text-[#d35400] hover:text-[#b34700] transition-colors"
         >
           <FaArrowLeft className="mr-2" /> Back to Products
@@ -239,7 +239,7 @@ const SingleProduct = () => {
             {/* Product Info */}
             <div className="md:w-1/2 p-6">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">{product.title}</h1>
-              
+
               <div className="flex items-center mb-4">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -248,14 +248,14 @@ const SingleProduct = () => {
                 </div>
                 <span className="ml-2 text-sm text-gray-600">(5.0)</span>
               </div>
-              
+
               <p className="text-2xl font-bold text-[#d35400] mb-4">₹{product.price.toLocaleString()}</p>
-              
+
               <div className="mb-6">
                 <h2 className="text-lg font-semibold text-gray-800 mb-2">Description</h2>
                 <p className="text-gray-600">{product.description}</p>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Category</h3>
@@ -274,25 +274,25 @@ const SingleProduct = () => {
                   <p className="text-gray-800">{artisan ? artisan.username : 'Unknown'}</p>
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
                 <div className="flex items-center">
-                  <button 
+                  <button
                     onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
                     className="px-3 py-1 border border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200"
                   >
                     -
                   </button>
-                  <input 
-                    type="number" 
-                    id="quantity" 
-                    value={quantity} 
+                  <input
+                    type="number"
+                    id="quantity"
+                    value={quantity}
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                     min="1"
                     className="w-16 text-center border-y border-gray-300 py-1 focus:outline-none bg-white"
                   />
-                  <button 
+                  <button
                     onClick={() => setQuantity(prev => prev + 1)}
                     className="px-3 py-1 border border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200"
                   >
@@ -300,7 +300,7 @@ const SingleProduct = () => {
                   </button>
                 </div>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                 <button
                   onClick={handleAddToCart}
