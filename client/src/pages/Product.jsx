@@ -64,6 +64,10 @@ const Product = () => {
     }
   };
 
+  const handleViewProduct = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
   const handleAddToCart = (product) => {
     try {
       const token = localStorage.getItem('token');
@@ -228,7 +232,8 @@ const Product = () => {
           {filteredProducts.map((product) => (
             <div
               key={product._id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+              onClick={() => handleViewProduct(product._id)}
             >
               <div className="relative h-48 sm:h-64 group">
                 <img
@@ -285,7 +290,13 @@ const Product = () => {
                     {product.creator || 'Unknown Artisan'}
                   </Link>
                 </div>
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-1 sm:mb-2 line-clamp-1">
+                <h2 
+                  className="text-lg sm:text-xl font-semibold text-gray-800 mb-1 sm:mb-2 line-clamp-1 hover:text-[#FF6B6B] transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewProduct(product._id);
+                  }}
+                >
                   {product.title}
                 </h2>
                 <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2">

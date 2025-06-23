@@ -12,6 +12,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 const HomePage = lazy(() => import('./components/HomePage'));
 const Product = lazy(() => import('./pages/Product'));
+const SingleProduct = lazy(() => import('./pages/SingleProduct'));
 const Login = lazy(() => import('./pages/Authentication/Login'));
 const Signup = lazy(() => import('./pages/Authentication/Signup'));
 const SendOTP = lazy(() => import('./pages/Authentication/SendOTP'));
@@ -57,6 +58,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/product" element={<Product />} />
+                  <Route path="/product/:id" element={<SingleProduct />} />
 
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
