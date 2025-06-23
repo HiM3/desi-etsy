@@ -89,7 +89,7 @@ const Footer = () => {
                 { name: 'Clothing', path: '/products' },
                 { name: 'Home Decor', path: '/products' },
                 { name: 'Handicrafts', path: '/products' },
-                { name: 'Art & Paintings', path: '/products?category=art' }
+                { name: 'Art & Paintings', path: '/products' }
               ].map((category, index) => (
                 <Link
                   key={index}
