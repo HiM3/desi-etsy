@@ -304,7 +304,11 @@ const CreateProduct = () => {
                 {images.map((image, index) => (
                   <div key={index} className="relative group">
                     <img
-                      src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                      src={
+                        typeof image === 'string'
+                          ? `${import.meta.env.VITE_API_URL}/uploads/${image}`
+                          : URL.createObjectURL(image)
+                      }
                       alt={`Product ${index + 1}`}
                       className="w-full h-24 sm:h-32 object-cover rounded-lg"
                     />

@@ -293,7 +293,7 @@ const Dashboard = () => {
                     <tbody className="bg-white divide-y divide-gray-200">
                       {pendingProducts.map((product) => (
                         <tr key={product._id} className="hover:bg-gray-50 transition-colors duration-200">
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{product.name}</td>
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{product.title}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${product.price}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
