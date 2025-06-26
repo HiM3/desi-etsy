@@ -13,6 +13,7 @@ const Orders = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [statusUpdating, setStatusUpdating] = useState({});
 
   const fetchOrders = async () => {
     try {
@@ -45,6 +46,9 @@ const Orders = () => {
   }, []);
 
   const handleStatusUpdate = async (orderId, newStatus) => {
+    const order = orders.find(o => o._id === orderId);
+    if (!order || order.orderStatus === newStatus) return; // Prevent unnecessary update
+    setStatusUpdating(prev => ({ ...prev, [orderId]: true }));
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
@@ -66,6 +70,8 @@ const Orders = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update order status');
+    } finally {
+      setStatusUpdating(prev => ({ ...prev, [orderId]: false }));
     }
   };
 
@@ -215,7 +221,8 @@ const Orders = () => {
                           <select
                             value={order.orderStatus}
                             onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
-                            className="bg-white border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-[#d35400] focus:border-[#d35400] p-1 sm:p-2 w-full sm:w-auto"
+                            className={`bg-white border border-gray-300 text-gray-900 text-xs sm:text-sm rounded-lg focus:ring-[#d35400] focus:border-[#d35400] p-1 sm:p-2 w-full sm:w-auto transition-all duration-200 ${statusUpdating[order._id] ? 'opacity-60' : ''}`}
+                            disabled={order.orderStatus === 'delivered' || order.orderStatus === 'cancelled' || statusUpdating[order._id]}
                           >
                             <option value="pending">Pending</option>
                             <option value="processing">Processing</option>
@@ -223,6 +230,9 @@ const Orders = () => {
                             <option value="delivered">Delivered</option>
                             <option value="cancelled">Cancelled</option>
                           </select>
+                          {statusUpdating[order._id] && (
+                            <span className="ml-2 text-xs text-[#d35400] animate-pulse">Updating...</span>
+                          )}
                           <button
                             onClick={() => {
                               setSelectedOrder(order);
@@ -243,66 +253,58 @@ const Orders = () => {
         </div>
 
         {showOrderDetails && selectedOrder && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-xl max-w-2xl w-full p-4 sm:p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-800">Order Details</h2>
-                <button
-                  onClick={() => setShowOrderDetails(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <FaTimes className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="space-y-4">
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative animate-fadeIn">
+              <button
+                onClick={() => setShowOrderDetails(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-[#d35400] transition-colors"
+              >
+                <FaTimes className="h-5 w-5" />
+              </button>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Order Details</h2>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-gray-500">Order ID</p>
+                    <p className="text-base font-semibold text-gray-900">#{selectedOrder._id.slice(-6)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Date</p>
+                    <p className="text-base font-semibold text-gray-900">{new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Status</p>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${selectedOrder.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' : selectedOrder.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' : selectedOrder.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' : selectedOrder.orderStatus === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>{selectedOrder.orderStatus.charAt(0).toUpperCase() + selectedOrder.orderStatus.slice(1)}</span>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Total Amount</p>
+                    <p className="text-base font-semibold text-gray-900">${selectedOrder.totalAmount?.toLocaleString() || 0}</p>
+                  </div>
+                </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-medium text-gray-700">Order Information</h3>
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Order ID</p>
-                      <p className="text-sm sm:text-base text-gray-900">#{selectedOrder._id.slice(-6)}</p>
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">Customer</h3>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-lg font-bold text-[#d35400]">
+                      {selectedOrder.user?.username?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Date</p>
-                      <p className="text-sm sm:text-base text-gray-900">
-                        {new Date(selectedOrder.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Status</p>
-                      <p className="text-sm sm:text-base text-gray-900">
-                        {selectedOrder.orderStatus.charAt(0).toUpperCase() + selectedOrder.orderStatus.slice(1)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Total Amount</p>
-                      <p className="text-sm sm:text-base text-gray-900">
-                        ${selectedOrder.totalAmount?.toLocaleString() || 0}
-                      </p>
+                      <p className="text-base text-gray-900 font-semibold">{selectedOrder.user?.username || 'N/A'}</p>
                     </div>
                   </div>
                 </div>
-
                 <div>
-                  <h3 className="text-sm sm:text-base font-medium text-gray-700">Customer Information</h3>
-                  <div className="mt-2">
-                    <p className="text-xs sm:text-sm text-gray-500">Name</p>
-                    <p className="text-sm sm:text-base text-gray-900">{selectedOrder.user?.username || 'N/A'}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-sm sm:text-base font-medium text-gray-700">Products</h3>
-                  <div className="mt-2 space-y-2">
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">Products</h3>
+                  <div className="space-y-2">
                     {selectedOrder.items?.map((item, index) => (
-                      <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
-                        <div>
-                          <p className="text-sm sm:text-base text-gray-900">{item.product?.title}</p>
-                          <p className="text-xs sm:text-sm text-gray-500">Quantity: {item.quantity}</p>
+                      <div key={index} className="flex items-center gap-4 p-2 bg-gray-50 rounded-lg">
+                        {item.product?.images?.[0] && (
+                          <img src={`${import.meta.env.VITE_API_URL}/uploads/${item.product.images[0]}`} alt={item.product?.title} className="w-12 h-12 object-cover rounded-md border" />
+                        )}
+                        <div className="flex-1">
+                          <p className="text-base font-semibold text-gray-900">{item.product?.title}</p>
+                          <p className="text-xs text-gray-500">Quantity: {item.quantity}</p>
                         </div>
-                        <p className="text-sm sm:text-base text-gray-900">
-                          ${(item.price * item.quantity).toLocaleString()}
-                        </p>
+                        <p className="text-base font-semibold text-gray-900">${(item.price * item.quantity).toLocaleString()}</p>
                       </div>
                     ))}
                   </div>

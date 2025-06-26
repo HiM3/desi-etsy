@@ -166,10 +166,7 @@ exports.delete_product = async (req, res) => {
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found" });
     }
-    // Only allow the creator to delete
-    if (product.createdBy.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ success: false, message: "Unauthorized" });
-    }
+    
     if (product.images && product.images.length > 0) {
       product.images.forEach((image) => {
         const imagePath = path.join(__dirname, "../uploads", image);

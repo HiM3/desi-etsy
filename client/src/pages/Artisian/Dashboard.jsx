@@ -14,7 +14,7 @@ const Dashboard = () => {
     totalRevenue: 0,
     averageRating: 0
   });
-
+  const [statusUpdating, setStatusUpdating] = useState({});
   const [artisanProfile, setArtisanProfile] = useState(null);
   const [artisanProducts, setArtisanProducts] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
@@ -63,6 +63,9 @@ const Dashboard = () => {
   }, [fetchDashboardData]);
 
   const handleOrderStatusUpdate = async (orderId, newStatus) => {
+    const order = recentOrders.find(o => o._id === orderId);
+    if (!order || order.orderStatus === newStatus) return;
+    setStatusUpdating(prev => ({ ...prev, [orderId]: true }));
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
@@ -75,14 +78,16 @@ const Dashboard = () => {
           }
         }
       );
-
       if (response.data.success) {
         toast.success(`Order status updated to ${newStatus}`);
         fetchDashboardData();
+      } else {
+        toast.error(response.data.message || 'Failed to update order status');
       }
     } catch (error) {
-      console.error("Error updating order status:", error);
       toast.error(error.response?.data?.message || 'Failed to update order status');
+    } finally {
+      setStatusUpdating(prev => ({ ...prev, [orderId]: false }));
     }
   };
 
@@ -245,9 +250,9 @@ const Dashboard = () => {
                       <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-900">${order.totalAmount?.toLocaleString() || 0}</td>
                       <td className="px-4 sm:px-6 py-3 sm:py-4">
                         <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${!order.orderStatus || order.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                            order.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' :
-                              order.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' :
-                                'bg-green-100 text-green-800'
+                          order.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' :
+                            order.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                              'bg-green-100 text-green-800'
                           }`}>
                           {order.orderStatus || 'Pending'}
                         </span>
@@ -256,21 +261,24 @@ const Dashboard = () => {
                         <div className="flex flex-col sm:flex-row gap-2">
                           <button
                             onClick={() => handleOrderStatusUpdate(order._id, 'processing')}
-                            className="text-xs sm:text-sm text-blue-600 hover:text-blue-800"
+                            className="text-xs sm:text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50 px-2 py-1 rounded transition"
+                            disabled={order.orderStatus === 'delivered' || order.orderStatus === 'cancelled' || statusUpdating[order._id]}
                           >
-                            Process
+                            {statusUpdating[order._id] ? '...' : ''} Process
                           </button>
                           <button
                             onClick={() => handleOrderStatusUpdate(order._id, 'shipped')}
-                            className="text-xs sm:text-sm text-purple-600 hover:text-purple-800"
+                            className="text-xs sm:text-sm text-purple-600 hover:text-purple-800 disabled:opacity-50 px-2 py-1 rounded transition"
+                            disabled={order.orderStatus === 'delivered' || order.orderStatus === 'cancelled' || statusUpdating[order._id]}
                           >
-                            Ship
+                            {statusUpdating[order._id] ? '...' : ''} Ship
                           </button>
                           <button
                             onClick={() => handleOrderStatusUpdate(order._id, 'delivered')}
-                            className="text-xs sm:text-sm text-green-600 hover:text-green-800"
+                            className="text-xs sm:text-sm text-green-600 hover:text-green-800 disabled:opacity-50 px-2 py-1 rounded transition"
+                            disabled={order.orderStatus === 'delivered' || order.orderStatus === 'cancelled' || statusUpdating[order._id]}
                           >
-                            Deliver
+                            {statusUpdating[order._id] ? '...' : ''} Deliver
                           </button>
                         </div>
                       </td>

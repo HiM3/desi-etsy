@@ -1,5 +1,6 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const mongoose = require("mongoose");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -17,14 +18,12 @@ exports.createOrder = async (req, res) => {
         message: "Order items are required and must be an array",
       });
     }
-
     if (!shippingAddress) {
       return res.status(400).json({
         success: false,
         message: "Shipping address is required",
       });
     }
-
     if (!paymentMethod) {
       return res.status(400).json({
         success: false,
@@ -32,21 +31,19 @@ exports.createOrder = async (req, res) => {
       });
     }
 
+    // Validate and build order items
     const orderItems = await Promise.all(
       items.map(async (item) => {
         if (!item.product || !item.quantity) {
           throw new Error("Each item must have a product ID and quantity");
         }
-
         const product = await Product.findById(item.product);
         if (!product) {
           throw new Error(`Product not found: ${item.product}`);
         }
-
-        if (product.isApproved === false) {
+        if (!product.isApproved) {
           throw new Error(`Product ${product.title} is not approved for sale`);
         }
-
         return {
           product: item.product,
           quantity: item.quantity,
@@ -59,7 +56,6 @@ exports.createOrder = async (req, res) => {
       (total, item) => total + item.price * item.quantity,
       0
     );
-
     const finalTotalAmount = totalAmount || calculatedTotal;
 
     let initialPaymentStatus = "pending";
@@ -80,9 +76,7 @@ exports.createOrder = async (req, res) => {
       paymentStatus: initialPaymentStatus,
       paymentDetails: paymentDetails || {},
     });
-
     await order.save();
-
     res.status(201).json({
       success: true,
       message: "Order created successfully",
@@ -98,6 +92,7 @@ exports.createOrder = async (req, res) => {
   }
 };
 
+// Only return orders for products created by the artisan
 exports.getAllOrders = async (req, res) => {
   try {
     if (req.user.role !== "artisan") {
@@ -106,12 +101,16 @@ exports.getAllOrders = async (req, res) => {
         message: "Not authorized to view all orders",
       });
     }
-
-    const orders = await Order.find()
+    // Find all products by this artisan
+    const artisanProducts = await Product.find({ createdBy: req.user._id }).select(
+      "_id"
+    );
+    const productIds = artisanProducts.map((p) => p._id);
+    // Find orders that contain any of these products
+    const orders = await Order.find({ "items.product": { $in: productIds } })
       .populate("user", "username email")
-      .populate("items.product", "title price images")
+      .populate("items.product", "title price images createdBy")
       .sort({ createdAt: -1 });
-
     res.status(200).json({
       success: true,
       message: "Orders retrieved successfully",
@@ -129,9 +128,8 @@ exports.getAllOrders = async (req, res) => {
 exports.getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id })
-      .populate("items.product", "title price images")
+      .populate("items.product", "title price images createdBy")
       .sort({ createdAt: -1 });
-
     res.status(200).json({
       success: true,
       message: "User orders retrieved successfully",
@@ -150,25 +148,27 @@ exports.getOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate("user", "username email")
-      .populate("items.product", "title price images");
-
+      .populate("items.product", "title price images createdBy");
     if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
-
-    if (
-      order.user._id.toString() !== req.user._id.toString() &&
-      req.user.role !== "user"
-    ) {
+    // Only allow the user or the artisan who owns any product in the order
+    const isUser = order.user._id.toString() === req.user._id.toString();
+    let isArtisan = false;
+    if (req.user.role === "artisan") {
+      isArtisan = order.items.some(
+        (item) => item.product.createdBy?.toString() === req.user._id.toString()
+      );
+    }
+    if (!isUser && !isArtisan) {
       return res.status(403).json({
         success: false,
         message: "Not authorized to access this order",
       });
     }
-
     res.status(200).json({
       success: true,
       message: "Order retrieved successfully",
@@ -191,9 +191,7 @@ exports.updateOrderStatus = async (req, res) => {
         message: "Not authorized to update order status",
       });
     }
-
     const { orderStatus, paymentStatus, trackingNumber } = req.body;
-
     if (
       orderStatus &&
       !["pending", "processing", "shipped", "delivered", "cancelled"].includes(
@@ -205,7 +203,6 @@ exports.updateOrderStatus = async (req, res) => {
         message: "Invalid order status",
       });
     }
-
     if (
       paymentStatus &&
       !["pending", "paid", "failed", "refunded"].includes(paymentStatus)
@@ -215,22 +212,27 @@ exports.updateOrderStatus = async (req, res) => {
         message: "Invalid payment status",
       });
     }
-
-    const order = await Order.findById(req.params.id);
-
+    const order = await Order.findById(req.params.id).populate("items.product");
     if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
-
+    // Only allow the artisan who owns any product in the order
+    const isArtisan = order.items.some(
+      (item) => item.product.createdBy?.toString() === req.user._id.toString()
+    );
+    if (!isArtisan) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update this order",
+      });
+    }
     if (orderStatus) order.orderStatus = orderStatus;
     if (paymentStatus) order.paymentStatus = paymentStatus;
     if (trackingNumber) order.trackingNumber = trackingNumber;
-
     await order.save();
-
     res.status(200).json({
       success: true,
       message: "Order updated successfully",
@@ -248,31 +250,26 @@ exports.updateOrderStatus = async (req, res) => {
 exports.cancelOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
-
     if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
-
     if (order.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
         message: "Not authorized to cancel this order",
       });
     }
-
     if (order.orderStatus !== "pending") {
       return res.status(400).json({
         success: false,
         message: "Cannot cancel order that is not in pending status",
       });
     }
-
     order.orderStatus = "cancelled";
     await order.save();
-
     res.status(200).json({
       success: true,
       message: "Order cancelled successfully",
