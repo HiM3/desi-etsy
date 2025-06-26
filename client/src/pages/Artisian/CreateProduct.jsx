@@ -10,7 +10,6 @@ const CreateProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [images, setImages] = useState([]);
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();

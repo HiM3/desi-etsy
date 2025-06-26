@@ -32,13 +32,19 @@ const Product = () => {
       if (response.data.success) {
         const productsWithCreator = await Promise.all(
           response.data.data.map(async (product) => {
+            if (!product.createdBy || product.createdBy === "undefined") {
+              return {
+                ...product,
+                creator: "Unknown Artisan"
+              };
+            }
             try {
               const creatorResponse = await axios.get(
                 `${import.meta.env.VITE_API_URL}/artisans/getArtisanById/${product.createdBy}`
               );
               return {
                 ...product,
-                creator: creatorResponse.data.data.artisan.username
+                creator: creatorResponse.data.data.artisan?.username || "Unknown Artisan"
               };
             } catch (err) {
               console.error('Error fetching creator:', err);

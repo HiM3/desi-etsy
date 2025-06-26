@@ -119,12 +119,6 @@ const ChangePassword = () => {
           {isLoading ? "Changing Password..." : "Change Password"}
         </button>
 
-        <p className="text-center mt-4 sm:mt-6 text-xs sm:text-sm text-gray-600">
-          Remember your password?{" "}
-          <a href="/login" className="text-[#d35400] font-semibold hover:text-[#b34700] transition-colors">
-            Login
-          </a>
-        </p>
       </form>
     </div>
   );
