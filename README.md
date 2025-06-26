@@ -153,7 +153,9 @@ This project is licensed under the ISC License.
 
 ## 👥 Authors
 
-- Your Name - Initial work
+- Meet - The Backend Developer
+- Prena - The Frontend Developer
+- Sauban - The Frontend Developer
 
 ## 🙏 Acknowledgments
 
