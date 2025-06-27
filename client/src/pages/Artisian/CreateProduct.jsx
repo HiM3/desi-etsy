@@ -119,14 +119,14 @@ const CreateProduct = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+      <div className="min-h-[calc(100vh-64px)] pt-24 sm:pt-28 flex items-center justify-center">
         <FaSpinner className="animate-spin text-4xl text-[#d35400]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] pt-24 sm:pt-28 px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
