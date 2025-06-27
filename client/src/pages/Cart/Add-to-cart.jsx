@@ -61,40 +61,42 @@ const AddToCart = ({ product, onAddToCart }) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 sm:gap-3">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-        <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
+      <div className="flex flex-col gap-2 sm:gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <button
+              onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              className="px-3 sm:px-4 py-2 text-gray-600 hover:bg-gray-100 transition-colors text-sm sm:text-base"
+            >
+              -
+            </button>
+            <input
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+              className="w-12 sm:w-16 text-center py-2 border-x border-gray-300 focus:outline-none text-sm sm:text-base"
+            />
+            <button
+              onClick={() => setQuantity(quantity + 1)}
+              className="px-3 sm:px-4 py-2 text-gray-600 hover:bg-gray-100 transition-colors text-sm sm:text-base"
+            >
+              +
+            </button>
+          </div>
           <button
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="px-3 sm:px-4 py-2 text-gray-600 hover:bg-gray-100 transition-colors text-sm sm:text-base"
+            onClick={handleAddToCart}
+            className="flex items-center justify-center gap-2 bg-[#FF6B6B] text-white px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg hover:bg-[#FF5252] transition-colors shadow-md hover:shadow-lg text-sm sm:text-base"
           >
-            -
-          </button>
-          <input
-            type="number"
-            min="1"
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-            className="w-12 sm:w-16 text-center py-2 border-x border-gray-300 focus:outline-none text-sm sm:text-base"
-          />
-          <button
-            onClick={() => setQuantity(quantity + 1)}
-            className="px-3 sm:px-4 py-2 text-gray-600 hover:bg-gray-100 transition-colors text-sm sm:text-base"
-          >
-            +
+            <FaShoppingCart className="text-base sm:text-lg" />
+            Add to Cart
           </button>
         </div>
-        <button
-          onClick={handleAddToCart}
-          className="flex items-center justify-center gap-2 bg-[#FF6B6B] text-white px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg hover:bg-[#FF5252] transition-colors shadow-md hover:shadow-lg text-sm sm:text-base"
-        >
-          <FaShoppingCart className="text-base sm:text-lg" />
-          Add to Cart
-        </button>
-      </div>
-      <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600">
-        <span>Total: ${(product.price * quantity).toLocaleString()}</span>
-        <span className="text-[#FF6B6B] font-medium">Free Shipping</span>
+        <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600">
+          <span>Total: ${(product.price * quantity).toLocaleString()}</span>
+          <span className="text-[#FF6B6B] font-medium">Free Shipping</span>
+        </div>
       </div>
     </div>
   );

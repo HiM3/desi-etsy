@@ -63,7 +63,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
+    <div className="min-h-screen pt-12 xs:pt-16 sm:pt-20 bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl shadow-lg w-full max-w-[320px] sm:max-w-[380px] md:max-w-[420px] transition-all duration-300">
         <h2 className="text-center mb-2 text-xl sm:text-2xl text-gray-800">Change Password</h2>
         <p className="text-center mb-4 sm:mb-6 text-xs sm:text-sm text-gray-500">Enter your new password</p>
@@ -124,4 +124,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword; 
+export default ChangePassword;

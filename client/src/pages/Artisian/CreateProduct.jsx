@@ -126,7 +126,7 @@ const CreateProduct = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gray-50 pt-16">
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

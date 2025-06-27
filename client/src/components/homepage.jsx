@@ -95,14 +95,14 @@ const HomePage = () => {
       <div className="relative w-full overflow-hidden">
         <Slider {...sliderSettings}>
           {slides.map((slide, index) => (
-            <div key={index} className="relative h-[85vh] w-full">
+            <div key={index} className="relative h-[60vh] xs:h-[70vh] sm:h-[85vh] w-full">
               <img
                 src={slide.img}
                 alt="Banner"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
-              <div className="absolute top-1/2 left-[10%] -translate-y-1/2 text-white max-w-[700px] z-10 px-4 sm:px-6 lg:px-8">
+              <div className="absolute top-1/2 left-[5%] xs:left-[8%] sm:left-[10%] -translate-y-1/2 text-white max-w-[90vw] sm:max-w-[700px] z-10 px-2 xs:px-4 sm:px-6 lg:px-8">
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -145,8 +145,8 @@ const HomePage = () => {
         </Slider>
       </div>
 
-      <div className="py-12 sm:py-20 bg-[#fdf8f3]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-8 xs:py-10 sm:py-12 md:py-20 bg-[#fdf8f3]">
+        <div className="max-w-7xl mx-auto px-2 xs:px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -200,8 +200,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-12 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-8 xs:py-10 sm:py-12 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-2 xs:px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -240,8 +240,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-12 sm:py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-8 xs:py-10 sm:py-12 md:py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-2 xs:px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -277,8 +277,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-12 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-8 xs:py-10 sm:py-12 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-2 xs:px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -307,8 +307,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="py-20 bg-[#d35400] text-white">
-        <div className="max-w-2xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <div className="py-12 xs:py-16 sm:py-20 bg-[#d35400] text-white">
+        <div className="max-w-2xl mx-auto text-center px-2 xs:px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -352,4 +352,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage; 
+export default HomePage;

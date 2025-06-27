@@ -71,21 +71,23 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-[#ffefdb]/80 backdrop-blur-sm'}`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-[#ffefdb]/80 backdrop-blur-sm'} drop-shadow-md`}
+      role="navigation"
+      aria-label="Main Navigation"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 md:h-20">
           <motion.div
             className="flex-shrink-0"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/" className="text-2xl font-bold text-[#d35400]">
+            <Link to="/" className="text-xl sm:text-2xl font-bold text-[#d35400] focus:outline-none focus:ring-2 focus:ring-[#d35400] rounded">
               DesiEtsy
             </Link>
           </motion.div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to="/"
@@ -137,7 +139,7 @@ const Navbar = () => {
             )}
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {user ? (
               <>
                 {user?.role === 'user' && (
@@ -239,8 +241,11 @@ const Navbar = () => {
 
           <motion.button
             type="button"
-            className="md:hidden text-gray-700 hover:text-[#d35400] p-2 rounded-md hover:bg-white/30 transition-all duration-300"
+            className="md:hidden text-gray-700 hover:text-[#d35400] p-2 rounded-md hover:bg-white/30 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#d35400]"
             onClick={toggleMobileMenu}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -261,6 +266,9 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             className="fixed inset-0 bg-white z-50 md:hidden"
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center p-4 border-b">
@@ -388,4 +396,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default Navbar;

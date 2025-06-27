@@ -31,7 +31,7 @@ const SendOTP = () => {
     };
   }
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
+    <div className="min-h-screen pt-12 xs:pt-16 sm:pt-20 bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg w-full max-w-[420px] transition-all duration-300">
         <h2 className="text-center text-xl sm:text-2xl mb-2 text-gray-800">Reset Your Password 🔐</h2>
         <p className="text-center text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">

@@ -130,14 +130,14 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-4 sm:px-6 lg:px-8 pb-8">
-      <div className="max-w-7xl mx-auto mt-12 sm:mt-20 py-4 sm:py-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Admin Dashboard</h1>
-          <div className="w-20 sm:w-24 h-1 bg-[#d35400] mt-2"></div>
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-6 xs:pb-8">
+      <div className="max-w-7xl mx-auto mt-8 xs:mt-12 sm:mt-20 py-2 xs:py-4 sm:py-8">
+        <div className="mb-4 xs:mb-6 sm:mb-8">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+          <div className="w-16 xs:w-20 sm:w-24 h-1 bg-[#d35400] mt-2"></div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 sm:gap-6 mb-4 xs:mb-6 sm:mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -201,7 +201,7 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8"
+          className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-6 mb-4 xs:mb-6 sm:mb-8"
         >
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 relative after:content-[''] after:absolute after:bottom-[-10px] after:left-0 after:w-20 sm:after:w-24 after:h-1 after:bg-[#d35400]">
             Pending Artisan Approvals
@@ -271,7 +271,7 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6"
+          className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-6"
         >
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 relative after:content-[''] after:absolute after:bottom-[-10px] after:left-0 after:w-20 sm:after:w-24 after:h-1 after:bg-[#d35400]">
             Pending Product Approvals

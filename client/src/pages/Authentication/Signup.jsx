@@ -57,7 +57,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen pt-16 sm:pt-20 bg-[#fdf8f3]">
+    <div className="min-h-screen pt-12 xs:pt-16 sm:pt-20 bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="container mx-auto px-4 py-4 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

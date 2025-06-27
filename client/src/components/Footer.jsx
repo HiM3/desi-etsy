@@ -24,10 +24,10 @@ const Footer = () => {
     };
 
     return (
-        <footer className="bg-gradient-to-b from-[#fbe9e7] to-[#ffccbc] text-[#6e2c00] py-8 sm:py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <footer className="bg-gradient-to-b from-[#fbe9e7] to-[#ffccbc] text-[#6e2c00] py-8 sm:py-12 md:py-16">
+            <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
                 <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
@@ -149,13 +149,13 @@ const Footer = () => {
                 </motion.div>
 
                 <motion.div
-                    className="text-center mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-[#6e2c00]/10"
+                    className="text-center mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-[#6e2c00]/10"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.5 }}
                 >
-                    <p className="text-sm text-[#6e2c00]/80">
+                    <p className="text-xs sm:text-sm text-[#6e2c00]/80">
                         © {currentYear} DesiEtsy. All rights reserved.
                     </p>
                 </motion.div>

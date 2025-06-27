@@ -4,24 +4,24 @@ import { FaHandSparkles, FaHeart, FaUsers, FaLeaf, FaEye } from 'react-icons/fa'
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-[#fdf8f3] pt-16 sm:pt-24 pb-8 sm:pb-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#fdf8f3] pt-14 xs:pt-20 sm:pt-24 pb-6 xs:pb-10 sm:pb-16 px-2 xs:px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-16"
+          className="text-center mb-6 xs:mb-10 sm:mb-16"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#d35400] mb-3 sm:mb-4">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-[#d35400] mb-2 xs:mb-3 sm:mb-4">
             About DesiEtsy
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4 sm:px-0">
+          <p className="text-sm xs:text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2 xs:px-4 sm:px-0">
             Discover the beauty of handcrafted treasures, where tradition meets contemporary design.
             We connect skilled artisans with art lovers, preserving cultural heritage one piece at a time.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 mb-6 xs:mb-10 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-16"
+          className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 xs:gap-6 sm:gap-8 mb-6 xs:mb-10 sm:mb-16"
         >
           <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
             <div className="text-[#d35400] text-3xl sm:text-4xl mb-3 sm:mb-4">
@@ -124,17 +124,17 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8"
+          className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 xs:p-6 sm:p-8"
         >
-          <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">Our Artisans</h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-3xl mx-auto px-4 sm:px-0">
+          <div className="text-center mb-4 xs:mb-6 sm:mb-8">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-800 mb-2 xs:mb-3 sm:mb-4">Our Artisans</h2>
+            <p className="text-xs xs:text-sm sm:text-base text-gray-600 max-w-3xl mx-auto px-2 xs:px-4 sm:px-0">
               Meet the talented craftsmen and women who bring their passion and expertise to
               create unique pieces that tell stories of tradition and innovation.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8">
             <div className="bg-[#fdf8f3] rounded-xl p-4 sm:p-6">
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden mx-auto mb-3 sm:mb-4">
                 <img

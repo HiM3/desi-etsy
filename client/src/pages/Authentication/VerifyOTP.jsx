@@ -140,7 +140,7 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center p-4 sm:p-5 font-sans">
+    <div className="min-h-screen pt-12 xs:pt-16 sm:pt-20 bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <form className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-[420px] text-center transition-all duration-300">
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 sm:mb-3">OTP Verification</h2>
         <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
