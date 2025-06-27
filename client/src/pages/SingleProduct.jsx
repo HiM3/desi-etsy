@@ -289,7 +289,7 @@ const SingleProduct = () => {
                     value={quantity} 
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                     min="1"
-                    className="w-16 text-center border-y border-gray-300 py-1 focus:outline-none"
+                    className="w-16 text-center border-y border-gray-300 py-1 focus:outline-none bg-white"
                   />
                   <button 
                     onClick={() => setQuantity(prev => prev + 1)}
