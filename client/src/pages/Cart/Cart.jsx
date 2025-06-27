@@ -109,7 +109,8 @@ const Cart = () => {
                         </div>
                         <div className="flex items-center gap-3 sm:gap-4">
                           <span className="text-base sm:text-lg font-semibold text-[#FF6B6B]">
-                            ${(item.price * item.quantity).toLocaleString()}
+                            ${(item.price * item.quantity).toLocaleString()
+                            }
                           </span>
                           <button
                             onClick={() => removeFromCart(item.id)}

@@ -178,7 +178,7 @@ const Product = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20 flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen pt-24 sm:pt-28 flex items-center justify-center bg-gray-50">
         <FaSpinner className="animate-spin text-4xl text-[#FF6B6B]" />
       </div>
     );
@@ -186,7 +186,7 @@ const Product = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen pt-20 flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen pt-24 sm:pt-28 flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <p className="text-xl text-red-600 mb-4">{error}</p>
           <button
@@ -201,7 +201,7 @@ const Product = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] pt-24 sm:pt-28 px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
       <div className="container mx-auto px-4 py-6 sm:py-8">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Discover Handcrafted Treasures</h1>

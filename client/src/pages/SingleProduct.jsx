@@ -125,7 +125,7 @@ const SingleProduct = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+      <div className="min-h-screen pt-24 sm:pt-28 flex items-center justify-center bg-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d35400]"></div>
       </div>
     );
@@ -133,21 +133,23 @@ const SingleProduct = () => {
 
   if (!product) {
     return (
-      <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Product Not Found</h2>
-        <p className="text-gray-600 mb-6">The product you're looking for doesn't exist or has been removed.</p>
-        <Link 
-          to="/product" 
-          className="flex items-center text-[#d35400] hover:text-[#b34700] transition-colors"
-        >
-          <FaArrowLeft className="mr-2" /> Back to Products
-        </Link>
+      <div className="min-h-screen pt-24 sm:pt-28 flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Product Not Found</h2>
+          <p className="text-gray-600 mb-6">The product you're looking for doesn't exist or has been removed.</p>
+          <Link 
+            to="/product" 
+            className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-[#d35400] bg-white rounded-md shadow-sm hover:bg-[#f9f9f9] transition-colors"
+          >
+            <FaArrowLeft className="mr-2" /> Back to Products
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] pt-24 sm:pt-28 px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <div className="mb-6">
