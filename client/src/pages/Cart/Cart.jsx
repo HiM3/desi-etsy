@@ -55,7 +55,7 @@ const Cart = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen pt-16 sm:pt-20 bg-gray-50">
+      <div className="min-h-screen pt-24 sm:pt-28 bg-gray-50">
         <div className="container mx-auto px-4 py-6 sm:py-8">
           <div className="text-center">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Your Cart is Empty</h2>
@@ -73,7 +73,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
+    <div className="min-h-[calc(100vh-64px)] bg-[#fdf8f3] pt-24 sm:pt-28 px-2 xs:px-4 sm:px-6 lg:px-8 pb-4 xs:pb-6 sm:pb-8">
       <div className="max-w-4xl mx-auto px-4 py-6 sm:py-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8">Shopping Cart</h1>
 
