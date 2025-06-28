@@ -112,6 +112,7 @@ const SingleProduct = () => {
 
       localStorage.setItem('cart', JSON.stringify(existingCart));
       toast.success('Product added to cart successfully!');
+      window.location.reload();
     } catch (error) {
       toast.error('Failed to add to cart');
       console.error('Error adding to cart:', error);
