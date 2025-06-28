@@ -85,11 +85,11 @@ const Footer = () => {
                         </h3>
                         <div className="flex flex-col gap-2 sm:gap-3">
                             {[
-                                { name: 'Jewelry', path: '/products' },
-                                { name: 'Clothing', path: '/products' },
-                                { name: 'Home Decor', path: '/products' },
-                                { name: 'Handicrafts', path: '/products' },
-                                { name: 'Art & Paintings', path: '/products' }
+                                { name: 'Jewelry', path: '/product' },
+                                { name: 'Clothing', path: '/product' },
+                                { name: 'Home Decor', path: '/product' },
+                                { name: 'Handicrafts', path: '/product' },
+                                { name: 'Art & Paintings', path: '/product' }
                             ].map((category, index) => (
                                 <Link
                                     key={index}
