@@ -71,6 +71,26 @@ const Chatbot = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        background: #fff;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e5e7eb;
+        border-radius: 8px;
+      }
+      .custom-scrollbar {
+        scrollbar-color: #e5e7eb #fff;
+        scrollbar-width: thin;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => { document.head.removeChild(style); };
+  }, []);
+
   return (
     <>
       <button
@@ -86,7 +106,10 @@ const Chatbot = () => {
             <FaRobot className="mr-2" /> AI Chatbot
             <button className="ml-auto text-gray-400 hover:text-[#d35400] text-2xl leading-none" onClick={() => setOpen(false)} aria-label="Close Chatbot">&times;</button>
           </div>
-          <div className="flex-1 bg-white overflow-y-auto px-4 py-2" style={{ maxHeight: 350, minHeight: 200 }}>
+          <div
+            className="flex-1 overflow-y-auto px-4 py-2 custom-scrollbar"
+            style={{ maxHeight: 350, minHeight: 200 }}
+          >
             {messages.length === 0 && !aiLoading && (
               <div className="text-center text-gray-400 mt-8">
                 <div className="mb-2">👋 Hi! I'm your AI assistant. How can I help you today?</div>
