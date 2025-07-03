@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 exports.getChatHistory = async (req, res) => {
   try {
-    const chat = await ChatHistory.findOne({ userId: req.user.id });
+    const chat = await ChatHistory.findOne({ userId: req.user._id });
     res.json({ success: true, data: chat ? chat.messages : [] });
   } catch (error) {
     res.status(500).json({
