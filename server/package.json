@@ -12,6 +12,8 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "@google/genai": "^1.8.0",
+    "@google/generative-ai": "^0.24.1",
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.3.1",
     "@tailwindcss/vite": "^4.1.8",

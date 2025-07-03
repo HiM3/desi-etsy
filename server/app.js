@@ -8,7 +8,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const artisanRoutes = require("./routes/artisanRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-
+const chatRoutes = require('./routes/chatRoutes');
 const app = express();
 
 app.use(
@@ -28,6 +28,7 @@ app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payments", paymentRoutes);
+app.use('/chat', chatRoutes);
 
 app.get("/", (req, res) => {
   return res.send("API Working");

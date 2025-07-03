@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
+import Chatbot from './components/Chatbot';
 const HomePage = lazy(() => import('./components/HomePage'));
 const Product = lazy(() => import('./pages/Product'));
 const SingleProduct = lazy(() => import('./pages/SingleProduct'));
@@ -53,6 +54,7 @@ function App() {
         <ErrorBoundary>
           <div className="flex flex-col min-h-screen bg-gray-100">
             <Navbar />
+            <Chatbot />
             <main className="flex-grow">
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>
