@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: ["https://desi-etsy.vercel.app", "https://desi-etsy-him3s-projects.vercel.app"],
     credentials: true,
   })
 );
