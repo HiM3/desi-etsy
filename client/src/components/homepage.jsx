@@ -3,7 +3,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaQuoteLeft, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import banner1 from '../components/Slider-Images/combine.jpg';
 import banner2 from '../components/Slider-Images/combine2.jpg';
 import banner3 from '../components/Slider-Images/combine3.jpg';
@@ -124,19 +124,19 @@ const HomePage = () => {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="flex flex-col sm:flex-row gap-4 sm:gap-6"
                 >
-                  <NavLink
+                  <Link
                     to="/product"
                     className="group bg-[#d35400] text-white px-6 sm:px-10 py-3 sm:py-5 rounded-full text-base sm:text-xl font-medium shadow-lg hover:bg-[#b34700] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
                   >
                     Shop Now
                     <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-                  </NavLink>
-                  <NavLink
+                  </Link>
+                  <Link
                     to="/about"
                     className="bg-white/10 backdrop-blur-sm text-white px-6 sm:px-10 py-3 sm:py-5 rounded-full text-base sm:text-xl font-medium shadow-lg border-2 border-white hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
                     Learn More
-                  </NavLink>
+                  </Link>
                 </motion.div>
               </div>
             </div>
@@ -188,13 +188,13 @@ const HomePage = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-center mt-12"
           >
-            <NavLink
+            <Link
               to="/product"
               className="inline-flex items-center gap-2 bg-[#d35400] text-white px-8 py-3 rounded-full text-base font-semibold shadow-lg hover:bg-[#b34700] hover:-translate-y-1 transition-all duration-300"
             >
               Explore More
               <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-            </NavLink>
+            </Link>
           </motion.div>
         </div>
       </div>
