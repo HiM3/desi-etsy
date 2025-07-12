@@ -32,7 +32,7 @@ const Chatbot = () => {
       setMessages(res.data.data || []);
     } catch (err) {
       setMessages([]);
-      setError('Failed to load chat history.');
+      setError('Failed to load chat history because you are not logged in.');
     }
   };
 
